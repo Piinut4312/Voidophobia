@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "voidophobia:block/vux_lamp"
+    },
+    "lit=true": {
+      "model": "voidophobia:block/vux_lamp_on"
+    }
+  }
+}

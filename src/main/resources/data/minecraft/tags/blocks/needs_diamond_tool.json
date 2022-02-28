@@ -2,6 +2,7 @@
   "replace": false,
   "values": [
     "voidophobia:godel_crystal_block",
-    "voidophobia:weak_artificial_bedrock"
+    "voidophobia:weak_artificial_bedrock",
+    "#voidophobia:vuxducts"
   ]
 }

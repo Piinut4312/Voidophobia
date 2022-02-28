@@ -1,0 +1,21 @@
+{
+	"credit": "Made with Blockbench",
+	"textures": {
+		"base": "voidophobia:block/smooth_bedrock",
+		"particle": "voidophobia:block/smooth_bedrock"
+	},
+	"elements": [
+		{
+			"from": [6, 6, 6],
+			"to": [10, 10, 10],
+			"faces": {
+				"north": {"uv": [6, 8, 10, 12], "texture": "#base"},
+				"east": {"uv": [2, 8, 6, 12], "texture": "#base"},
+				"south": {"uv": [6, 0, 10, 4], "texture": "#base"},
+				"west": {"uv": [10, 8, 14, 12], "texture": "#base"},
+				"up": {"uv": [6, 4, 10, 8], "texture": "#base"},
+				"down": {"uv": [6, 12, 10, 16], "texture": "#base"}
+			}
+		}
+	]
+}

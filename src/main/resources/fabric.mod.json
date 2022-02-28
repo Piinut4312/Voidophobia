@@ -20,6 +20,11 @@
   "entrypoints": {
     "main": [
       "net.piinut.voidophobia.Voidophobia"
+    ],
+    "client": [
+       {
+          "value": "net.piinut.voidophobia.VoidophobiaClient"
+       }
     ]
   },
   "mixins": [

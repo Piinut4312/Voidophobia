@@ -6,6 +6,7 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import net.piinut.voidophobia.block.ModBlocks;
+import net.piinut.voidophobia.block.blockEntity.ModBlockEntities;
 import net.piinut.voidophobia.item.ModItems;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,5 +25,6 @@ public class Voidophobia implements ModInitializer {
         LOGGER.info("Voidophobia initialized.");
         ModBlocks.registerAll();
         ModItems.registerAll();
+        ModBlockEntities.registerAll();
     }
 }

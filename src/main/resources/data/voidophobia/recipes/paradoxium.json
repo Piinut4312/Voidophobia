@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:redstone"
+    },
+    {
+      "item": "minecraft:quartz"
+    },
+    {
+      "item": "voidophobia:godel_crystal_shard"
+    }
+  ],
+  "result": {
+    "item": "voidophobia:paradoxium",
+    "count": 2
+  }
+}

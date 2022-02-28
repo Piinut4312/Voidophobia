@@ -7,7 +7,9 @@ import net.minecraft.item.ItemUsageContext;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.world.World;
+import net.piinut.voidophobia.block.AbstractVuxductBlock;
 import net.piinut.voidophobia.block.VuxProvider;
+import net.piinut.voidophobia.block.blockEntity.AbstractVuxductBlockEntity;
 
 public class VuxMeterItem extends Item {
 
@@ -26,10 +28,13 @@ public class VuxMeterItem extends Item {
         Block block = blockState.getBlock();
         if(block instanceof VuxProvider){
             vux = ((VuxProvider) block).getVux(world, blockState, context.getBlockPos(), context.getSide(), world.getRandom());
+        }else if(block instanceof AbstractVuxductBlock){
+            AbstractVuxductBlockEntity be = (AbstractVuxductBlockEntity) world.getBlockEntity(context.getBlockPos());
+            vux = be.getVuxContaining();
         }
 
         if(context.getPlayer() != null){
-            context.getPlayer().sendMessage(Text.of("Vux Level: " + vux), false);
+            context.getPlayer().sendMessage(Text.of("Vux Level: " + String.format("%.1f", vux)), false);
         }
 
         return super.useOnBlock(context);

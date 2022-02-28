@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "top": "voidophobia:block/reinforced_piston_top",
+    "bottom": "voidophobia:block/reinforced_piston_bottom",
+    "side": "voidophobia:block/reinforced_piston_side"
+  }
+}
