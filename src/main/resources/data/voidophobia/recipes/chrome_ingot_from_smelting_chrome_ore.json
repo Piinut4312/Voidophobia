@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "voidophobia:chrome_ore"
+  },
+  "result": "voidophobia:chrome_ingot",
+  "experience": 1.2,
+  "cookingtime": 200
+}

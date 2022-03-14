@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "@@@",
+    "#$#",
+    "%%%"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:blast_furnace"
+    },
+    "$": {
+      "item": "minecraft:cauldron"
+    },
+    "@": {
+      "item": "minecraft:nether_brick"
+    },
+    "%": {
+      "item": "minecraft:nether_bricks"
+    }
+  },
+  "result": {
+    "item": "voidophobia:alloy_furnace",
+    "count": 1
+  }
+}

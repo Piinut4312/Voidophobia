@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " $ ",
+    "$#$",
+    " $ "
+  ],
+  "key": {
+    "#": {
+      "item": "voidophobia:vux_filter_template"
+    },
+    "$":{
+      "item": "minecraft:diamond"
+    }
+  },
+  "result": {
+    "item": "voidophobia:vux_filter",
+    "count": 1
+  }
+}

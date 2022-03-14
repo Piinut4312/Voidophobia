@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/orientable",
+  "textures": {
+    "top": "minecraft:block/nether_bricks",
+    "front": "voidophobia:block/alloy_furnace_front_on",
+    "side": "voidophobia:block/alloy_furnace_base"
+  }
+}

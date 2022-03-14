@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "voidophobia:stainless_steel_block"
+    }
+  ],
+  "result": {
+    "item": "voidophobia:stainless_steel_ingot",
+    "count": 9
+  }
+}

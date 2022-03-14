@@ -3,6 +3,7 @@
   "values": [
     "voidophobia:godel_crystal_block",
     "voidophobia:weak_artificial_bedrock",
-    "#voidophobia:vuxducts"
+    "#voidophobia:vuxducts",
+    "voidophobia:compact_nether_portal"
   ]
 }

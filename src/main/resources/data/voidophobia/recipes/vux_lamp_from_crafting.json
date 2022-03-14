@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "@#@",
+    "#$#",
+    "@#@"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:glowstone"
+    },
+    "$": {
+      "item": "voidophobia:vuxin"
+    },
+    "@": {
+      "item": "minecraft:iron_ingot"
+    }
+  },
+  "result": {
+    "item": "voidophobia:vux_lamp",
+    "count": 1
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "@$@",
+    "@%@"
+  ],
+  "key": {
+    "#": {
+      "item": "voidophobia:weak_artificial_bedrock"
+    },
+    "$": {
+      "item": "minecraft:iron_ingot"
+    },
+    "@": {
+      "item": "voidophobia:stainless_steel_block"
+    },
+    "%": {
+      "item": "minecraft:redstone"
+    }
+  },
+  "result": {
+    "item": "voidophobia:reinforced_piston",
+    "count": 1
+  }
+}

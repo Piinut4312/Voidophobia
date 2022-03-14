@@ -1,0 +1,8 @@
+{
+  "type": "voidophobia:vux_forming",
+  "input":{
+    "item":"minecraft:iron_block"
+  },
+  "output": "minecraft:bucket",
+  "count": 3
+}

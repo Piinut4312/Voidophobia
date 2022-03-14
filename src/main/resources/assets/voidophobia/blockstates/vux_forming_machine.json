@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "voidophobia:block/vux_forming_machine",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "voidophobia:block/vux_forming_machine"
+    },
+    "facing=south": {
+      "model": "voidophobia:block/vux_forming_machine",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "voidophobia:block/vux_forming_machine",
+      "y": 270
+    }
+  }
+}

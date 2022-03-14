@@ -4,17 +4,15 @@ import net.minecraft.block.BlockState;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtHelper;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.World;
-import net.minecraft.world.dimension.AreaHelper;
-import net.piinut.voidophobia.Voidophobia;
+import net.piinut.voidophobia.block.AbstractCompactPortalBlock;
 import net.piinut.voidophobia.block.TDI.AbstractTDIBlock;
+import net.piinut.voidophobia.block.blockEntity.AbstractCompactPortalBlockEntity;
 import net.piinut.voidophobia.block.blockEntity.AbstractTDIBlockEntity;
 import net.piinut.voidophobia.block.blockEntity.TDIDimensionType;
 
@@ -61,15 +59,8 @@ public class CompactPortalLinkerItem extends Item {
             if(nbt.contains("x")){
                 BlockPos pos1 = loadBlockPos(nbt);
                 if(pos == pos1){
-                    saveBlockPos(nbt, pos);
-                    if(world.getDimension().isPiglinSafe()){
-                        nbt.putString(DIM, TDIDimensionType.NETHER.toString());
-                    }else if(world.getDimension().hasEnderDragonFight()){
-                        nbt.putString(DIM, TDIDimensionType.END.toString());
-                    }else{
-                        nbt.putString(DIM, TDIDimensionType.OVERWORLD.toString());
-                    }
-                    context.getPlayer().sendMessage(Text.of("Position saved!"), false);
+                    removeBlockPos(nbt);
+                    context.getPlayer().sendMessage(Text.of("Selection canceled!"), false);
                 }else{
                     ServerWorld serverWorld = (ServerWorld)context.getWorld();
                     MinecraftServer minecraftServer = serverWorld.getServer();
@@ -111,6 +102,10 @@ public class CompactPortalLinkerItem extends Item {
                 }
                 context.getPlayer().sendMessage(Text.of("Position saved!"), false);
             }
+        }else if(state.getBlock() instanceof AbstractCompactPortalBlock){
+            AbstractCompactPortalBlockEntity be = (AbstractCompactPortalBlockEntity) world.getBlockEntity(pos);
+            be.switchMode();
+            context.getPlayer().sendMessage(Text.of("Mode has been set to "+be.getMode().toString()), false);
         }
         return super.useOnBlock(context);
     }

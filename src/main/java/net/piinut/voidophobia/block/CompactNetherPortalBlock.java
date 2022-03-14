@@ -2,6 +2,8 @@ package net.piinut.voidophobia.block;
 
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityTicker;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.client.color.block.BlockColors;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.SoundCategory;
@@ -11,12 +13,14 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import net.piinut.voidophobia.block.blockEntity.BasicVuxductBlockEntity;
 import net.piinut.voidophobia.block.blockEntity.CompactNetherPortalBlockEntity;
+import net.piinut.voidophobia.block.blockEntity.ModBlockEntities;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Random;
 
-public class CompactNetherPortalBlock extends AbstractCompactPortalBlock implements BlockEntityProvider {
+public class CompactNetherPortalBlock extends AbstractCompactPortalBlock {
 
     private static final VoxelShape SHAPE1 = Block.createCuboidShape(0, 0, 0, 16, 4, 16);
     private static final VoxelShape SHAPE2 = Block.createCuboidShape(0, 12, 0, 16,16, 16);
@@ -71,5 +75,11 @@ public class CompactNetherPortalBlock extends AbstractCompactPortalBlock impleme
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
         return new CompactNetherPortalBlockEntity(pos, state);
+    }
+
+    @Nullable
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
+        return world.isClient()? null : checkType(type, ModBlockEntities.COMPACT_NETHER_PORTAL, (CompactNetherPortalBlockEntity::serverTick));
     }
 }

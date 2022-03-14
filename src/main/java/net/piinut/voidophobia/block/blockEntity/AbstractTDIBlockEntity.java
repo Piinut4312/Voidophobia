@@ -6,6 +6,7 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtHelper;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.piinut.voidophobia.block.AbstractCompactPortalBlock;
 
 public class AbstractTDIBlockEntity extends BlockEntity {

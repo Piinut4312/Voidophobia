@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "voidophobia:raw_nickel"
+  },
+  "result": "voidophobia:nickel_ingot",
+  "experience": 1.2,
+  "cookingtime": 200
+}

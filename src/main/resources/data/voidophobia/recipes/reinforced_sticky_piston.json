@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#",
+    "@"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:slime_ball"
+    },
+    "@": {
+      "item": "voidophobia:reinforced_piston"
+    }
+  },
+  "result": {
+    "item": "voidophobia:reinforced_sticky_piston",
+    "count": 1
+  }
+}

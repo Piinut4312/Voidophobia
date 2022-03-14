@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "$@$",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "voidophobia:artificial_bedrock_scrap"
+    },
+    "$": {
+      "item": "minecraft:copper_ingot"
+    },
+    "@": {
+      "item": "voidophobia:resonating_quartz"
+    }
+  },
+  "result": {
+    "item": "voidophobia:vpu_chip",
+    "count": 2
+  }
+}

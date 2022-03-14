@@ -8,6 +8,9 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
+import net.minecraft.world.World;
+import net.minecraft.world.WorldAccess;
+import net.piinut.voidophobia.block.blockEntity.AbstractTDIBlockEntity;
 import net.piinut.voidophobia.util.VoxelShapeHelper;
 import org.jetbrains.annotations.Nullable;
 
@@ -50,5 +53,12 @@ public abstract class AbstractTDIBlock extends HorizontalFacingBlock implements 
     public BlockState getPlacementState(ItemPlacementContext ctx) {
         BlockState state = super.getPlacementState(ctx);
         return state.with(FACING, ctx.getPlayerFacing().getOpposite());
+    }
+
+    @Override
+    public void neighborUpdate(BlockState state, World world, BlockPos pos, Block block, BlockPos fromPos, boolean notify) {
+        AbstractTDIBlockEntity be = (AbstractTDIBlockEntity) world.getBlockEntity(pos);
+        be.updatePortalLink();
+        super.neighborUpdate(state, world, pos, block, fromPos, notify);
     }
 }

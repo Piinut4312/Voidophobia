@@ -8,4 +8,5 @@ public class ItemTDIBlockEntity extends AbstractTDIBlockEntity{
     public ItemTDIBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.ITEM_TDI, pos, state);
     }
+
 }

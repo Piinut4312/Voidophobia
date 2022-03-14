@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:blasting",
+  "ingredient": {
+    "item": "voidophobia:deepslate_nickel_ore"
+  },
+  "result": "voidophobia:nickel_ingot",
+  "experience": 1.2,
+  "cookingtime": 100
+}

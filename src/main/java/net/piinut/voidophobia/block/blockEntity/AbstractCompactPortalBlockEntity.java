@@ -31,5 +31,13 @@ public abstract class AbstractCompactPortalBlockEntity extends BlockEntity imple
         nbt.putString("mode", this.getMode().toString());
     }
 
+    public void switchMode(){
+        if(this.mode == IOMode.INPUT){
+            this.mode = IOMode.OUTPUT;
+        }else{
+            this.mode = IOMode.INPUT;
+        }
+        this.markDirty();
+    }
 
 }

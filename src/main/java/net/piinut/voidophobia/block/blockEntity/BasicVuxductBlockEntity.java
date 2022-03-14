@@ -6,8 +6,7 @@ import net.minecraft.util.math.BlockPos;
 public class BasicVuxductBlockEntity extends AbstractVuxductBlockEntity{
 
     public BasicVuxductBlockEntity(BlockPos pos, BlockState state) {
-        super(ModBlockEntities.BASIC_VUXDUCT, pos, state, 5000.0, 10.0);
+        super(ModBlockEntities.BASIC_VUXDUCT, pos, state, 5000.0, 100.0);
     }
-
 
 }

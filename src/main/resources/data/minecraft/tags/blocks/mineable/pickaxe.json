@@ -2,8 +2,20 @@
   "replace": false,
   "values": [
     "voidophobia:godel_crystal_block",
-    "voidophobia:weak_artificial_bedrock"
+    "voidophobia:weak_artificial_bedrock",
     "#voidophobia:vuxducts",
-    "voidophobia:vux_lamp"
+    "voidophobia:vux_lamp",
+    "voidophobia:compact_nether_portal",
+    "voidophobia:chrome_ore",
+    "voidophobia:deepslate_chrome_ore",
+    "voidophobia:raw_chrome_block",
+    "voidophobia:nickel_ore",
+    "voidophobia:deepslate_nickel_ore",
+    "voidophobia:raw_nickel_block",
+    "voidophobia:alloy_furnace",
+    "voidophobia:stainless_steel_block",
+    "voidophobia:vux_machine_core",
+    "voidophobia:vux_forming_machine",
+    "voidophobia:laser_engraving_machine"
   ]
 }

@@ -18,7 +18,7 @@ public class GodelCrystalShardItem extends Item {
     }
 
     private static float convertChance(double vux){
-        return (float) Math.min(1.0f, 0.1*Math.sqrt(vux));
+        return (float) Math.min(1.0f, 0.3*Math.sqrt(vux));
     }
 
     private static boolean canConvert(double vux, Random random){

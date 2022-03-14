@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/orientable",
+  "textures": {
+    "top": "voidophobia:block/vux_forming_machine_bottom",
+    "front": "voidophobia:block/vux_forming_machine_front",
+    "side": "voidophobia:block/vux_forming_machine_side"
+  }
+}

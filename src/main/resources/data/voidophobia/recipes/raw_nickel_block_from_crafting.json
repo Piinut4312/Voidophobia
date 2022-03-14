@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "voidophobia:raw_nickel"
+    }
+  },
+  "result": {
+    "item": "voidophobia:raw_nickel_block",
+    "count": 1
+  }
+}

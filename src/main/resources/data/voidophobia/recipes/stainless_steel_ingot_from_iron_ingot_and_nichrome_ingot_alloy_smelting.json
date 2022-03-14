@@ -1,0 +1,12 @@
+{
+  "type": "voidophobia:alloy_smelting",
+  "input1":{
+    "item":"minecraft:iron_ingot"
+  },
+  "input2":{
+    "item":"voidophobia:nichrome_ingot"
+  },
+  "result": "voidophobia:stainless_steel_ingot",
+  "experience": 1.5,
+  "cookingTime":400
+}

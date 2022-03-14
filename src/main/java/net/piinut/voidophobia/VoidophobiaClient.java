@@ -7,6 +7,7 @@ import net.minecraft.client.render.RenderLayer;
 import net.piinut.voidophobia.block.ModBlocks;
 import net.piinut.voidophobia.block.blockEntity.ModBlockEntities;
 import net.piinut.voidophobia.block.blockEntity.renderer.ReinforcedPistonBlockEntityRenderer;
+import net.piinut.voidophobia.gui.screen.ModScreens;
 
 public class VoidophobiaClient implements ClientModInitializer {
     @Override
@@ -17,6 +18,7 @@ public class VoidophobiaClient implements ClientModInitializer {
     private void registerBlockEntityRenderers(){
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.COMPACT_NETHER_PORTAL, RenderLayer.getTranslucent());
         BlockEntityRendererRegistry.register(ModBlockEntities.REINFORCED_PISTON, ReinforcedPistonBlockEntityRenderer::new);
+        ModScreens.registerAll();
     }
 
 }

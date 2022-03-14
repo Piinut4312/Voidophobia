@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "$@$",
+    "@#@",
+    "$@$"
+  ],
+  "key": {
+    "#":{
+      "item":"voidophobia:stainless_steel_block"
+    },
+    "@":{
+      "item":"voidophobia:weak_artificial_bedrock"
+    },
+    "$":{
+      "item":"voidophobia:godel_crystal_shard"
+    }
+  },
+  "result": {
+    "item": "voidophobia:vux_machine_core",
+    "count": 2
+  }
+}

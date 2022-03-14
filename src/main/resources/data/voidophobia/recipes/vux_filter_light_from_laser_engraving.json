@@ -1,0 +1,7 @@
+{
+  "type": "voidophobia:laser_engraving",
+  "modifier":{
+    "item":"voidophobia:stardust"
+  },
+  "type_name": "light"
+}

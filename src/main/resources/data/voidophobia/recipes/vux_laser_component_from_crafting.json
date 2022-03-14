@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#@#",
+    "#%#",
+    "$@$"
+  ],
+  "key": {
+    "#": {
+      "item": "voidophobia:artificial_bedrock_scrap"
+    },
+    "$": {
+      "item": "minecraft:copper_ingot"
+    },
+    "%": {
+      "item": "voidophobia:vux_lamp"
+    },
+    "@":{
+      "item": "minecraft:amethyst_shard"
+    }
+  },
+  "result": {
+    "item": "voidophobia:vux_laser_component",
+    "count": 1
+  }
+}

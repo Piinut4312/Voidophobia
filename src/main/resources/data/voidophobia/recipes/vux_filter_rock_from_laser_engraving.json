@@ -1,0 +1,7 @@
+{
+  "type": "voidophobia:laser_engraving",
+  "modifier":{
+    "item":"minecraft:stone"
+  },
+  "type_name": "rock"
+}

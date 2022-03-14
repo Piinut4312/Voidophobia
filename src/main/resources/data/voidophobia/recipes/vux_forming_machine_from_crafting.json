@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " # ",
+    "%@%",
+    " $ "
+  ],
+  "key": {
+    "@":{
+      "item":"voidophobia:vux_machine_core"
+    },
+    "#":{
+      "item":"voidophobia:reinforced_piston"
+    },
+    "$":{
+      "item":"voidophobia:vpu_chip"
+    },
+    "%":{
+      "item":"voidophobia:vuxin"
+    }
+  },
+  "result": {
+    "item": "voidophobia:vux_forming_machine",
+    "count": 1
+  }
+}
