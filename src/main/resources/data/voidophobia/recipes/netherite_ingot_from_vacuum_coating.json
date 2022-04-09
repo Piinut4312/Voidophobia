@@ -1,0 +1,11 @@
+{
+  "type": "voidophobia:vacuum_coating",
+  "input1":{
+    "item":"minecraft:gold_ingot"
+  },
+  "input2":{
+    "item":"minecraft:netherite_scrap"
+  },
+  "result": "minecraft:netherite_ingot",
+  "processTime":800
+}

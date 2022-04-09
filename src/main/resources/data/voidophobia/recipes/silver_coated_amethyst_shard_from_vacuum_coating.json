@@ -1,0 +1,11 @@
+{
+  "type": "voidophobia:vacuum_coating",
+  "input1":{
+    "item":"minecraft:amethyst_shard"
+  },
+  "input2":{
+    "item":"voidophobia:silver_ingot"
+  },
+  "result": "voidophobia:silver_coated_amethyst_shard",
+  "processTime":400
+}

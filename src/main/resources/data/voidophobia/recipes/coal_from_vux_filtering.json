@@ -1,0 +1,9 @@
+{
+  "type": "voidophobia:vux_filtering",
+  "ingredient":{
+    "tag":"minecraft:coal_ores"
+  },
+  "filter": "rock",
+  "result": "minecraft:coal",
+  "count": 6
+}

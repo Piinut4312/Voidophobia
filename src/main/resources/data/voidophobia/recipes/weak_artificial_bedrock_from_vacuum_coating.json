@@ -1,0 +1,11 @@
+{
+  "type": "voidophobia:vacuum_coating",
+  "input1":{
+    "item":"voidophobia:artificial_bedrock_scrap"
+  },
+  "input2":{
+    "item":"minecraft:obsidian"
+  },
+  "result": "voidophobia:weak_artificial_bedrock",
+  "processTime":1200
+}

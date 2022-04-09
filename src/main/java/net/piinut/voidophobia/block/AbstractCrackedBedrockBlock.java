@@ -29,7 +29,7 @@ public abstract class AbstractCrackedBedrockBlock extends Block implements VuxPr
         }
 
         ItemStack itemStack = player.getMainHandStack();
-        if(itemStack.isOf(Items.QUARTZ)){
+        if(itemStack.isOf(ModItems.REDSTONE_QUARTZ)){
             Random random = world.getRandom();
             double vux = getVux(world, state, pos, hit.getSide(), random);
             if(random.nextFloat() < Math.min(1.0f, 0.4*Math.sqrt(vux))){

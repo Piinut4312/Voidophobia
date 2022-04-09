@@ -1,0 +1,9 @@
+{
+  "type": "voidophobia:vux_filtering",
+  "ingredient":{
+    "item":"minecraft:magma_block"
+  },
+  "filter": "heat",
+  "result": "minecraft:basalt",
+  "count": 1
+}

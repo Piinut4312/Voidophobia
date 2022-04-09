@@ -1,0 +1,11 @@
+{
+  "type": "voidophobia:vacuum_coating",
+  "input1":{
+    "item":"minecraft:gravel"
+  },
+  "input2":{
+    "item":"voidophobia:infernium"
+  },
+  "result": "minecraft:netherrack",
+  "processTime":100
+}

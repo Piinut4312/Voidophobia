@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "voidophobia:block/vux_filter_machine_top",
+    "north": "voidophobia:block/vux_filter_machine_side",
+    "south": "voidophobia:block/vux_filter_machine_side",
+    "east": "voidophobia:block/vux_forming_machine_side",
+    "west": "voidophobia:block/vux_forming_machine_side",
+    "up": "voidophobia:block/vux_filter_machine_top",
+    "down": "voidophobia:block/vux_forming_machine_bottom"
+  }
+}

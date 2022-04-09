@@ -3,20 +3,20 @@
   "pattern": [
     "#@#",
     "#%#",
-    "$@$"
+    "$ $"
   ],
   "key": {
     "#": {
       "item": "voidophobia:artificial_bedrock_scrap"
     },
     "$": {
-      "item": "minecraft:copper_ingot"
+      "item": "voidophobia:copper_nugget"
     },
     "%": {
       "item": "voidophobia:vux_lamp"
     },
     "@":{
-      "item": "minecraft:amethyst_shard"
+      "item": "voidophobia:amethyst_lens"
     }
   },
   "result": {

@@ -1,0 +1,8 @@
+{
+  "type": "voidophobia:vux_forming",
+  "input":{
+    "item":"voidophobia:nichrome_ingot"
+  },
+  "output": "voidophobia:nichrome_wire",
+  "count": 3
+}

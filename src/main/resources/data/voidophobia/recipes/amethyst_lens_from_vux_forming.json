@@ -1,0 +1,8 @@
+{
+  "type": "voidophobia:vux_forming",
+  "input":{
+    "item":"minecraft:amethyst_shard"
+  },
+  "output": "voidophobia:amethyst_lens",
+  "count": 2
+}

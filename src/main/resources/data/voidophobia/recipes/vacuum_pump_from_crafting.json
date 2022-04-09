@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "@@@",
+    "%#$",
+    "@@@"
+  ],
+  "key": {
+    "#": {
+      "item": "voidophobia:vux_filter",
+      "data":{
+        "Type":"fluid"
+      }
+    },
+    "$": {
+      "item": "minecraft:copper_ingot"
+    },
+    "@": {
+      "item": "voidophobia:stainless_steel_ingot"
+    },
+    "%": {
+      "item": "minecraft:redstone"
+    }
+  },
+  "result": {
+    "item": "voidophobia:vacuum_pump",
+    "count": 1
+  }
+}

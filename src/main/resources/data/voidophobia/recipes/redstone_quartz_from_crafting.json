@@ -6,13 +6,10 @@
     },
     {
       "item": "minecraft:quartz"
-    },
-    {
-      "item": "voidophobia:godel_crystal_shard"
     }
   ],
   "result": {
-    "item": "voidophobia:paradoxium",
-    "count": 2
+    "item": "voidophobia:redstone_quartz",
+    "count": 1
   }
 }

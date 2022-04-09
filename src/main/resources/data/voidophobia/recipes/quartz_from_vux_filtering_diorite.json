@@ -1,0 +1,9 @@
+{
+  "type": "voidophobia:vux_filtering",
+  "ingredient":{
+    "item":"minecraft:diorite"
+  },
+  "filter": "rock",
+  "result": "minecraft:quartz",
+  "count": 1
+}

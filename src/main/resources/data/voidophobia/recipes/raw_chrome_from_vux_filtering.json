@@ -1,0 +1,9 @@
+{
+  "type": "voidophobia:vux_filtering",
+  "ingredient":{
+    "tag":"c:chrome_ores"
+  },
+  "filter": "rock",
+  "result": "voidophobia:raw_chrome",
+  "count": 3
+}

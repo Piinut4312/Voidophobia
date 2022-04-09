@@ -1,0 +1,9 @@
+{
+  "type": "voidophobia:vux_filtering",
+  "ingredient":{
+    "tag":"c:nickel_ores"
+  },
+  "filter": "rock",
+  "result": "voidophobia:raw_nickel",
+  "count": 3
+}

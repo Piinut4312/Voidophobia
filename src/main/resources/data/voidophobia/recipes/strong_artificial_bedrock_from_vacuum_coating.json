@@ -1,0 +1,11 @@
+{
+  "type": "voidophobia:vacuum_coating",
+  "input1":{
+    "item":"voidophobia:weak_artificial_bedrock"
+  },
+  "input2":{
+    "item":"minecraft:netherite_block"
+  },
+  "result": "voidophobia:strong_artificial_bedrock",
+  "processTime":1600
+}

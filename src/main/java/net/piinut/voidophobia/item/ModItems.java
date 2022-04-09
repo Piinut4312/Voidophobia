@@ -1,5 +1,6 @@
 package net.piinut.voidophobia.item;
 
+import com.sun.jna.platform.win32.WinNT;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.item.BlockItem;
@@ -10,6 +11,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.piinut.voidophobia.Voidophobia;
 import net.piinut.voidophobia.block.ModBlocks;
+import org.lwjgl.system.CallbackI;
 
 public class ModItems {
 
@@ -44,6 +46,11 @@ public class ModItems {
     public static final BlockItem VUX_MACHINE_CORE_BLOCK_ITEM = new BlockItem(ModBlocks.VUX_MACHINE_CORE, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final BlockItem VUX_FORMING_MACHINE = new BlockItem(ModBlocks.VUX_FORMING_MACHINE, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final BlockItem LASER_ENGRAVING_MACHINE = new BlockItem(ModBlocks.LASER_ENGRAVING_MACHINE, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final BlockItem VUX_FILTER_MACHINE_BLOCK_ITEM = new BlockItem(ModBlocks.VUX_FILTER_MACHINE, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final BlockItem COMPRESSED_NETHER_BRICKS_BLOCK_ITEM = new BlockItem(ModBlocks.COMPRESSED_NETHER_BRICKS, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final BlockItem CREATIVE_CRACKED_BEDROCK_BLOCK_ITEM = new BlockItem(ModBlocks.CREATIVE_CRACKED_BEDROCK, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final BlockItem VACUUM_COATER = new BlockItem(ModBlocks.VACUUM_COATER, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final BlockItem STRONG_ARTIFICIAL_BEDROCK_BLOCK_ITEM = new BlockItem(ModBlocks.STRONG_ARTIFICIAL_BEDROCK, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item VUX_METER = new VuxMeterItem(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item GODEL_CRYSTAL_SHARD = new GodelCrystalShardItem(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item ARTIFICIAL_BEDROCK_SCRAP = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
@@ -65,7 +72,19 @@ public class ModItems {
     public static final Item VUXOUT = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item VUX_LASER_COMPONENT = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item VUX_FILTER_TEMPLATE = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
-    public static final Item VUX_FILTER = new VuxFilterItem(new FabricItemSettings().maxCount(1));
+    public static final Item VUX_FILTER = new VuxFilterItem(new FabricItemSettings().maxCount(1).maxDamage(64));
+    public static final Item WEAK_VUX_VALVE = new AbstractVuxValveItem(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final Item NICHROME_WIRE = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final Item BASIC_HEATING_COIL = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final Item ADVANCED_HEATING_COIL = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final Item VACUUM_PUMP = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final Item COPPER_NUGGET = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final Item AMETHYST_LENS = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final Item SILVER_COATED_AMETHYST_SHARD = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final Item SILVER_INGOT = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final Item INVAR_INGOT = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final Item REDSTONE_QUARTZ = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+
 
     private static void register(Item item, String id){
         Registry.register(Registry.ITEM, new Identifier(Voidophobia.MODID, id), item);
@@ -121,6 +140,22 @@ public class ModItems {
         register(VUX_FILTER_TEMPLATE, "vux_filter_template");
         register(VUX_FILTER, "vux_filter");
         register(LASER_ENGRAVING_MACHINE, "laser_engraving_machine");
+        register(WEAK_VUX_VALVE, "weak_vux_valve");
+        register(VUX_FILTER_MACHINE_BLOCK_ITEM, "vux_filter_machine");
+        register(COMPRESSED_NETHER_BRICKS_BLOCK_ITEM, "compressed_nether_bricks");
+        register(NICHROME_WIRE, "nichrome_wire");
+        register(BASIC_HEATING_COIL, "basic_heating_coil");
+        register(ADVANCED_HEATING_COIL, "advanced_heating_coil");
+        register(VACUUM_PUMP, "vacuum_pump");
+        register(CREATIVE_CRACKED_BEDROCK_BLOCK_ITEM, "creative_cracked_bedrock");
+        register(VACUUM_COATER, "vacuum_coater");
+        register(STRONG_ARTIFICIAL_BEDROCK_BLOCK_ITEM, "strong_artificial_bedrock");
+        register(COPPER_NUGGET, "copper_nugget");
+        register(AMETHYST_LENS, "amethyst_lens");
+        register(SILVER_COATED_AMETHYST_SHARD, "silver_coated_amethyst_shard");
+        register(SILVER_INGOT, "silver_ingot");
+        register(INVAR_INGOT, "invar_ingot");
+        register(REDSTONE_QUARTZ, "redstone_quartz");
     }
 
 }

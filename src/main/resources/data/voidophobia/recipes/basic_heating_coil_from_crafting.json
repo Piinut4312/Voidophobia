@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " # ",
+    " # ",
+    "@@@"
+  ],
+  "key": {
+    "#": {
+      "item": "voidophobia:nichrome_wire"
+    },
+    "@": {
+      "item": "voidophobia:copper_nugget"
+    }
+  },
+  "result": {
+    "item": "voidophobia:basic_heating_coil",
+    "count": 2
+  }
+}

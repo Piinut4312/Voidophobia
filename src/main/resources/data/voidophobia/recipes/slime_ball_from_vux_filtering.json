@@ -1,0 +1,9 @@
+{
+  "type": "voidophobia:vux_filtering",
+  "ingredient":{
+    "item":"minecraft:magma_cream"
+  },
+  "filter": "heat",
+  "result": "minecraft:slime_ball",
+  "count": 1
+}

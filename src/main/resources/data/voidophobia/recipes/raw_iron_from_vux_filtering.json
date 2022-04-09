@@ -1,0 +1,9 @@
+{
+  "type": "voidophobia:vux_filtering",
+  "ingredient":{
+    "tag":"minecraft:iron_ores"
+  },
+  "filter": "rock",
+  "result": "minecraft:raw_iron",
+  "count": 3
+}

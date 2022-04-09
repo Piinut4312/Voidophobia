@@ -1,0 +1,7 @@
+{
+  "type": "voidophobia:laser_engraving",
+  "modifier":{
+    "item":"minecraft:water_bucket"
+  },
+  "type_name": "fluid"
+}

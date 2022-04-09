@@ -1,0 +1,7 @@
+{
+  "type": "voidophobia:laser_engraving",
+  "modifier":{
+    "item":"voidophobia:infernium"
+  },
+  "type_name": "heat"
+}

@@ -16,6 +16,10 @@
     "voidophobia:stainless_steel_block",
     "voidophobia:vux_machine_core",
     "voidophobia:vux_forming_machine",
-    "voidophobia:laser_engraving_machine"
+    "voidophobia:laser_engraving_machine",
+    "voidophobia:vux_filter_machine",
+    "voidophobia:compressed_nether_bricks",
+    "voidophobia:vacuum_coater",
+    "voidophobia:strong_artificial_bedrock"
   ]
 }

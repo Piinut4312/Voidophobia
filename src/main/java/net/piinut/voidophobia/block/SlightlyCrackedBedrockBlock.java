@@ -27,7 +27,7 @@ public class SlightlyCrackedBedrockBlock extends AbstractCrackedBedrockBlock{
 
         int bottomY = world.getBottomY();
         if(pos.getY()-bottomY <= 4){
-            return 5.0;
+            return 1.0;
         }
 
         return 0;

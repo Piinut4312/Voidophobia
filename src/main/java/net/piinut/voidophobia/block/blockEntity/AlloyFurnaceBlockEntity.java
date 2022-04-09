@@ -164,7 +164,7 @@ public class AlloyFurnaceBlockEntity extends BlockEntity implements SidedInvento
         if (dir == Direction.DOWN && slot == 2) {
             return stack.isOf(Items.WATER_BUCKET) || stack.isOf(Items.BUCKET);
         }
-        return true;
+        return false;
     }
 
     @Override
@@ -273,7 +273,6 @@ public class AlloyFurnaceBlockEntity extends BlockEntity implements SidedInvento
                 if (blockEntity.cookTime == blockEntity.cookTimeTotal) {
                     blockEntity.cookTime = 0;
                     blockEntity.cookTimeTotal = AlloyFurnaceBlockEntity.getCookTime(world, blockEntity);
-                    Voidophobia.LOGGER.info(String.valueOf(blockEntity.cookTimeTotal));
                     AlloyFurnaceBlockEntity.craftRecipe(recipe, blockEntity.inventory, i);
                     bl2 = true;
                 }

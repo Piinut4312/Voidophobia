@@ -1,0 +1,9 @@
+{
+  "type": "voidophobia:vux_filtering",
+  "ingredient":{
+    "item":"voidophobia:compressed_nether_bricks"
+  },
+  "filter": "rock",
+  "result": "voidophobia:infernium",
+  "count": 3
+}

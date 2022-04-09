@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " $ ",
+    "%@%",
+    " # "
+  ],
+  "key": {
+    "#":{
+      "item":"voidophobia:vux_machine_core"
+    },
+    "@":{
+      "item":"voidophobia:weak_vux_valve"
+    },
+    "$":{
+      "item":"voidophobia:vux_filter"
+    },
+    "%":{
+      "item":"minecraft:hopper"
+    }
+  },
+  "result": {
+    "item": "voidophobia:vux_filter_machine",
+    "count": 1
+  }
+}

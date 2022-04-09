@@ -1,0 +1,11 @@
+{
+  "type": "voidophobia:vacuum_coating",
+  "input1":{
+    "item":"minecraft:coal"
+  },
+  "input2":{
+    "item":"minecraft:stone"
+  },
+  "result": "minecraft:deepslate",
+  "processTime":100
+}

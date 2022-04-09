@@ -10,6 +10,8 @@
     "voidophobia:alloy_furnace",
     "voidophobia:vux_machine_core",
     "voidophobia:vux_forming_machine",
-    "voidophobia:laser_engraving_machine"
+    "voidophobia:laser_engraving_machine",
+    "voidophobia:vux_filter_machine",
+    "voidophobia:vacuum_coater"
   ]
 }

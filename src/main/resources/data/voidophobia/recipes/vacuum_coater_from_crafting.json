@@ -1,0 +1,32 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "@$@",
+    "%#%",
+    "^&^"
+  ],
+  "key": {
+    "#":{
+      "item":"voidophobia:vux_machine_core"
+    },
+    "@":{
+      "item":"voidophobia:advanced_heating_coil"
+    },
+    "$":{
+      "item":"voidophobia:vacuum_pump"
+    },
+    "%":{
+      "item":"minecraft:copper_ingot"
+    },
+    "^":{
+      "item":"voidophobia:vuxin"
+    },
+    "&":{
+      "item":"voidophobia:vpu_chip"
+    }
+  },
+  "result": {
+    "item": "voidophobia:vacuum_coater",
+    "count": 1
+  }
+}

@@ -1,8 +1,0 @@
-{
-  "type": "voidophobia:vux_forming",
-  "input":{
-    "item":"minecraft:iron_block"
-  },
-  "output": "minecraft:iron_boots",
-  "count": 1
-}

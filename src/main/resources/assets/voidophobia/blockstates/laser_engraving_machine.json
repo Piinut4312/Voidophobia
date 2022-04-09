@@ -1,7 +1,19 @@
 {
   "variants": {
-    "": {
+    "facing=east": {
+      "model": "voidophobia:block/laser_engraving_machine",
+      "y": 90
+    },
+    "facing=north": {
       "model": "voidophobia:block/laser_engraving_machine"
+    },
+    "facing=south": {
+      "model": "voidophobia:block/laser_engraving_machine",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "voidophobia:block/laser_engraving_machine",
+      "y": 270
     }
   }
 }

@@ -1,0 +1,9 @@
+{
+  "type": "voidophobia:vux_filtering",
+  "ingredient":{
+    "item":"minecraft:gravel"
+  },
+  "filter": "rock",
+  "result": "minecraft:flint",
+  "count": 2
+}

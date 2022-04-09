@@ -5,13 +5,17 @@ import net.minecraft.block.*;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.BlockView;
+import net.minecraft.world.World;
 import net.piinut.voidophobia.Voidophobia;
 import net.piinut.voidophobia.block.TDI.ItemTDIBlock;
 import net.piinut.voidophobia.block.piston.ReinforcedPistonBlock;
 import net.piinut.voidophobia.block.piston.ReinforcedPistonExtensionBlock;
 import net.piinut.voidophobia.block.piston.ReinforcedPistonHeadBlock;
+
+import java.util.Random;
 
 public class ModBlocks {
 
@@ -39,11 +43,21 @@ public class ModBlocks {
     public static final Block NICKEL_ORE = new OreBlock(FabricBlockSettings.of(Material.STONE).strength(3.0f, 3.0f).sounds(BlockSoundGroup.STONE).requiresTool());
     public static final Block DEEPSLATE_NICKEL_ORE = new OreBlock(FabricBlockSettings.of(Material.STONE).strength(4.5f, 3.0f).sounds(BlockSoundGroup.DEEPSLATE).requiresTool());
     public static final Block RAW_NICKEL_BLOCK = new Block(FabricBlockSettings.of(Material.STONE).strength(5.0f, 6.0f).requiresTool().sounds(BlockSoundGroup.STONE));
-    public static final Block ALLOY_FURNACE = new AlloyFurnaceBlock(FabricBlockSettings.of(Material.METAL).strength(8.0f, 8.0f).requiresTool().sounds(BlockSoundGroup.NETHER_BRICKS));
+    public static final Block ALLOY_FURNACE = new AlloyFurnaceBlock(FabricBlockSettings.of(Material.METAL).strength(6.0f, 8.0f).requiresTool().sounds(BlockSoundGroup.NETHER_BRICKS));
     public static final Block STAINLESS_STEEL_BLOCK = new Block(FabricBlockSettings.of(Material.METAL).strength(7.0f, 8.0f).requiresTool().sounds(BlockSoundGroup.METAL));
     public static final Block VUX_MACHINE_CORE = new Block(FabricBlockSettings.of(Material.METAL).strength(12f,12f).requiresTool().sounds(BlockSoundGroup.METAL));
-    public static final Block VUX_FORMING_MACHINE = new VuxFormingMachineBlock(FabricBlockSettings.of(Material.METAL).strength(8.0f, 8.0f).requiresTool().sounds(BlockSoundGroup.METAL));
-    public static final Block LASER_ENGRAVING_MACHINE = new LaserEngravingMachineBlock(FabricBlockSettings.of(Material.METAL).strength(8.0f, 8.0f).requiresTool().sounds(BlockSoundGroup.METAL));
+    public static final Block VUX_FORMING_MACHINE = new VuxFormingMachineBlock(FabricBlockSettings.of(Material.METAL).strength(12.0f, 12.0f).requiresTool().sounds(BlockSoundGroup.METAL));
+    public static final Block LASER_ENGRAVING_MACHINE = new LaserEngravingMachineBlock(FabricBlockSettings.of(Material.METAL).strength(12.0f, 12.0f).requiresTool().sounds(BlockSoundGroup.METAL));
+    public static final Block VUX_FILTER_MACHINE = new VuxFilterMachineBlock(FabricBlockSettings.of(Material.METAL).strength(12.0f, 12.0f).requiresTool().sounds(BlockSoundGroup.METAL));
+    public static final Block COMPRESSED_NETHER_BRICKS = new Block(FabricBlockSettings.of(Material.STONE).requiresTool().strength(6.0f, 8.0f).sounds(BlockSoundGroup.NETHER_BRICKS));
+    public static final Block CREATIVE_CRACKED_BEDROCK = new AbstractCrackedBedrockBlock(FabricBlockSettings.copyOf(Blocks.BEDROCK)) {
+        @Override
+        public double getVux(World world, BlockState state, BlockPos pos, Direction direction, Random random) {
+            return Double.MAX_VALUE;
+        }
+    };
+    public static final Block VACUUM_COATER = new VacuumCoaterBlock(FabricBlockSettings.of(Material.METAL).strength(15.0f, 15.0f).requiresTool().sounds(BlockSoundGroup.METAL));
+    public static final Block STRONG_ARTIFICIAL_BEDROCK = new Block(FabricBlockSettings.of(Material.STONE).strength(200.0f, 200.0f).requiresTool().sounds(BlockSoundGroup.STONE));
 
     private static Block createReinforcedPistonBlock(boolean sticky) {
         AbstractBlock.ContextPredicate contextPredicate = (state, world, pos) -> !state.get(ReinforcedPistonBlock.EXTENDED);
@@ -88,6 +102,11 @@ public class ModBlocks {
         register(VUX_FORMING_MACHINE, "vux_forming_machine");
         register(VUX_MACHINE_CORE, "vux_machine_core");
         register(LASER_ENGRAVING_MACHINE, "laser_engraving_machine");
+        register(VUX_FILTER_MACHINE, "vux_filter_machine");
+        register(COMPRESSED_NETHER_BRICKS, "compressed_nether_bricks");
+        register(CREATIVE_CRACKED_BEDROCK, "creative_cracked_bedrock");
+        register(VACUUM_COATER, "vacuum_coater");
+        register(STRONG_ARTIFICIAL_BEDROCK, "strong_artificial_bedrock");
     }
 
 }

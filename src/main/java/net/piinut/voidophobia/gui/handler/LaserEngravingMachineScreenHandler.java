@@ -9,8 +9,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ArrayPropertyDelegate;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
+import net.minecraft.screen.ScreenHandlerListener;
 import net.minecraft.screen.slot.Slot;
+import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.world.World;
+import net.piinut.voidophobia.Voidophobia;
+import net.piinut.voidophobia.block.blockEntity.LaserEngravingInventory;
 import net.piinut.voidophobia.block.blockEntity.LaserEngravingMachineBlockEntity;
 import net.piinut.voidophobia.item.ModItems;
 import net.piinut.voidophobia.item.recipe.ModRecipeTypes;
@@ -31,12 +35,18 @@ public class LaserEngravingMachineScreenHandler extends ScreenHandler {
         this.propertyDelegate = propertyDelegate;
         this.world = playerInventory.player.getWorld();
         inventory.onOpen(playerInventory.player);
-
         this.addSlot(new Slot(inventory, 0, 26, 35));
         this.addSlot(new Slot(inventory, 1, 80, 58){
+
             @Override
             public boolean canInsert(ItemStack stack) {
                 return stack.isOf(ModItems.VUX_FILTER);
+            }
+
+            @Override
+            public void markDirty() {
+                super.markDirty();
+                LaserEngravingMachineScreenHandler.this.onContentChanged(this.inventory);
             }
         });
 
@@ -50,6 +60,20 @@ public class LaserEngravingMachineScreenHandler extends ScreenHandler {
         }
 
         this.addProperties(propertyDelegate);
+
+        this.addListener(new ScreenHandlerListener() {
+            @Override
+            public void onSlotUpdate(ScreenHandler handler, int slotId, ItemStack stack) {
+                if(handler instanceof LaserEngravingMachineScreenHandler){
+                    handler.onContentChanged(inventory);
+                }
+            }
+
+            @Override
+            public void onPropertyUpdate(ScreenHandler handler, int property, int value) {
+
+            }
+        });
     }
 
     public int getProcessProgress() {
@@ -98,9 +122,16 @@ public class LaserEngravingMachineScreenHandler extends ScreenHandler {
                 return ItemStack.EMPTY;
             }
             slot.onTakeItem(player, itemStack2);
-            this.sendContentUpdates();
+            this.onContentChanged(this.inventory);
         }
         return itemStack;
     }
 
+    @Override
+    public void onContentChanged(Inventory inventory) {
+        super.onContentChanged(inventory);
+        if(inventory instanceof LaserEngravingMachineBlockEntity){
+            ((LaserEngravingMachineBlockEntity) inventory).updateListeners();
+        }
+    }
 }

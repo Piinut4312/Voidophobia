@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "$#$",
+    "#@#",
+    "$#$"
+  ],
+  "key": {
+    "#": {
+      "item": "voidophobia:nichrome_wire"
+    },
+    "@": {
+      "item": "voidophobia:basic_heating_coil"
+    },
+    "$": {
+      "item": "voidophobia:infernium"
+    }
+  },
+  "result": {
+    "item": "voidophobia:advanced_heating_coil",
+    "count": 1
+  }
+}
