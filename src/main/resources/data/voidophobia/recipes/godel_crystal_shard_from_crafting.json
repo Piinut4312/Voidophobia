@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "voidophobia:godel_crystal_block"
+    }
+  ],
+  "result": {
+    "item": "voidophobia:godel_crystal_shard",
+    "count": 4
+  }
+}

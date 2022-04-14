@@ -1,0 +1,12 @@
+{
+  "type": "voidophobia:alloy_smelting",
+  "input1":{
+    "tag":"c:nickel_ingots"
+  },
+  "input2":{
+    "item":"voidophobia:raw_chrome"
+  },
+  "result": "voidophobia:nichrome_ingot",
+  "experience": 1.5,
+  "cookingTime":400
+}
