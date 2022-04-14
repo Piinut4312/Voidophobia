@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:blasting",
+  "ingredient": {
+    "item": "voidophobia:deepslate_silver_ore"
+  },
+  "result": "voidophobia:silver_ingot",
+  "experience": 1.8,
+  "cookingtime": 100
+}

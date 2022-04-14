@@ -1,0 +1,12 @@
+{
+    "type": "nbtcrafting:brewing",
+    "base": {
+        "potion": "minecraft:awkward"
+    },
+    "ingredient": {
+        "item": "voidophobia:abyss_spider_fang"
+    },
+    "result": {
+        "potion": "voidophobia:poison_of_abyss"
+    }
+}

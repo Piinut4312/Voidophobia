@@ -3,15 +3,21 @@ package net.piinut.voidophobia.item;
 import com.sun.jna.platform.win32.WinNT;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
+import net.minecraft.client.item.TooltipContext;
+import net.minecraft.item.*;
+import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.world.World;
 import net.piinut.voidophobia.Voidophobia;
 import net.piinut.voidophobia.block.ModBlocks;
+import net.piinut.voidophobia.entity.ModEntities;
+import org.jetbrains.annotations.Nullable;
 import org.lwjgl.system.CallbackI;
+
+import java.util.List;
 
 public class ModItems {
 
@@ -51,6 +57,9 @@ public class ModItems {
     public static final BlockItem CREATIVE_CRACKED_BEDROCK_BLOCK_ITEM = new BlockItem(ModBlocks.CREATIVE_CRACKED_BEDROCK, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final BlockItem VACUUM_COATER = new BlockItem(ModBlocks.VACUUM_COATER, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final BlockItem STRONG_ARTIFICIAL_BEDROCK_BLOCK_ITEM = new BlockItem(ModBlocks.STRONG_ARTIFICIAL_BEDROCK, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final BlockItem SILVER_ORE_BLOCK_ITEM = new BlockItem(ModBlocks.SILVER_ORE, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final BlockItem DEEPSLATE_SILVER_ORE_BLOCK_ITEM = new BlockItem(ModBlocks.DEEPSLATE_SILVER_ORE, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final BlockItem CRACKED_BEDROCK_BLOCK_ITEM = new BlockItem(ModBlocks.CRACKED_BEDROCK, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item VUX_METER = new VuxMeterItem(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item GODEL_CRYSTAL_SHARD = new GodelCrystalShardItem(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item ARTIFICIAL_BEDROCK_SCRAP = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
@@ -81,10 +90,19 @@ public class ModItems {
     public static final Item COPPER_NUGGET = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item AMETHYST_LENS = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item SILVER_COATED_AMETHYST_SHARD = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final Item RAW_SILVER = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item SILVER_INGOT = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item INVAR_INGOT = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item REDSTONE_QUARTZ = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
-
+    public static final Item MODIFIER_MODULE_TEMPLATE = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final Item BASIC_MODIFIER_MODULE = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final Item DELICATE_FILTERING_MODIFIER_MODULE = new ModifierModuleItem(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP).maxCount(1), "delicate_filtering", true);
+    public static final Item PROCESSING_SPEED_BOOST_MODIFIER_MODULE = new ModifierModuleItem(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP).maxCount(1), "processing_speed_boost", true);
+    public static final Item VUX_CAPACITY_UPGRADE_MODIFIER_MODULE = new ModifierModuleItem(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP).maxCount(1), "vux_capacity_upgrade", false);
+    public static final Item CHROME_NICKEL_BLEND = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final Item COOLING_PAD = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final Item ABYSS_SPIDER_SPAWN_EGG = new SpawnEggItem(ModEntities.ABYSS_SPIDER, 2103108,11183552, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final Item ABYSS_SPIDER_FANG = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
 
     private static void register(Item item, String id){
         Registry.register(Registry.ITEM, new Identifier(Voidophobia.MODID, id), item);
@@ -92,7 +110,11 @@ public class ModItems {
 
     public static void registerAll(){
         register(SLIGHTLY_CRACKED_BEDROCK_ITEM, "slightly_cracked_bedrock");
+        register(CRACKED_BEDROCK_BLOCK_ITEM, "cracked_bedrock");
+        register(CREATIVE_CRACKED_BEDROCK_BLOCK_ITEM, "creative_cracked_bedrock");
         register(GODEL_CRYSTAL_ITEM, "godel_crystal_block");
+        register(GODEL_CRYSTAL_SHARD, "godel_crystal_shard");
+        register(ARTIFICIAL_BEDROCK_SCRAP, "artificial_bedrock_scrap");
         register(WEAK_ARTIFICIAL_BEDROCK_ITEM, "weak_artificial_bedrock");
         register(BASIC_VUXDUCT_ITEM, "basic_vuxduct");
         register(VUX_LAMP_ITEM, "vux_lamp");
@@ -108,8 +130,6 @@ public class ModItems {
         register(STARROCK_ITEM, "starrock");
         register(STARROCK_BRICKS_BLOCK_ITEM, "starrock_bricks");
         register(VUX_METER, "vux_meter");
-        register(GODEL_CRYSTAL_SHARD, "godel_crystal_shard");
-        register(ARTIFICIAL_BEDROCK_SCRAP, "artificial_bedrock_scrap");
         register(PARADOXIUM, "paradoxium");
         register(COMPACT_PORTAL_LINKER, "portal_linker");
         register(INFERNIUM, "infernium");
@@ -129,6 +149,7 @@ public class ModItems {
         register(RESONATING_QUARTZ, "resonating_quartz");
         register(ALLOY_FURNACE_BLOCK, "alloy_furnace");
         register(NICHROME_INGOT, "nichrome_ingot");
+        register(CHROME_NICKEL_BLEND, "chrome_nickel_blend");
         register(STAINLESS_STEEL_INGOT, "stainless_steel_ingot");
         register(STAINLESS_STEEL_BLOCK, "stainless_steel_block");
         register(VPU_CHIP, "vpu_chip");
@@ -147,15 +168,25 @@ public class ModItems {
         register(BASIC_HEATING_COIL, "basic_heating_coil");
         register(ADVANCED_HEATING_COIL, "advanced_heating_coil");
         register(VACUUM_PUMP, "vacuum_pump");
-        register(CREATIVE_CRACKED_BEDROCK_BLOCK_ITEM, "creative_cracked_bedrock");
         register(VACUUM_COATER, "vacuum_coater");
         register(STRONG_ARTIFICIAL_BEDROCK_BLOCK_ITEM, "strong_artificial_bedrock");
         register(COPPER_NUGGET, "copper_nugget");
         register(AMETHYST_LENS, "amethyst_lens");
         register(SILVER_COATED_AMETHYST_SHARD, "silver_coated_amethyst_shard");
+        register(RAW_SILVER, "raw_silver");
         register(SILVER_INGOT, "silver_ingot");
+        register(SILVER_ORE_BLOCK_ITEM, "silver_ore");
+        register(DEEPSLATE_SILVER_ORE_BLOCK_ITEM, "deepslate_silver_ore");
         register(INVAR_INGOT, "invar_ingot");
         register(REDSTONE_QUARTZ, "redstone_quartz");
+        register(MODIFIER_MODULE_TEMPLATE, "modifier_module_template");
+        register(BASIC_MODIFIER_MODULE, "basic_modifier_module");
+        register(DELICATE_FILTERING_MODIFIER_MODULE, "delicate_filtering_modifier_module");
+        register(PROCESSING_SPEED_BOOST_MODIFIER_MODULE, "processing_speed_boost_modifier_module");
+        register(VUX_CAPACITY_UPGRADE_MODIFIER_MODULE, "vux_capacity_upgrade_modifier_module");
+        register(COOLING_PAD, "cooling_pad");
+        register(ABYSS_SPIDER_SPAWN_EGG, "abyss_spider_spawn_egg");
+        register(ABYSS_SPIDER_FANG, "abyss_spider_fang");
     }
 
 }

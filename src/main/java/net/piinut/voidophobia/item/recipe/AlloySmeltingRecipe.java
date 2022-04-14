@@ -10,6 +10,17 @@ public class AlloySmeltingRecipe implements Recipe<Inventory> {
 
     private final Ingredient firstInput;
     private final Ingredient secondInput;
+
+    public int getCount1() {
+        return count1;
+    }
+
+    public int getCount2() {
+        return count2;
+    }
+
+    private final int count1;
+    private final int count2;
     private final ItemStack outputStack;
     private final Identifier id;
     private final float experience;
@@ -31,9 +42,11 @@ public class AlloySmeltingRecipe implements Recipe<Inventory> {
         return cookTime;
     }
 
-    public AlloySmeltingRecipe(Ingredient input1, Ingredient input2, ItemStack output, float xp, int cookTime, Identifier id){
+    public AlloySmeltingRecipe(Ingredient input1, Ingredient input2, int count1, int count2, ItemStack output, float xp, int cookTime, Identifier id){
         this.firstInput = input1;
         this.secondInput = input2;
+        this.count1 = count1;
+        this.count2 = count2;
         this.outputStack = output;
         this.id = id;
         this.experience = xp;
@@ -44,7 +57,27 @@ public class AlloySmeltingRecipe implements Recipe<Inventory> {
     public boolean matches(Inventory inventory, World world) {
         ItemStack itemStack1 = inventory.getStack(0);
         ItemStack itemStack2 = inventory.getStack(1);
-        return (firstInput.test(itemStack1) && secondInput.test(itemStack2)) || (firstInput.test(itemStack2) && secondInput.test(itemStack1));
+        int c1 = itemStack1.getCount();
+        int c2 = itemStack2.getCount();
+        boolean b11 = firstInput.test(itemStack1);
+        boolean b12 = firstInput.test(itemStack2);
+        boolean b21 = secondInput.test(itemStack1);
+        boolean b22 = secondInput.test(itemStack2);
+        boolean b3 = (c1 >= count1 && c2 >= count2);
+        boolean b4 = (c1 >= count2 && c2 >= count1);
+        return (b11 && b22 && b3) || (b12 && b21 && b4);
+    }
+
+    public boolean canCraft(ItemStack itemStack1, ItemStack itemStack2){
+        int c1 = itemStack1.getCount();
+        int c2 = itemStack2.getCount();
+        boolean b11 = firstInput.test(itemStack1);
+        boolean b12 = firstInput.test(itemStack2);
+        boolean b21 = secondInput.test(itemStack1);
+        boolean b22 = secondInput.test(itemStack2);
+        boolean b3 = (c1 >= count1 && c2 >= count2);
+        boolean b4 = (c1 >= count2 && c2 >= count1);
+        return (b11 && b22 && b3) || (b12 && b21 && b4);
     }
 
     @Override
@@ -60,7 +93,7 @@ public class AlloySmeltingRecipe implements Recipe<Inventory> {
     @Override
     public ItemStack getOutput() {
         ItemStack itemStack = outputStack.copy();
-        itemStack.setCount(2);
+        itemStack.setCount(count1 + count2);
         return itemStack;
     }
 
@@ -78,6 +111,16 @@ public class AlloySmeltingRecipe implements Recipe<Inventory> {
     @Override
     public RecipeType<?> getType() {
         return ModRecipeTypes.ALLOY_SMELTING;
+    }
+
+    public int getCountForInput(ItemStack itemStack){
+        if(getFirstInput().test(itemStack)){
+            return count1;
+        }
+        if(getSecondInput().test(itemStack)){
+            return count2;
+        }
+        return 0;
     }
 
 }

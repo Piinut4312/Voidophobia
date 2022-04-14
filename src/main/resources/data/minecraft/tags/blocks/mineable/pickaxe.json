@@ -20,6 +20,8 @@
     "voidophobia:vux_filter_machine",
     "voidophobia:compressed_nether_bricks",
     "voidophobia:vacuum_coater",
-    "voidophobia:strong_artificial_bedrock"
+    "voidophobia:strong_artificial_bedrock",
+    "voidophobia:silver_ore",
+    "voidophobia:deepslate_silver_ore"
   ]
 }

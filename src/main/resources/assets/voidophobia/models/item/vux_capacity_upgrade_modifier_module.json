@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "voidophobia:item/modifier_module_vux_capacity_upgrade"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "$@$",
+    "@#@",
+    "$@$"
+  ],
+  "key": {
+    "#": {
+      "item": "voidophobia:vux_filter",
+      "data":{
+          "Type":"heat"
+      }
+    },
+    "$": {
+      "item": "minecraft:gold_ingot"
+    },
+    "@": {
+      "item": "voidophobia:silver_ingot"
+    }
+  },
+  "result": {
+    "item": "voidophobia:cooling_pad",
+    "count": 1
+  }
+}

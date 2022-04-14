@@ -1,0 +1,8 @@
+{
+  "type": "voidophobia:vux_forming",
+  "input":{
+    "item":"voidophobia:artificial_bedrock_scrap"
+  },
+  "output": "voidophobia:modifier_module_template",
+  "count": 1
+}

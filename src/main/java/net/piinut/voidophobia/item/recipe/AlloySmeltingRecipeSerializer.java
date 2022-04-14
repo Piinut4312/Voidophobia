@@ -23,29 +23,35 @@ public class AlloySmeltingRecipeSerializer implements RecipeSerializer<AlloySmel
             throw new JsonSyntaxException("A required attribute is missing!");
         }
         Ingredient input1 = Ingredient.fromJson(recipeJson.input1);
+        int count1 = recipeJson.count1;
         Ingredient input2 = Ingredient.fromJson(recipeJson.input2);
+        int count2 = recipeJson.count2;
         Item output = Registry.ITEM.getOrEmpty(new Identifier(recipeJson.result))
                 .orElseThrow(() -> new JsonSyntaxException("No such item " + recipeJson.result));
         ItemStack outputStack = new ItemStack(output);
         float xp = recipeJson.experience;
         int cookTime = recipeJson.cookingTime;
-        return new AlloySmeltingRecipe(input1, input2, outputStack, xp, cookTime, id);
+        return new AlloySmeltingRecipe(input1, input2, count1, count2, outputStack, xp, cookTime, id);
     }
 
     @Override
     public AlloySmeltingRecipe read(Identifier id, PacketByteBuf buf) {
         Ingredient ingredient1 = Ingredient.fromPacket(buf);
+        int c1 = buf.readVarInt();
         Ingredient ingredient2 = Ingredient.fromPacket(buf);
+        int c2 = buf.readVarInt();
         ItemStack output = buf.readItemStack();
         float f = buf.readFloat();
         int i = buf.readVarInt();
-        return new AlloySmeltingRecipe(ingredient1, ingredient2, output, f, i, id);
+        return new AlloySmeltingRecipe(ingredient1, ingredient2, c1, c2, output, f, i, id);
     }
 
     @Override
     public void write(PacketByteBuf buf, AlloySmeltingRecipe recipe) {
         recipe.getFirstInput().write(buf);
+        buf.writeVarInt(recipe.getCount1());
         recipe.getSecondInput().write(buf);
+        buf.writeVarInt(recipe.getCount2());
         buf.writeItemStack(recipe.getOutput());
         buf.writeFloat(recipe.getExperience());
         buf.writeVarInt(recipe.getCookTime());

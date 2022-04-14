@@ -8,6 +8,7 @@ import net.piinut.voidophobia.block.ModBlocks;
 import net.piinut.voidophobia.block.blockEntity.ModBlockEntities;
 import net.piinut.voidophobia.block.blockEntity.renderer.LaserEngravingMachineBlockEntityRenderer;
 import net.piinut.voidophobia.block.blockEntity.renderer.ReinforcedPistonBlockEntityRenderer;
+import net.piinut.voidophobia.entity.render.ModEntityRenderers;
 import net.piinut.voidophobia.gui.screen.ModScreens;
 
 public class VoidophobiaClient implements ClientModInitializer {
@@ -21,6 +22,7 @@ public class VoidophobiaClient implements ClientModInitializer {
         BlockEntityRendererRegistry.register(ModBlockEntities.REINFORCED_PISTON, ReinforcedPistonBlockEntityRenderer::new);
         BlockEntityRendererRegistry.register(ModBlockEntities.LASER_ENGRAVING_MACHINE, LaserEngravingMachineBlockEntityRenderer::new);
         ModScreens.registerAll();
+        ModEntityRenderers.registerAll();
     }
 
 }

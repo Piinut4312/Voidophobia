@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " $ ",
+    "@#@",
+    " $ "
+  ],
+  "key": {
+    "#": {
+      "item": "voidophobia:basic_modifier_module"
+    },
+    "$": {
+      "item": "minecraft:hopper"
+    },
+    "@": {
+      "item": "voidophobia:silver_ingot"
+    }
+  },
+  "result": {
+    "item": "voidophobia:delicate_filtering_modifier_module",
+    "count": 1
+  }
+}

@@ -14,6 +14,7 @@ import net.minecraft.world.World;
 import net.piinut.voidophobia.block.blockEntity.VuxFilterMachineBlockEntity;
 import net.piinut.voidophobia.item.ModItems;
 import net.piinut.voidophobia.item.recipe.ModRecipeTypes;
+import net.piinut.voidophobia.util.tags.ModItemTags;
 
 public class VuxFilterMachineScreenHandler extends ScreenHandler {
 
@@ -22,7 +23,7 @@ public class VuxFilterMachineScreenHandler extends ScreenHandler {
     private final World world;
 
     public VuxFilterMachineScreenHandler(int syncId, PlayerInventory playerInventory){
-        this(syncId, playerInventory, new SimpleInventory(3), new ArrayPropertyDelegate(2));
+        this(syncId, playerInventory, new SimpleInventory(6), new ArrayPropertyDelegate(6));
     }
 
     public VuxFilterMachineScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inventory, PropertyDelegate propertyDelegate) {
@@ -45,6 +46,14 @@ public class VuxFilterMachineScreenHandler extends ScreenHandler {
                 return false;
             }
         });
+        for(int i = 0; i < 3; i++){
+            this.addSlot(new Slot(inventory, i + 3, 175, 6 + i * 24){
+                @Override
+                public boolean canInsert(ItemStack stack) {
+                    return ModItemTags.VUX_FILTER_MACHINE_MODIFIERS.contains(stack.getItem());
+                }
+            });
+        }
 
         for (int m = 0; m < 3; ++m) {
             for (int l = 0; l < 9; ++l) {
@@ -63,7 +72,7 @@ public class VuxFilterMachineScreenHandler extends ScreenHandler {
         if (i == 0) {
             return 0;
         }
-        return i * 60 / VuxFilterMachineBlockEntity.TOTAL_PROCESS_TIME;
+        return i * 60 / (VuxFilterMachineBlockEntity.TOTAL_PROCESS_TIME + this.propertyDelegate.get(3));
     }
 
     @Override
@@ -76,7 +85,7 @@ public class VuxFilterMachineScreenHandler extends ScreenHandler {
         if (i == 0) {
             return 0;
         }
-        return (int) (i * 56 / VuxFilterMachineBlockEntity.MAX_VUX_CAPACITY);
+        return (int) (i * 56 / (VuxFilterMachineBlockEntity.MAX_VUX_CAPACITY * Math.pow(1.2, this.propertyDelegate.get(5))));
     }
 
     @Override
@@ -89,11 +98,11 @@ public class VuxFilterMachineScreenHandler extends ScreenHandler {
             itemStack = itemStack2.copy();
             if (index == 2) {
                 item.onCraft(itemStack2, player.world, player);
-                if (!this.insertItem(itemStack2, 2, 38, true)) {
+                if (!this.insertItem(itemStack2, 3, 39, true)) {
                     return ItemStack.EMPTY;
                 }
                 slot.onQuickTransfer(itemStack2, itemStack);
-            } else if (index == 0 ? !this.insertItem(itemStack2, 2, 38, false) : (this.world.getRecipeManager().getFirstMatch(ModRecipeTypes.VUX_FILTERING, new SimpleInventory(itemStack2), this.world).isPresent() ? !this.insertItem(itemStack2, 0, 1, false) : (index >= 2 && index < 29 ? !this.insertItem(itemStack2, 29, 38, false) : index >= 29 && index < 38 && !this.insertItem(itemStack2, 2, 29, false)))) {
+            } else if (index <= 1 ? !this.insertItem(itemStack2, 3, 39, false) : item == ModItems.VUX_FILTER ? !this.insertItem(itemStack2, 1, 1, false) : this.canInsertIntoSlot(itemStack2, this.getSlot(0)) ? !this.insertItem(itemStack2, 0, 0, false) : index < 30 ? !this.insertItem(itemStack2, 30, 39, false) : index < 39 && !this.insertItem(itemStack2, 3, 30, false)) {
                 return ItemStack.EMPTY;
             }
             if (itemStack2.isEmpty()) {

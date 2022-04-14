@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " $ ",
+    "@#@",
+    "%$%"
+  ],
+  "key": {
+    "#": {
+      "item": "voidophobia:basic_modifier_module"
+    },
+    "$": {
+      "item": "voidophobia:resonating_quartz"
+    },
+    "@": {
+      "item": "minecraft:gold_ingot"
+    },
+    "%": {
+      "item": "minecraft:ender_pearl"
+    }
+  },
+  "result": {
+    "item": "voidophobia:processing_speed_boost_modifier_module",
+    "count": 1
+  }
+}

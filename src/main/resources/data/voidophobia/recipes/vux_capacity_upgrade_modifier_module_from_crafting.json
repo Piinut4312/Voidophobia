@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " $ ",
+    "@#@",
+    " $ "
+  ],
+  "key": {
+    "#": {
+      "item": "voidophobia:basic_modifier_module"
+    },
+    "$": {
+      "item": "voidophobia:weak_artificial_bedrock"
+    },
+    "@": {
+      "item": "voidophobia:redstone_quartz"
+    }
+  },
+  "result": {
+    "item": "voidophobia:vux_capacity_upgrade_modifier_module",
+    "count": 1
+  }
+}

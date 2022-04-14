@@ -3,9 +3,11 @@
   "input1":{
     "item":"minecraft:iron_ingot"
   },
+  "count1":2,
   "input2":{
-    "item":"voidophobia:nichrome_ingot"
+    "item":"voidophobia:chrome_nickel_blend"
   },
+  "count2":1,
   "result": "voidophobia:stainless_steel_ingot",
   "experience": 1.5,
   "cookingTime":400

@@ -27,11 +27,11 @@ public class VuxFilterMachineScreen extends HandledScreen<VuxFilterMachineScreen
         int j = this.y;
         int x = (width - backgroundWidth) / 2;
         int y = (height - backgroundHeight) / 2;
-        drawTexture(matrices, x, y, 0, 0, backgroundWidth, backgroundHeight);
+        drawTexture(matrices, x, y, 0, 0, backgroundWidth+21, backgroundHeight);
         int k = this.handler.getProcessProgress();
-        this.drawTexture(matrices, i + 45, j + 32, 176, 56, k+1, 28);
+        this.drawTexture(matrices, i + 45, j + 32, 0, 222, k+1, 28);
         int p = this.handler.getVuxStorage();
-        this.drawTexture(matrices, i + 138, j + 73 - p, 176, 0, 10, p);
+        this.drawTexture(matrices, i + 138, j + 73 - p, 0, 166, 10, p);
     }
 
     @Override

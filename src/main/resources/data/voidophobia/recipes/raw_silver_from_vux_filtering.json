@@ -1,0 +1,9 @@
+{
+  "type": "voidophobia:vux_filtering",
+  "ingredient":{
+    "tag":"c:silver_ores"
+  },
+  "filter": "rock",
+  "result": "voidophobia:raw_silver",
+  "count": 3
+}

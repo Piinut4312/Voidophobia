@@ -11,8 +11,10 @@ import net.minecraft.util.Identifier;
 import net.minecraft.world.gen.GenerationStep;
 import net.piinut.voidophobia.block.ModBlocks;
 import net.piinut.voidophobia.block.blockEntity.ModBlockEntities;
+import net.piinut.voidophobia.entity.ModEntities;
 import net.piinut.voidophobia.gui.handler.ModScreenHandlers;
 import net.piinut.voidophobia.item.ModItems;
+import net.piinut.voidophobia.item.potion.ModPotions;
 import net.piinut.voidophobia.item.recipe.ModRecipeTypes;
 import net.piinut.voidophobia.world.configuredFeature.ModConfiguredFeatures;
 import net.piinut.voidophobia.world.feture.ModFeatures;
@@ -34,5 +36,7 @@ public class Voidophobia implements ModInitializer {
         ModConfiguredFeatures.registerAll();
         ModScreenHandlers.registerAll();
         ModRecipeTypes.registerAll();
+        ModEntities.registerAttributes();
+        ModPotions.registerAll();
     }
 }

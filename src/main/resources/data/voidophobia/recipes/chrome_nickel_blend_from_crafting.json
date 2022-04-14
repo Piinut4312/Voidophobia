@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "voidophobia:chrome_ingot"
+    },
+    {
+      "item": "voidophobia:chrome_ingot"
+    },
+    {
+      "item": "voidophobia:nickel_ingot"
+    }
+  ],
+  "result": {
+    "item": "voidophobia:chrome_nickel_blend",
+    "count": 3
+  }
+}

@@ -35,6 +35,7 @@ import net.minecraft.world.World;
 import net.piinut.voidophobia.Voidophobia;
 import net.piinut.voidophobia.block.AlloyFurnaceBlock;
 import net.piinut.voidophobia.gui.handler.AlloyFurnaceScreenHandler;
+import net.piinut.voidophobia.item.ModItems;
 import net.piinut.voidophobia.item.recipe.AlloySmeltingRecipe;
 import net.piinut.voidophobia.item.recipe.ModRecipeTypes;
 import org.jetbrains.annotations.Nullable;
@@ -118,7 +119,7 @@ public class AlloyFurnaceBlockEntity extends BlockEntity implements SidedInvento
         nbt.putShort("CookTimeTotal", (short)this.cookTimeTotal);
         NbtCompound nbtCompound = nbt.getCompound("RecipesUsed");
         for (String string : nbtCompound.getKeys()) {
-            this.recipesUsed.put(new Identifier(string), nbtCompound.getInt(string));
+            this.recipesUsed.put(new Identifier(Voidophobia.MODID, string), nbtCompound.getInt(string));
         }
     }
 
@@ -127,6 +128,7 @@ public class AlloyFurnaceBlockEntity extends BlockEntity implements SidedInvento
         AlloyFurnaceBlockEntity.addFuel(map, Items.LAVA_BUCKET, 10000);
         AlloyFurnaceBlockEntity.addFuel(map, Blocks.COAL_BLOCK, 8000);
         AlloyFurnaceBlockEntity.addFuel(map, Items.BLAZE_ROD, 1200);
+        AlloyFurnaceBlockEntity.addFuel(map, ModItems.INFERNIUM, 3600);
         return map;
     }
 
@@ -201,8 +203,8 @@ public class AlloyFurnaceBlockEntity extends BlockEntity implements SidedInvento
         ExperienceOrbEntity.spawn(world, pos, i);
     }
 
-    private static boolean canAcceptRecipeOutput(@Nullable Recipe<?> recipe, DefaultedList<ItemStack> slots, int count) {
-        if (slots.get(0).isEmpty() || slots.get(1).isEmpty() || recipe == null) {
+    private static boolean canAcceptRecipeOutput(@Nullable AlloySmeltingRecipe recipe, DefaultedList<ItemStack> slots, int count) {
+        if (recipe == null || !recipe.canCraft(slots.get(0), slots.get(1))) {
             return false;
         }
         ItemStack itemStack = recipe.getOutput();
@@ -216,13 +218,10 @@ public class AlloyFurnaceBlockEntity extends BlockEntity implements SidedInvento
         if (!itemStack2.isItemEqualIgnoreDamage(itemStack)) {
             return false;
         }
-        if (itemStack2.getCount() < count && itemStack2.getCount() < itemStack2.getMaxCount()) {
-            return true;
-        }
-        return itemStack2.getCount() < itemStack.getMaxCount();
+        return itemStack2.getCount() + itemStack.getCount() <= count;
     }
 
-    private static void craftRecipe(@Nullable Recipe<?> recipe, DefaultedList<ItemStack> slots, int count) {
+    private static void craftRecipe(@Nullable AlloySmeltingRecipe recipe, DefaultedList<ItemStack> slots, int count) {
         if (recipe == null || !AlloyFurnaceBlockEntity.canAcceptRecipeOutput(recipe, slots, count)) {
             return;
         }
@@ -233,10 +232,10 @@ public class AlloyFurnaceBlockEntity extends BlockEntity implements SidedInvento
         if (itemStack3.isEmpty()) {
             slots.set(3, itemStack2.copy());
         } else if (itemStack3.isOf(itemStack2.getItem())) {
-            itemStack3.increment(2);
+            itemStack3.increment(itemStack2.getCount());
         }
-        itemStack.decrement(1);
-        itemStack1.decrement(1);
+        itemStack.decrement(recipe.getCountForInput(itemStack));
+        itemStack1.decrement(recipe.getCountForInput(itemStack1));
     }
 
     private static int getCookTime(World world, BasicInventory inventory) {

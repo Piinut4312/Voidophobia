@@ -121,7 +121,6 @@ public class LaserEngravingMachineBlockEntity extends BlockEntity implements Las
         if(!world.isClient){
             boolean bl = blockEntity.isProcessing();
             boolean bl2 = false;
-            Voidophobia.LOGGER.info(blockEntity.getStack(1).toString());
             if (blockEntity.isProcessing() && !blockEntity.inventory.get(0).isEmpty() && !blockEntity.inventory.get(1).isEmpty()) {
                 LaserEngravingRecipe recipe = world.getRecipeManager().getFirstMatch(ModRecipeTypes.LASER_ENGRAVING, blockEntity, world).orElse(null);
                 if (!blockEntity.isProcessing() && blockEntity.canAcceptRecipeOutput(recipe)) {

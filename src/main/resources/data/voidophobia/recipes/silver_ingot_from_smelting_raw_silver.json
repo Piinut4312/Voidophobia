@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "voidophobia:raw_silver"
+  },
+  "result": "voidophobia:silver_ingot",
+  "experience": 1.8,
+  "cookingtime": 200
+}

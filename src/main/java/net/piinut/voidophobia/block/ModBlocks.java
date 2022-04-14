@@ -5,22 +5,21 @@ import net.minecraft.block.*;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.BlockView;
-import net.minecraft.world.World;
 import net.piinut.voidophobia.Voidophobia;
 import net.piinut.voidophobia.block.TDI.ItemTDIBlock;
+import net.piinut.voidophobia.block.crackedBedrock.CrackedBedrockBlock;
+import net.piinut.voidophobia.block.crackedBedrock.CreativeCrackedBedrockBlock;
+import net.piinut.voidophobia.block.crackedBedrock.SlightlyCrackedBedrockBlock;
 import net.piinut.voidophobia.block.piston.ReinforcedPistonBlock;
 import net.piinut.voidophobia.block.piston.ReinforcedPistonExtensionBlock;
 import net.piinut.voidophobia.block.piston.ReinforcedPistonHeadBlock;
 
-import java.util.Random;
-
 public class ModBlocks {
 
     public static final Block SLIGHTLY_CRACKED_BEDROCK = new SlightlyCrackedBedrockBlock(FabricBlockSettings.copy(Blocks.BEDROCK));
-    public static final Block GODEL_CRYSTAL_BLOCK = new GodelCrystalBlock(FabricBlockSettings.of(Material.AMETHYST, MapColor.DARK_RED).luminance(7).strength(10.0f).requiresTool().sounds(BlockSoundGroup.AMETHYST_BLOCK));
+    public static final Block GODEL_CRYSTAL_BLOCK = new GodelCrystalBlock(FabricBlockSettings.of(Material.AMETHYST, MapColor.DARK_RED).luminance(7).strength(8.0f).requiresTool().sounds(BlockSoundGroup.AMETHYST_BLOCK));
     public static final Block WEAK_ARTIFICIAL_BEDROCK = new Block(FabricBlockSettings.of(Material.STONE).strength(100.0f,100.0f).requiresTool());
     public static final Block BASIC_VUXDUCT = new BasicVuxductBlock(FabricBlockSettings.of(Material.STONE).strength(80.0f, 80.0f).requiresTool());
     public static final Block VUX_LAMP = new VuxLampBlock(FabricBlockSettings.of(Material.METAL).strength(8.0f).requiresTool().luminance((blockState)-> blockState.get(VuxLampBlock.LIT)? 15:0).sounds(BlockSoundGroup.LANTERN));
@@ -31,9 +30,9 @@ public class ModBlocks {
     public static final Block ETERNAL_FIRE = new AbstractEternalFireBlock(FabricBlockSettings.copy(Blocks.FIRE), 6.0f);
     public static final Block COMPACT_NETHER_PORTAL = new CompactNetherPortalBlock(FabricBlockSettings.of(Material.STONE, MapColor.BLACK).luminance(7).requiresTool().strength(50.0f, 1200.0f));
     public static final Block ITEM_TDI = new ItemTDIBlock(FabricBlockSettings.of(Material.DECORATION).strength(3.0f));
-    public static final Block AZURE_SAND = new Block(FabricBlockSettings.of(Material.AGGREGATE).strength(0.8f).luminance(2).sounds(BlockSoundGroup.SAND));
-    public static final Block AZURE_SANDSTONE = new Block(FabricBlockSettings.of(Material.STONE).strength(4.0f, 4.0f).luminance(4));
-    public static final Block AZURE_SANDSTONE_BRICKS = new Block(FabricBlockSettings.of(Material.STONE).strength(4.0f, 4.0f).luminance(15));
+    public static final Block AZURE_SAND = new Block(FabricBlockSettings.of(Material.AGGREGATE).strength(0.8f).sounds(BlockSoundGroup.SAND));
+    public static final Block AZURE_SANDSTONE = new Block(FabricBlockSettings.of(Material.STONE).strength(4.0f, 4.0f));
+    public static final Block AZURE_SANDSTONE_BRICKS = new Block(FabricBlockSettings.of(Material.STONE).strength(4.0f, 4.0f));
     public static final Block BLOCK_OF_STARDUST = new FallingBlock(FabricBlockSettings.of(Material.AGGREGATE).strength(0.8f).luminance(12).sounds(BlockSoundGroup.SAND));
     public static final Block STARROCK = new Block(FabricBlockSettings.of(Material.STONE).strength(4.0f, 4.0f).luminance(15));
     public static final Block STARROCK_BRICKS = new Block(FabricBlockSettings.of(Material.STONE).strength(4.0f).luminance(15).sounds(BlockSoundGroup.STONE));
@@ -43,21 +42,19 @@ public class ModBlocks {
     public static final Block NICKEL_ORE = new OreBlock(FabricBlockSettings.of(Material.STONE).strength(3.0f, 3.0f).sounds(BlockSoundGroup.STONE).requiresTool());
     public static final Block DEEPSLATE_NICKEL_ORE = new OreBlock(FabricBlockSettings.of(Material.STONE).strength(4.5f, 3.0f).sounds(BlockSoundGroup.DEEPSLATE).requiresTool());
     public static final Block RAW_NICKEL_BLOCK = new Block(FabricBlockSettings.of(Material.STONE).strength(5.0f, 6.0f).requiresTool().sounds(BlockSoundGroup.STONE));
-    public static final Block ALLOY_FURNACE = new AlloyFurnaceBlock(FabricBlockSettings.of(Material.METAL).strength(6.0f, 8.0f).requiresTool().sounds(BlockSoundGroup.NETHER_BRICKS));
+    public static final Block ALLOY_FURNACE = new AlloyFurnaceBlock(FabricBlockSettings.of(Material.METAL).strength(6.0f, 8.0f).requiresTool().sounds(BlockSoundGroup.NETHER_BRICKS).luminance((state)-> state.get(AlloyFurnaceBlock.LIT)? 15:0));
     public static final Block STAINLESS_STEEL_BLOCK = new Block(FabricBlockSettings.of(Material.METAL).strength(7.0f, 8.0f).requiresTool().sounds(BlockSoundGroup.METAL));
     public static final Block VUX_MACHINE_CORE = new Block(FabricBlockSettings.of(Material.METAL).strength(12f,12f).requiresTool().sounds(BlockSoundGroup.METAL));
     public static final Block VUX_FORMING_MACHINE = new VuxFormingMachineBlock(FabricBlockSettings.of(Material.METAL).strength(12.0f, 12.0f).requiresTool().sounds(BlockSoundGroup.METAL));
     public static final Block LASER_ENGRAVING_MACHINE = new LaserEngravingMachineBlock(FabricBlockSettings.of(Material.METAL).strength(12.0f, 12.0f).requiresTool().sounds(BlockSoundGroup.METAL));
     public static final Block VUX_FILTER_MACHINE = new VuxFilterMachineBlock(FabricBlockSettings.of(Material.METAL).strength(12.0f, 12.0f).requiresTool().sounds(BlockSoundGroup.METAL));
     public static final Block COMPRESSED_NETHER_BRICKS = new Block(FabricBlockSettings.of(Material.STONE).requiresTool().strength(6.0f, 8.0f).sounds(BlockSoundGroup.NETHER_BRICKS));
-    public static final Block CREATIVE_CRACKED_BEDROCK = new AbstractCrackedBedrockBlock(FabricBlockSettings.copyOf(Blocks.BEDROCK)) {
-        @Override
-        public double getVux(World world, BlockState state, BlockPos pos, Direction direction, Random random) {
-            return Double.MAX_VALUE;
-        }
-    };
+    public static final Block CREATIVE_CRACKED_BEDROCK = new CreativeCrackedBedrockBlock(FabricBlockSettings.copyOf(Blocks.BEDROCK));
     public static final Block VACUUM_COATER = new VacuumCoaterBlock(FabricBlockSettings.of(Material.METAL).strength(15.0f, 15.0f).requiresTool().sounds(BlockSoundGroup.METAL));
     public static final Block STRONG_ARTIFICIAL_BEDROCK = new Block(FabricBlockSettings.of(Material.STONE).strength(200.0f, 200.0f).requiresTool().sounds(BlockSoundGroup.STONE));
+    public static final Block SILVER_ORE = new OreBlock(FabricBlockSettings.of(Material.STONE).strength(4.0f, 3.0f).sounds(BlockSoundGroup.STONE).requiresTool());
+    public static final Block DEEPSLATE_SILVER_ORE = new OreBlock(FabricBlockSettings.of(Material.STONE).strength(5.5f, 3.0f).sounds(BlockSoundGroup.DEEPSLATE).requiresTool());
+    public static final Block CRACKED_BEDROCK = new CrackedBedrockBlock(FabricBlockSettings.copyOf(Blocks.BEDROCK));
 
     private static Block createReinforcedPistonBlock(boolean sticky) {
         AbstractBlock.ContextPredicate contextPredicate = (state, world, pos) -> !state.get(ReinforcedPistonBlock.EXTENDED);
@@ -107,6 +104,9 @@ public class ModBlocks {
         register(CREATIVE_CRACKED_BEDROCK, "creative_cracked_bedrock");
         register(VACUUM_COATER, "vacuum_coater");
         register(STRONG_ARTIFICIAL_BEDROCK, "strong_artificial_bedrock");
+        register(SILVER_ORE, "silver_ore");
+        register(DEEPSLATE_SILVER_ORE, "deepslate_silver_ore");
+        register(CRACKED_BEDROCK, "cracked_bedrock");
     }
 
 }
