@@ -1,10 +1,15 @@
 package net.piinut.voidophobia.block.crackedBedrock;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
-import net.piinut.voidophobia.block.crackedBedrock.AbstractCrackedBedrockBlock;
 import net.piinut.voidophobia.item.ModItems;
 
 import java.util.Random;
@@ -13,8 +18,6 @@ public class SlightlyCrackedBedrockBlock extends AbstractCrackedBedrockBlock {
 
     public SlightlyCrackedBedrockBlock(Settings settings) {
         super(settings);
-        this.registerConvertibleItems(ModItems.GODEL_CRYSTAL_SHARD, ModItems.ARTIFICIAL_BEDROCK_SCRAP, 0.2f);
-        this.registerConvertibleItems(ModItems.REDSTONE_QUARTZ, ModItems.RESONATING_QUARTZ, 0.4f);
     }
 
     @Override
@@ -27,4 +30,16 @@ public class SlightlyCrackedBedrockBlock extends AbstractCrackedBedrockBlock {
 
         return 0;
     }
+    @Override
+    protected float getConversionChance(ItemStack itemStack){
+        if(itemStack.isOf(ModItems.GODEL_CRYSTAL_SHARD)){
+            return 0.334f;
+        }
+        if(itemStack.isOf(ModItems.REDSTONE_QUARTZ)){
+            return 0.5f;
+        }
+        return 0.0f;
+    }
+
+
 }

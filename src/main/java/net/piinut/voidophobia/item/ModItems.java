@@ -1,29 +1,22 @@
 package net.piinut.voidophobia.item;
 
-import com.sun.jna.platform.win32.WinNT;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
-import net.minecraft.client.item.TooltipContext;
 import net.minecraft.item.*;
-import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
-import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
-import net.minecraft.world.World;
 import net.piinut.voidophobia.Voidophobia;
 import net.piinut.voidophobia.block.ModBlocks;
 import net.piinut.voidophobia.entity.ModEntities;
-import org.jetbrains.annotations.Nullable;
-import org.lwjgl.system.CallbackI;
 
-import java.util.List;
+import static net.piinut.voidophobia.Voidophobia.LOGGER;
+
 
 public class ModItems {
 
     public static final ItemGroup VOIDOPHOBIA_DEFAULT_GROUP = FabricItemGroupBuilder.build(
             new Identifier(Voidophobia.MODID, "default"),
-            () -> new ItemStack(ModBlocks.SLIGHTLY_CRACKED_BEDROCK));
+            () -> new ItemStack(ModBlocks.GODEL_CRYSTAL_BLOCK));
 
     public static final BlockItem SLIGHTLY_CRACKED_BEDROCK_ITEM = new BlockItem(ModBlocks.SLIGHTLY_CRACKED_BEDROCK, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final BlockItem GODEL_CRYSTAL_ITEM = new BlockItem(ModBlocks.GODEL_CRYSTAL_BLOCK, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
@@ -103,6 +96,8 @@ public class ModItems {
     public static final Item COOLING_PAD = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item ABYSS_SPIDER_SPAWN_EGG = new SpawnEggItem(ModEntities.ABYSS_SPIDER, 2103108,11183552, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item ABYSS_SPIDER_FANG = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final Item ENSORCELLED_SPAWN_EGG = new SpawnEggItem(ModEntities.ENSORCELLED, 2115459, 14419, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final Item ENSORCELLED_ROTTEN_FLESH = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
 
     private static void register(Item item, String id){
         Registry.register(Registry.ITEM, new Identifier(Voidophobia.MODID, id), item);
@@ -185,6 +180,8 @@ public class ModItems {
         register(PROCESSING_SPEED_BOOST_MODIFIER_MODULE, "processing_speed_boost_modifier_module");
         register(VUX_CAPACITY_UPGRADE_MODIFIER_MODULE, "vux_capacity_upgrade_modifier_module");
         register(COOLING_PAD, "cooling_pad");
+        register(ENSORCELLED_SPAWN_EGG, "ensorcelled_spawn_egg");
+        register(ENSORCELLED_ROTTEN_FLESH, "ensorcelled_rotten_flesh");
         register(ABYSS_SPIDER_SPAWN_EGG, "abyss_spider_spawn_egg");
         register(ABYSS_SPIDER_FANG, "abyss_spider_fang");
     }

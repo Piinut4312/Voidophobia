@@ -1,6 +1,7 @@
 package net.piinut.voidophobia.block.crackedBedrock;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
@@ -11,12 +12,21 @@ import java.util.Random;
 public class CreativeCrackedBedrockBlock extends AbstractCrackedBedrockBlock {
     public CreativeCrackedBedrockBlock(Settings settings) {
         super(settings);
-        this.registerConvertibleItems(ModItems.GODEL_CRYSTAL_SHARD, ModItems.ARTIFICIAL_BEDROCK_SCRAP, 1.0f);
-        this.registerConvertibleItems(ModItems.REDSTONE_QUARTZ, ModItems.RESONATING_QUARTZ, 1.0f);
     }
 
     @Override
     public double getVux(World world, BlockState state, BlockPos pos, Direction direction, Random random) {
         return Float.MAX_VALUE-1;
+    }
+
+    @Override
+    protected float getConversionChance(ItemStack itemStack){
+        if(itemStack.isOf(ModItems.GODEL_CRYSTAL_SHARD)){
+            return 1.0f;
+        }
+        if(itemStack.isOf(ModItems.REDSTONE_QUARTZ)){
+            return 0.8f;
+        }
+        return 0.0f;
     }
 }

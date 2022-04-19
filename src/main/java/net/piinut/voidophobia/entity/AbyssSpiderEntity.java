@@ -20,7 +20,7 @@ public class AbyssSpiderEntity extends SpiderEntity {
     }
 
     public static DefaultAttributeContainer.Builder createAbyssSpiderAttributes() {
-        return SpiderEntity.createSpiderAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 32.0).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 6.0f).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.4f);
+        return SpiderEntity.createSpiderAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 48.0).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 6.0f).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.4f);
     }
 
     @Override
@@ -31,7 +31,7 @@ public class AbyssSpiderEntity extends SpiderEntity {
                 if (this.world.getDifficulty() == Difficulty.NORMAL) {
                     i = 10;
                 } else if (this.world.getDifficulty() == Difficulty.HARD) {
-                    i = 18;
+                    i = 12;
                 }
                 if (i > 0) {
                     ((LivingEntity)target).addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, i * 20, 0), this);
@@ -52,7 +52,7 @@ public class AbyssSpiderEntity extends SpiderEntity {
 
     @Override
     protected float getActiveEyeHeight(EntityPose pose, EntityDimensions dimensions) {
-        return 0.75f;
+        return 0.65f;
     }
 
 }
