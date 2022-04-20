@@ -1,18 +1,33 @@
 {
   "variants": {
-    "facing=east": {
+    "facing=east,lit=false": {
       "model": "voidophobia:block/laser_engraving_machine",
       "y": 90
     },
-    "facing=north": {
+    "facing=east,lit=true": {
+      "model": "voidophobia:block/laser_engraving_machine_on",
+      "y": 90
+    },
+    "facing=north,lit=false": {
       "model": "voidophobia:block/laser_engraving_machine"
     },
-    "facing=south": {
+    "facing=north,lit=true": {
+      "model": "voidophobia:block/laser_engraving_machine_on"
+    },
+    "facing=south,lit=false": {
       "model": "voidophobia:block/laser_engraving_machine",
       "y": 180
     },
-    "facing=west": {
+    "facing=south,lit=true": {
+      "model": "voidophobia:block/laser_engraving_machine_on",
+      "y": 180
+    },
+    "facing=west,lit=false": {
       "model": "voidophobia:block/laser_engraving_machine",
+      "y": 270
+    },
+    "facing=west,lit=true": {
+      "model": "voidophobia:block/laser_engraving_machine_on",
       "y": 270
     }
   }

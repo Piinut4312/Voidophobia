@@ -1,0 +1,14 @@
+{
+  "block.laser_engraving_machine.processing": {
+    "subtitle": "subtitles.voidophobia.laser_engraving_machine_processing",
+    "sounds": [
+      "voidophobia:laser_engraving_machine_processing"
+    ]
+  },
+  "block.laser_engraving_machine.finish": {
+    "subtitle": "subtitles.voidophobia.laser_engraving_machine_finish",
+    "sounds": [
+      "voidophobia:laser_engraving_machine_finish"
+    ]
+  }
+}

@@ -9,6 +9,7 @@ import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
+import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.util.*;
 import net.minecraft.util.hit.BlockHitResult;
@@ -21,7 +22,6 @@ import net.minecraft.world.World;
 import net.piinut.voidophobia.block.blockEntity.AbstractVuxductBlockEntity;
 import net.piinut.voidophobia.block.blockEntity.LaserEngravingMachineBlockEntity;
 import net.piinut.voidophobia.block.blockEntity.ModBlockEntities;
-import net.piinut.voidophobia.block.blockEntity.VuxFormingMachineBlockEntity;
 import net.piinut.voidophobia.util.VoxelShapeHelper;
 import org.jetbrains.annotations.Nullable;
 
@@ -42,10 +42,11 @@ public class LaserEngravingMachineBlock extends BlockWithEntity implements VuxCo
     private static final VoxelShape WEST_SHAPE = VoxelShapeHelper.rotateY(SOUTH_SHAPE);
 
     public static final DirectionProperty FACING = HorizontalFacingBlock.FACING;
+    public static final BooleanProperty LIT = BooleanProperty.of("lit");
 
     public LaserEngravingMachineBlock(Settings settings) {
         super(settings);
-        this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.NORTH));
+        this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.NORTH).with(LIT, Boolean.FALSE));
     }
 
     @Override
@@ -79,7 +80,7 @@ public class LaserEngravingMachineBlock extends BlockWithEntity implements VuxCo
 
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return this.getDefaultState().with(FACING, ctx.getPlayerFacing().getOpposite());
+        return this.getDefaultState().with(FACING, ctx.getPlayerFacing().getOpposite()).with(LIT, false);
     }
 
     @Override
@@ -106,7 +107,7 @@ public class LaserEngravingMachineBlock extends BlockWithEntity implements VuxCo
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(FACING);
+        builder.add(FACING).add(LIT);
     }
 
     @Override
@@ -159,7 +160,7 @@ public class LaserEngravingMachineBlock extends BlockWithEntity implements VuxCo
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return world.isClient()? null : checkType(type, ModBlockEntities.LASER_ENGRAVING_MACHINE, (LaserEngravingMachineBlockEntity::tick));
+        return world.isClient()? checkType(type, ModBlockEntities.LASER_ENGRAVING_MACHINE, (LaserEngravingMachineBlockEntity::clientTick)) : checkType(type, ModBlockEntities.LASER_ENGRAVING_MACHINE, (LaserEngravingMachineBlockEntity::serverTick));
     }
 
 

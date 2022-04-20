@@ -35,8 +35,9 @@ public class LaserEngravingMachineBlockEntityRenderer implements BlockEntityRend
         ItemStack itemStack = entity.getStack(1);
         MinecraftClient.getInstance().getItemRenderer().renderItem(itemStack, ModelTransformation.Mode.FIXED, light, overlay, matrices, vertexConsumers, 0);
         matrices.pop();
-        //matrices.scale(0.2f, 1f, 0.2f);
-        //renderBeam(matrices, vertexConsumers, tickDelta, entity.getWorld().getTime(), 0, 1, new float[]{185.0f, 80.0f, 216.0f});
+        if(entity.hasLaserBeam()){
+            renderBeam(matrices, vertexConsumers, tickDelta, entity.getWorld().getTime(), 0, 1, new float[]{185.0f /255, 80.0f/255, 216.0f/255});
+        }
     }
 
     private static void renderBeamVertex(Matrix4f positionMatrix, Matrix3f normalMatrix, VertexConsumer vertices, float red, float green, float blue, float alpha, int y, float x, float z, float u, float v) {
@@ -60,30 +61,32 @@ public class LaserEngravingMachineBlockEntityRenderer implements BlockEntityRend
         LaserEngravingMachineBlockEntityRenderer.renderBeamFace(matrix4f, matrix3f, vertices, red, green, blue, alpha, yOffset, height, x3, z3, x1, z1, u1, u2, v1, v2);
     }
 
-    public static void renderBeam(MatrixStack matrices, VertexConsumerProvider vertexConsumers, Identifier textureId, float tickDelta, float heightScale, long worldTime, int yOffset, int maxY, float[] color, float innerRadius, float outerRadius) {
+    public static void renderBeam(MatrixStack matrices, VertexConsumerProvider vertexConsumers, Identifier textureId, float tickDelta, float heightScale, long worldTime, int yOffset, int maxY, float[] color, float innerRadius) {
         int i = yOffset + maxY;
         matrices.push();
         matrices.translate(0.5, 0.0, 0.5);
-        float f = (float)Math.floorMod(worldTime, 40) + tickDelta;
+        matrices.scale(0.2f, 1f, 0.2f);
+        float f = (float)Math.floorMod(worldTime, 60) + tickDelta;
         float g = maxY < 0 ? f : -f;
         float h = MathHelper.fractionalPart(g * 0.2f - (float)MathHelper.floor(g * 0.1f));
         float j = color[0];
         float k = color[1];
         float l = color[2];
         matrices.push();
-        matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(f * 2.25f - 45.0f));
+        matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(f * 1.5f - 45.0f));
         float n = innerRadius;
         float o = innerRadius;
         float q = -innerRadius;
         float t = -innerRadius;
-        float w = -1.0f + h;
+        float w = -h;
         float x = (float)maxY * heightScale * (0.5f / innerRadius) + w;
+        System.out.println(w);
         LaserEngravingMachineBlockEntityRenderer.renderBeamLayer(matrices, vertexConsumers.getBuffer(RenderLayer.getBeaconBeam(textureId, false)), j, k, l, 1.0f, yOffset, i, 0.0f, n, o, 0.0f, q, 0.0f, 0.0f, t, 0.0f, 1.0f, x, w);
         matrices.pop();
         matrices.pop();
     }
 
     private static void renderBeam(MatrixStack matrices, VertexConsumerProvider vertexConsumers, float tickDelta, long worldTime, int yOffset, int maxY, float[] color) {
-        LaserEngravingMachineBlockEntityRenderer.renderBeam(matrices, vertexConsumers, BEAM_TEXTURE, tickDelta, 1.0f, worldTime, yOffset, maxY, color, 0.2f, 0.25f);
+        LaserEngravingMachineBlockEntityRenderer.renderBeam(matrices, vertexConsumers, BEAM_TEXTURE, tickDelta, 1.0f, worldTime, yOffset, maxY, color, 0.25f);
     }
 }

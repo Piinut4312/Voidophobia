@@ -46,7 +46,7 @@ public class ModBlocks {
     public static final Block STAINLESS_STEEL_BLOCK = new Block(FabricBlockSettings.of(Material.METAL).strength(7.0f, 8.0f).requiresTool().sounds(BlockSoundGroup.METAL));
     public static final Block VUX_MACHINE_CORE = new Block(FabricBlockSettings.of(Material.METAL).strength(12f,12f).requiresTool().sounds(BlockSoundGroup.METAL));
     public static final Block VUX_FORMING_MACHINE = new VuxFormingMachineBlock(FabricBlockSettings.of(Material.METAL).strength(12.0f, 12.0f).requiresTool().sounds(BlockSoundGroup.METAL));
-    public static final Block LASER_ENGRAVING_MACHINE = new LaserEngravingMachineBlock(FabricBlockSettings.of(Material.METAL).strength(12.0f, 12.0f).requiresTool().sounds(BlockSoundGroup.METAL));
+    public static final Block LASER_ENGRAVING_MACHINE = new LaserEngravingMachineBlock(FabricBlockSettings.of(Material.METAL).strength(12.0f, 12.0f).requiresTool().sounds(BlockSoundGroup.METAL).luminance((state)->state.get(LaserEngravingMachineBlock.LIT)? 15:0));
     public static final Block VUX_FILTER_MACHINE = new VuxFilterMachineBlock(FabricBlockSettings.of(Material.METAL).strength(12.0f, 12.0f).requiresTool().sounds(BlockSoundGroup.METAL));
     public static final Block COMPRESSED_NETHER_BRICKS = new Block(FabricBlockSettings.of(Material.STONE).requiresTool().strength(6.0f, 8.0f).sounds(BlockSoundGroup.NETHER_BRICKS));
     public static final Block CREATIVE_CRACKED_BEDROCK = new CreativeCrackedBedrockBlock(FabricBlockSettings.copyOf(Blocks.BEDROCK));

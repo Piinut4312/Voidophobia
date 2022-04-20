@@ -18,6 +18,7 @@ import net.piinut.voidophobia.gui.handler.ModScreenHandlers;
 import net.piinut.voidophobia.item.ModItems;
 import net.piinut.voidophobia.item.potion.ModPotions;
 import net.piinut.voidophobia.item.recipe.ModRecipeTypes;
+import net.piinut.voidophobia.sound.ModSounds;
 import net.piinut.voidophobia.world.configuredFeature.ModConfiguredFeatures;
 import net.piinut.voidophobia.world.feture.ModFeatures;
 import org.slf4j.Logger;
@@ -40,5 +41,6 @@ public class Voidophobia implements ModInitializer {
         ModRecipeTypes.registerAll();
         ModEntities.registerAttributes();
         ModPotions.registerAll();
+        ModSounds.registerAll();
     }
 }

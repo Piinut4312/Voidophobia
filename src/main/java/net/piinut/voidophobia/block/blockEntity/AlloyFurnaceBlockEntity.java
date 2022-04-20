@@ -222,7 +222,7 @@ public class AlloyFurnaceBlockEntity extends BlockEntity implements SidedInvento
     }
 
     private static void craftRecipe(@Nullable AlloySmeltingRecipe recipe, DefaultedList<ItemStack> slots, int count) {
-        if (recipe == null || !AlloyFurnaceBlockEntity.canAcceptRecipeOutput(recipe, slots, count)) {
+        if (!AlloyFurnaceBlockEntity.canAcceptRecipeOutput(recipe, slots, count)) {
             return;
         }
         ItemStack itemStack = slots.get(0);

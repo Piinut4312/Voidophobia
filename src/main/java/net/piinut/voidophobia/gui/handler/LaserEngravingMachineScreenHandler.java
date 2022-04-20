@@ -9,12 +9,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ArrayPropertyDelegate;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
-import net.minecraft.screen.ScreenHandlerListener;
 import net.minecraft.screen.slot.Slot;
-import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.world.World;
-import net.piinut.voidophobia.Voidophobia;
-import net.piinut.voidophobia.block.blockEntity.LaserEngravingInventory;
 import net.piinut.voidophobia.block.blockEntity.LaserEngravingMachineBlockEntity;
 import net.piinut.voidophobia.item.ModItems;
 import net.piinut.voidophobia.item.recipe.ModRecipeTypes;
@@ -47,7 +43,9 @@ public class LaserEngravingMachineScreenHandler extends ScreenHandler {
             public void markDirty() {
                 super.markDirty();
                 LaserEngravingMachineScreenHandler.this.onContentChanged(this.inventory);
+                this.inventory.markDirty();
             }
+
         });
 
         for (int m = 0; m < 3; ++m) {
@@ -60,20 +58,6 @@ public class LaserEngravingMachineScreenHandler extends ScreenHandler {
         }
 
         this.addProperties(propertyDelegate);
-
-        this.addListener(new ScreenHandlerListener() {
-            @Override
-            public void onSlotUpdate(ScreenHandler handler, int slotId, ItemStack stack) {
-                if(handler instanceof LaserEngravingMachineScreenHandler){
-                    handler.onContentChanged(inventory);
-                }
-            }
-
-            @Override
-            public void onPropertyUpdate(ScreenHandler handler, int property, int value) {
-
-            }
-        });
     }
 
     public int getProcessProgress() {
@@ -130,8 +114,6 @@ public class LaserEngravingMachineScreenHandler extends ScreenHandler {
     @Override
     public void onContentChanged(Inventory inventory) {
         super.onContentChanged(inventory);
-        if(inventory instanceof LaserEngravingMachineBlockEntity){
-            ((LaserEngravingMachineBlockEntity) inventory).updateListeners();
-        }
+        inventory.markDirty();
     }
 }

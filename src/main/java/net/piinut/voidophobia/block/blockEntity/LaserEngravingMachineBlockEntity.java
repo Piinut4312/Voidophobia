@@ -11,24 +11,30 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.Packet;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
+import net.minecraft.particle.ItemStackParticleEffect;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-import net.piinut.voidophobia.Voidophobia;
+import net.piinut.voidophobia.block.LaserEngravingMachineBlock;
 import net.piinut.voidophobia.gui.handler.LaserEngravingMachineScreenHandler;
 import net.piinut.voidophobia.item.ModItems;
 import net.piinut.voidophobia.item.VuxFilterItem;
 import net.piinut.voidophobia.item.recipe.LaserEngravingRecipe;
 import net.piinut.voidophobia.item.recipe.ModRecipeTypes;
+import net.piinut.voidophobia.sound.ModSounds;
 import org.jetbrains.annotations.Nullable;
 
-public class LaserEngravingMachineBlockEntity extends BlockEntity implements LaserEngravingInventory, NamedScreenHandlerFactory {
+import java.util.Random;
+
+public class LaserEngravingMachineBlockEntity extends BlockEntity implements BasicInventory, NamedScreenHandlerFactory {
 
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(2, ItemStack.EMPTY);
     int processTime;
@@ -88,7 +94,7 @@ public class LaserEngravingMachineBlockEntity extends BlockEntity implements Las
 
     @Override
     public DefaultedList<ItemStack> getItems() {
-        return inventory;
+        return this.inventory;
     }
 
     public double requestVuxConsume() {
@@ -116,7 +122,7 @@ public class LaserEngravingMachineBlockEntity extends BlockEntity implements Las
         return new LaserEngravingMachineScreenHandler(syncId, inv, this, this.propertyDelegate);
     }
 
-    public static void tick(World world, BlockPos pos, BlockState state, LaserEngravingMachineBlockEntity blockEntity){
+    public static void serverTick(World world, BlockPos pos, BlockState state, LaserEngravingMachineBlockEntity blockEntity){
 
         if(!world.isClient){
             boolean bl = blockEntity.isProcessing();
@@ -129,11 +135,20 @@ public class LaserEngravingMachineBlockEntity extends BlockEntity implements Las
                     }
                 }
                 if (blockEntity.isProcessing() && blockEntity.canAcceptRecipeOutput(recipe) && blockEntity.vuxStored >= LaserEngravingMachineBlockEntity.VUX_CONSUME_PER_TICK) {
+                    if(blockEntity.processTime < LaserEngravingMachineBlockEntity.TOTAL_PROCESS_TIME - 40 && blockEntity.processTime%40 == 0){
+                        world.playSound(null, pos, ModSounds.BLOCK_LASER_ENGRAVING_MACHINE_PROCESSING, SoundCategory.BLOCKS, 0.2f, 1f);
+                    }
+                    if(blockEntity.processTime == LaserEngravingMachineBlockEntity.TOTAL_PROCESS_TIME - 40){
+                        world.playSound(null, pos, ModSounds.BLOCK_LASER_ENGRAVING_MACHINE_FINISH, SoundCategory.BLOCKS, 0.2f, 1f);
+                    }
+                    world.setBlockState(pos, state.with(LaserEngravingMachineBlock.LIT, true));
                     ++blockEntity.processTime;
                     blockEntity.vuxStored -= LaserEngravingMachineBlockEntity.VUX_CONSUME_PER_TICK;
                     if (blockEntity.processTime == LaserEngravingMachineBlockEntity.TOTAL_PROCESS_TIME) {
                         blockEntity.processTime = 0;
                         blockEntity.craftRecipe(recipe);
+                        world.setBlockState(pos, state.with(LaserEngravingMachineBlock.LIT, false));
+                        world.updateListeners(pos, state, state, Block.NOTIFY_ALL);
                         bl2 = true;
                     }
                 } else {
@@ -147,10 +162,25 @@ public class LaserEngravingMachineBlockEntity extends BlockEntity implements Las
                 world.setBlockState(pos, state, Block.NOTIFY_ALL);
             }
             if (bl2) {
-                blockEntity.updateListeners();
+                blockEntity.markDirty();
             }
-            ((ServerWorld) blockEntity.getWorld()).getChunkManager().markForUpdate(pos);
-            blockEntity.updateListeners();
+            ((ServerWorld) world).getChunkManager().markForUpdate(blockEntity.getPos());
+        }
+    }
+
+    public static void clientTick(World world, BlockPos pos, BlockState state, LaserEngravingMachineBlockEntity blockEntity){
+        if(world.isClient){
+            Random random = world.getRandom();
+            if(blockEntity.hasLaserBeam()){
+                double x = pos.getX()+0.5;
+                double y = pos.getY()+0.21;
+                double z = pos.getZ()+0.5;
+                for(int i = 0; i < 2; i++){
+                    double dx = random.nextDouble()*0.12-0.06;
+                    double dz = random.nextDouble()*0.12-0.06;
+                    world.addParticle(new ItemStackParticleEffect(ParticleTypes.ITEM, new ItemStack(ModItems.VUX_FILTER)), x+dx, y, z+dz, 0, 0.01, 0);
+                }
+            }
         }
     }
 
@@ -187,7 +217,7 @@ public class LaserEngravingMachineBlockEntity extends BlockEntity implements Las
     }
 
     public boolean hasLaserBeam(){
-        return this.processTime > 0;
+        return this.processTime > 0 && this.isProcessing();
     }
 
     @Nullable
@@ -200,23 +230,8 @@ public class LaserEngravingMachineBlockEntity extends BlockEntity implements Las
     public NbtCompound toInitialChunkDataNbt() {
         NbtCompound nbtCompound = new NbtCompound();
         Inventories.writeNbt(nbtCompound, inventory);
+        nbtCompound.putInt("ProcessTime", processTime);
         return nbtCompound;
     }
 
-    public void updateListeners() {
-        this.markDirty();
-        this.getWorld().updateListeners(this.getPos(), this.getCachedState(), this.getCachedState(), Block.NOTIFY_ALL);
-    }
-
-    @Override
-    public void setStack(int slot, ItemStack stack) {
-        LaserEngravingInventory.super.setStack(slot, stack);
-        updateListeners();
-    }
-
-    @Override
-    public ItemStack removeStack(int slot, int count) {
-        updateListeners();
-        return LaserEngravingInventory.super.removeStack(slot, count);
-    }
 }
