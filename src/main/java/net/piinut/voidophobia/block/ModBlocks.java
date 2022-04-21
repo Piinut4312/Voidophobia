@@ -2,6 +2,7 @@ package net.piinut.voidophobia.block;
 
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
+import net.minecraft.entity.EntityType;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
@@ -55,13 +56,20 @@ public class ModBlocks {
     public static final Block SILVER_ORE = new OreBlock(FabricBlockSettings.of(Material.STONE).strength(4.0f, 3.0f).sounds(BlockSoundGroup.STONE).requiresTool());
     public static final Block DEEPSLATE_SILVER_ORE = new OreBlock(FabricBlockSettings.of(Material.STONE).strength(5.5f, 3.0f).sounds(BlockSoundGroup.DEEPSLATE).requiresTool());
     public static final Block CRACKED_BEDROCK = new CrackedBedrockBlock(FabricBlockSettings.copyOf(Blocks.BEDROCK));
-
+    public static final Block NICKEL_BLOCK = new Block(FabricBlockSettings.of(Material.METAL).strength(5.0f, 6.0f).requiresTool().sounds(BlockSoundGroup.METAL));
+    public static final Block CHROME_BLOCK = new Block(FabricBlockSettings.of(Material.METAL).strength(5.0f, 6.0f).requiresTool().sounds(BlockSoundGroup.METAL));
+    public static final Block SILVER_BLOCK = new Block(FabricBlockSettings.of(Material.METAL).strength(4.0f, 6.0f).requiresTool().sounds(BlockSoundGroup.METAL));
+    public static final Block REINFORCED_GLASS = new ReinforcedGlassBlock(FabricBlockSettings.of(Material.GLASS).strength(3.0f, 16.0f).sounds(BlockSoundGroup.GLASS).nonOpaque().allowsSpawning(ModBlocks::never).solidBlock(ModBlocks::never).blockVision(ModBlocks::never));
     private static Block createReinforcedPistonBlock(boolean sticky) {
         AbstractBlock.ContextPredicate contextPredicate = (state, world, pos) -> !state.get(ReinforcedPistonBlock.EXTENDED);
         return new ReinforcedPistonBlock(sticky, FabricBlockSettings.of(Material.PISTON).strength(7.5f).solidBlock(ModBlocks::never).suffocates(contextPredicate).blockVision(contextPredicate));
     }
 
     private static boolean never(BlockState state, BlockView world, BlockPos pos) {
+        return false;
+    }
+
+    private static Boolean never(BlockState state, BlockView world, BlockPos pos, EntityType<?> type) {
         return false;
     }
 
@@ -107,6 +115,10 @@ public class ModBlocks {
         register(SILVER_ORE, "silver_ore");
         register(DEEPSLATE_SILVER_ORE, "deepslate_silver_ore");
         register(CRACKED_BEDROCK, "cracked_bedrock");
+        register(NICKEL_BLOCK, "nickel_block");
+        register(CHROME_BLOCK, "chrome_block");
+        register(SILVER_BLOCK, "silver_block");
+        register(REINFORCED_GLASS, "reinforced_glass");
     }
 
 }

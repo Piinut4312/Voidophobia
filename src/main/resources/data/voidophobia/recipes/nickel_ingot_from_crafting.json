@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "voidophobia:nickel_block"
+    }
+  ],
+  "result": {
+    "item": "voidophobia:nickel_ingot",
+    "count": 9
+  }
+}

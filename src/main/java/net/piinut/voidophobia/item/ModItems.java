@@ -2,12 +2,15 @@ package net.piinut.voidophobia.item;
 
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.*;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.piinut.voidophobia.Voidophobia;
 import net.piinut.voidophobia.block.ModBlocks;
 import net.piinut.voidophobia.entity.ModEntities;
+import net.piinut.voidophobia.item.tool.*;
 
 import static net.piinut.voidophobia.Voidophobia.LOGGER;
 
@@ -53,6 +56,10 @@ public class ModItems {
     public static final BlockItem SILVER_ORE_BLOCK_ITEM = new BlockItem(ModBlocks.SILVER_ORE, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final BlockItem DEEPSLATE_SILVER_ORE_BLOCK_ITEM = new BlockItem(ModBlocks.DEEPSLATE_SILVER_ORE, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final BlockItem CRACKED_BEDROCK_BLOCK_ITEM = new BlockItem(ModBlocks.CRACKED_BEDROCK, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final BlockItem NICKEL_BLOCK = new BlockItem(ModBlocks.NICKEL_BLOCK, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final BlockItem CHROME_BLOCK = new BlockItem(ModBlocks.CHROME_BLOCK, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final BlockItem SILVER_BLOCK = new BlockItem(ModBlocks.SILVER_BLOCK, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final BlockItem REINFORCED_GLASS = new BlockItem(ModBlocks.REINFORCED_GLASS, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item VUX_METER = new VuxMeterItem(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item GODEL_CRYSTAL_SHARD = new GodelCrystalShardItem(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item ARTIFICIAL_BEDROCK_SCRAP = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
@@ -89,15 +96,23 @@ public class ModItems {
     public static final Item REDSTONE_QUARTZ = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item MODIFIER_MODULE_TEMPLATE = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item BASIC_MODIFIER_MODULE = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
-    public static final Item DELICATE_FILTERING_MODIFIER_MODULE = new ModifierModuleItem(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP).maxCount(1), "delicate_filtering", true);
-    public static final Item PROCESSING_SPEED_BOOST_MODIFIER_MODULE = new ModifierModuleItem(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP).maxCount(1), "processing_speed_boost", true);
-    public static final Item VUX_CAPACITY_UPGRADE_MODIFIER_MODULE = new ModifierModuleItem(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP).maxCount(1), "vux_capacity_upgrade", false);
+    public static final Item DELICATE_FILTERING_MODIFIER_MODULE = new ModifierModuleItem(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP).maxCount(1), "delicate_filtering", 2, 1);
+    public static final Item PROCESSING_SPEED_BOOST_MODIFIER_MODULE = new ModifierModuleItem(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP).maxCount(1), "processing_speed_boost", 1, 1);
+    public static final Item VUX_CAPACITY_UPGRADE_MODIFIER_MODULE = new ModifierModuleItem(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP).maxCount(1), "vux_capacity_upgrade", 1, 0);
     public static final Item CHROME_NICKEL_BLEND = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item COOLING_PAD = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item ABYSS_SPIDER_SPAWN_EGG = new SpawnEggItem(ModEntities.ABYSS_SPIDER, 2103108,11183552, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item ABYSS_SPIDER_FANG = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item ENSORCELLED_SPAWN_EGG = new SpawnEggItem(ModEntities.ENSORCELLED, 2115459, 14419, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
-    public static final Item ENSORCELLED_ROTTEN_FLESH = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final Item ENSORCELLED_ROTTEN_FLESH = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP).food(new FoodComponent.Builder().hunger(4).saturationModifier(0.1f).statusEffect(new StatusEffectInstance(StatusEffects.HUNGER, 600, 0), 0.8f).meat().build()));
+    public static final Item PARADOXIUM_DUST = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final Item ENSORCELLED_PARADOXIUM_DUST = new EnsorcelldParadoxiumDustItem(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final Item SILVER_SWORD = new SilverSwordItem(3, -2.4f, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final Item SILVER_PICKAXE = new ModPickaxeItem(SilverToolMaterial.INSTANCE, 1, -2.8f, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final Item SILVER_SHOVEL = new ShovelItem(SilverToolMaterial.INSTANCE, 1.5f, -3.0f, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final Item SILVER_AXE = new SilverAxeItem(6, -3f, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final Item SILVER_HOE = new ModHoeItem(SilverToolMaterial.INSTANCE, 0, -3.0f, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+
 
     private static void register(Item item, String id){
         Registry.register(Registry.ITEM, new Identifier(Voidophobia.MODID, id), item);
@@ -136,11 +151,13 @@ public class ModItems {
         register(RAW_CHROME, "raw_chrome");
         register(RAW_CHROME_BLOCK_ITEM, "raw_chrome_block");
         register(CHROME_INGOT, "chrome_ingot");
+        register(CHROME_BLOCK, "chrome_block");
         register(NICKEL_ORE_BLOCK_ITEM, "nickel_ore");
         register(DEEPSLATE_NICKEL_ORE_BLOCK_ITEM, "deepslate_nickel_ore");
         register(RAW_NICKEL, "raw_nickel");
         register(RAW_NICKEL_BLOCK, "raw_nickel_block");
         register(NICKEL_INGOT, "nickel_ingot");
+        register(NICKEL_BLOCK, "nickel_block");
         register(RESONATING_QUARTZ, "resonating_quartz");
         register(ALLOY_FURNACE_BLOCK, "alloy_furnace");
         register(NICHROME_INGOT, "nichrome_ingot");
@@ -170,8 +187,14 @@ public class ModItems {
         register(SILVER_COATED_AMETHYST_SHARD, "silver_coated_amethyst_shard");
         register(RAW_SILVER, "raw_silver");
         register(SILVER_INGOT, "silver_ingot");
+        register(SILVER_BLOCK, "silver_block");
         register(SILVER_ORE_BLOCK_ITEM, "silver_ore");
         register(DEEPSLATE_SILVER_ORE_BLOCK_ITEM, "deepslate_silver_ore");
+        register(SILVER_PICKAXE, "silver_pickaxe");
+        register(SILVER_AXE, "silver_axe");
+        register(SILVER_SHOVEL, "silver_shovel");
+        register(SILVER_SWORD, "silver_sword");
+        register(SILVER_HOE, "silver_hoe");
         register(INVAR_INGOT, "invar_ingot");
         register(REDSTONE_QUARTZ, "redstone_quartz");
         register(MODIFIER_MODULE_TEMPLATE, "modifier_module_template");
@@ -184,6 +207,9 @@ public class ModItems {
         register(ENSORCELLED_ROTTEN_FLESH, "ensorcelled_rotten_flesh");
         register(ABYSS_SPIDER_SPAWN_EGG, "abyss_spider_spawn_egg");
         register(ABYSS_SPIDER_FANG, "abyss_spider_fang");
+        register(PARADOXIUM_DUST, "paradoxium_dust");
+        register(ENSORCELLED_PARADOXIUM_DUST, "ensorcelled_paradoxium_dust");
+        register(REINFORCED_GLASS, "reinforced_glass");
     }
 
 }

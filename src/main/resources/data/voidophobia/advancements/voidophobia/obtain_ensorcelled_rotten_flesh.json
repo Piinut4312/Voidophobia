@@ -1,0 +1,37 @@
+{
+  "parent": "voidophobia:voidophobia/root",
+  "display": {
+    "icon": {
+      "item": "voidophobia:ensorcelled_rotten_flesh"
+    },
+    "title": {
+      "translate": "advancements.voidophobia.obtain_ensorcelled_rotten_flesh.title"
+    },
+    "description": {
+      "translate": "advancements.voidophobia.obtain_ensorcelled_rotten_flesh.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "ensorcelled_rotten_flesh": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "voidophobia:ensorcelled_rotten_flesh"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "ensorcelled_rotten_flesh"
+    ]
+  ]
+}

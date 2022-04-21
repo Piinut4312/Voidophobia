@@ -1,0 +1,11 @@
+{
+  "type": "voidophobia:vacuum_coating",
+  "input1":{
+    "item":"minecraft:glass"
+  },
+  "input2":{
+    "item":"voidophobia:artificial_bedrock_scrap"
+  },
+  "result": "voidophobia:reinforced_glass",
+  "processTime":200
+}

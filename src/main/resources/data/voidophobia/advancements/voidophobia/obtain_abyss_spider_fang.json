@@ -1,0 +1,37 @@
+{
+  "parent": "voidophobia:voidophobia/modify_spawner",
+  "display": {
+    "icon": {
+      "item": "voidophobia:abyss_spider_fang"
+    },
+    "title": {
+      "translate": "advancements.voidophobia.obtain_abyss_spider_fang.title"
+    },
+    "description": {
+      "translate": "advancements.voidophobia.obtain_abyss_spider_fang.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "abyss_spider_fang": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "voidophobia:abyss_spider_fang"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "abyss_spider_fang"
+    ]
+  ]
+}

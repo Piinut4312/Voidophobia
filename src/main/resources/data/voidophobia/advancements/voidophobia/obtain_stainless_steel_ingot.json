@@ -1,0 +1,37 @@
+{
+  "parent": "voidophobia:voidophobia/placed_alloy_furnace",
+  "display": {
+    "icon": {
+      "item": "voidophobia:stainless_steel_ingot"
+    },
+    "title": {
+      "translate": "advancements.voidophobia.obtain_stainless_steel_ingot.title"
+    },
+    "description": {
+      "translate": "advancements.voidophobia.obtain_stainless_steel_ingot.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "stainless_steel_ingot": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "voidophobia:stainless_steel_ingot"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "stainless_steel_ingot"
+    ]
+  ]
+}

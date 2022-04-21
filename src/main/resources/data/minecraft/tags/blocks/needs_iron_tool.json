@@ -1,11 +1,7 @@
 {
   "replace": false,
   "values": [
-    "voidophobia:chrome_ore",
-    "voidophobia:deepslate_chrome_ore",
     "voidophobia:raw_chrome_block",
-    "voidophobia:nickel_ore",
-    "voidophobia:deepslate_nickel_ore",
     "voidophobia:raw_nickel_block",
     "voidophobia:alloy_furnace",
     "voidophobia:vux_machine_core",
@@ -14,6 +10,9 @@
     "voidophobia:vux_filter_machine",
     "voidophobia:vacuum_coater",
     "voidophobia:silver_ore",
-    "voidophobia:deepslate_silver_ore"
+    "voidophobia:deepslate_silver_ore",
+    "voidophobia:nickel_block",
+    "voidophobia:chrome_block",
+    "voidophobia:silver_block"
   ]
 }

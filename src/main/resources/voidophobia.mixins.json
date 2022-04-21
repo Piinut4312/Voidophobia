@@ -4,6 +4,7 @@
   "package": "net.piinut.voidophobia.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "accessor.MobSpawnEntryAccessor"
   ],
   "client": [
     "VoidophobiaMixin"

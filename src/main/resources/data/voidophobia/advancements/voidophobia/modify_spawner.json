@@ -1,0 +1,42 @@
+{
+  "parent": "voidophobia:voidophobia/obtain_ensorcelled_rotten_flesh",
+  "display": {
+    "icon": {
+      "item": "voidophobia:ensorcelled_paradoxium_dust"
+    },
+    "title": {
+      "translate": "advancements.voidophobia.modify_spawner.title"
+    },
+    "description": {
+      "translate": "advancements.voidophobia.modify_spawner.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "modify_spawner": {
+      "trigger": "minecraft:item_used_on_block",
+      "conditions": {
+        "location": {
+          "block": {
+            "blocks": [
+              "minecraft:spawner"
+            ]
+          }
+        },
+        "item": {
+          "items": [
+            "voidophobia:ensorcelled_paradoxium_dust"
+          ]
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "modify_spawner"
+    ]
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "parent": "voidophobia:voidophobia/obtain_weak_artificial_bedrock",
+  "display": {
+    "icon": {
+      "item": "voidophobia:laser_engraving_machine"
+    },
+    "title": {
+      "translate": "advancements.voidophobia.placed_laser_engraving_machine.title"
+    },
+    "description": {
+      "translate": "advancements.voidophobia.placed_laser_engraving_machine.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "laser_engraving_machine": {
+      "trigger": "minecraft:placed_block",
+      "conditions": {
+        "block": "voidophobia:laser_engraving_machine"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "laser_engraving_machine"
+    ]
+  ]
+}

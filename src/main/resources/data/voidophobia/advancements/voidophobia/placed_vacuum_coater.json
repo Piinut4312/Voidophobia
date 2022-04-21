@@ -1,0 +1,31 @@
+{
+  "parent": "voidophobia:voidophobia/placed_vux_forming_machine",
+  "display": {
+    "icon": {
+      "item": "voidophobia:vacuum_coater"
+    },
+    "title": {
+      "translate": "advancements.voidophobia.placed_vacuum_coater.title"
+    },
+    "description": {
+      "translate": "advancements.voidophobia.placed_vacuum_coater.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "vacuum_coater": {
+      "trigger": "minecraft:placed_block",
+      "conditions": {
+        "block": "voidophobia:vacuum_coater"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "vacuum_coater"
+    ]
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "parent": "voidophobia:voidophobia/obtain_reinforced_piston",
+  "display": {
+    "icon": {
+      "item": "voidophobia:vux_forming_machine"
+    },
+    "title": {
+      "translate": "advancements.voidophobia.placed_vux_forming_machine.title"
+    },
+    "description": {
+      "translate": "advancements.voidophobia.placed_vux_forming_machine.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "vux_forming_machine": {
+      "trigger": "minecraft:placed_block",
+      "conditions": {
+        "block": "voidophobia:vux_forming_machine"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "vux_forming_machine"
+    ]
+  ]
+}

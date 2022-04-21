@@ -1,0 +1,31 @@
+{
+  "parent": "voidophobia:voidophobia/root",
+  "display": {
+    "icon": {
+      "item": "voidophobia:alloy_furnace"
+    },
+    "title": {
+      "translate": "advancements.voidophobia.placed_alloy_furnace.title"
+    },
+    "description": {
+      "translate": "advancements.voidophobia.placed_alloy_furnace.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "alloy_furnace": {
+      "trigger": "minecraft:placed_block",
+      "conditions": {
+        "block": "voidophobia:alloy_furnace"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "alloy_furnace"
+    ]
+  ]
+}

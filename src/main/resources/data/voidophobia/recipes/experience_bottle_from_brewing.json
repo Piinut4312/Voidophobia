@@ -1,0 +1,12 @@
+{
+    "type": "nbtcrafting:brewing",
+    "base": {
+        "potion": "minecraft:awkward"
+    },
+    "ingredient": {
+        "item": "voidophobia:ensorcelled_rotten_flesh"
+    },
+    "result": {
+        "item": "minecraft:experience_bottle"
+    }
+}

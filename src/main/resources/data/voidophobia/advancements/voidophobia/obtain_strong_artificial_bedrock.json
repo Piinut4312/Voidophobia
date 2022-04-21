@@ -1,0 +1,37 @@
+{
+  "parent": "voidophobia:voidophobia/placed_vacuum_coater",
+  "display": {
+    "icon": {
+      "item": "voidophobia:strong_artificial_bedrock"
+    },
+    "title": {
+      "translate": "advancements.voidophobia.obtain_strong_artificial_bedrock.title"
+    },
+    "description": {
+      "translate": "advancements.voidophobia.obtain_strong_artificial_bedrock.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "weak_artificial_bedrock": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "voidophobia:strong_artificial_bedrock"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "weak_artificial_bedrock"
+    ]
+  ]
+}

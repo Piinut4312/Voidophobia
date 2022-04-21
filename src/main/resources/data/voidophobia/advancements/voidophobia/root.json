@@ -1,0 +1,37 @@
+{
+  "display": {
+    "icon": {
+      "item": "voidophobia:godel_crystal_shard"
+    },
+    "title": {
+      "translate": "advancements.voidophobia.root.title"
+    },
+    "description": {
+      "translate": "advancements.voidophobia.root.description"
+    },
+    "frame": "task",
+    "show_toast": false,
+    "announce_to_chat": false,
+    "hidden": false,
+    "background": "voidophobia:textures/gui/advancements/backgrounds/bedrock.png"
+  },
+  "criteria": {
+    "godel_crystal_shard": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "voidophobia:godel_crystal_shard"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "godel_crystal_shard"
+    ]
+  ]
+}

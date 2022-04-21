@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "voidophobia:ensorcelled_rotten_flesh"
+    },
+    {
+      "item": "voidophobia:paradoxium_dust"
+    },
+    {
+      "item": "voidophobia:paradoxium_dust"
+    }
+  ],
+  "result": {
+    "item": "voidophobia:ensorcelled_paradoxium_dust",
+    "count": 2
+  }
+}

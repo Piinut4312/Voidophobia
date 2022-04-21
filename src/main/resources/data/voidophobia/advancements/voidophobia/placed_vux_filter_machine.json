@@ -1,0 +1,31 @@
+{
+  "parent": "voidophobia:voidophobia/placed_laser_engraving_machine",
+  "display": {
+    "icon": {
+      "item": "voidophobia:vux_filter_machine"
+    },
+    "title": {
+      "translate": "advancements.voidophobia.placed_vux_filter_machine.title"
+    },
+    "description": {
+      "translate": "advancements.voidophobia.placed_vux_filter_machine.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "vux_filter_machine": {
+      "trigger": "minecraft:placed_block",
+      "conditions": {
+        "block": "voidophobia:vux_filter_machine"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "vux_filter_machine"
+    ]
+  ]
+}

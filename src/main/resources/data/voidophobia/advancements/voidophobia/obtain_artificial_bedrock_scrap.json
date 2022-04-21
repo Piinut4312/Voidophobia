@@ -1,0 +1,37 @@
+{
+  "parent": "voidophobia:voidophobia/root",
+  "display": {
+    "icon": {
+      "item": "voidophobia:artificial_bedrock_scrap"
+    },
+    "title": {
+      "translate": "advancements.voidophobia.obtain_artificial_bedrock_scrap.title"
+    },
+    "description": {
+      "translate": "advancements.voidophobia.obtain_artificial_bedrock_scrap.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "artificial_bedrock_scrap": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "voidophobia:artificial_bedrock_scrap"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "artificial_bedrock_scrap"
+    ]
+  ]
+}

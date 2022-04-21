@@ -1,0 +1,37 @@
+{
+  "parent": "voidophobia:voidophobia/obtain_weak_artificial_bedrock",
+  "display": {
+    "icon": {
+      "item": "voidophobia:reinforced_piston"
+    },
+    "title": {
+      "translate": "advancements.voidophobia.obtain_reinforced_piston.title"
+    },
+    "description": {
+      "translate": "advancements.voidophobia.obtain_reinforced_piston.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "reinforced_piston": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "voidophobia:reinforced_piston"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "reinforced_piston"
+    ]
+  ]
+}

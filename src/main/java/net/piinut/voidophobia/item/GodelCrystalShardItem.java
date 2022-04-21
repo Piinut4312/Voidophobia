@@ -17,35 +17,4 @@ public class GodelCrystalShardItem extends Item {
         super(settings);
     }
 
-    private static float convertChance(double vux){
-        return (float) Math.min(1.0f, 0.3*Math.sqrt(vux));
-    }
-
-    private static boolean canConvert(double vux, Random random){
-        return random.nextFloat() < convertChance(vux);
-    }
-
-    @Override
-    public ActionResult useOnBlock(ItemUsageContext context) {
-
-        World world = context.getWorld();
-
-        if(!world.isClient()){
-            BlockPos blockPos = context.getBlockPos();
-            BlockState blockState = world.getBlockState(blockPos);
-            Random random = world.getRandom();
-            if(blockState.getBlock() instanceof VuxProvider){
-                double vux = ((VuxProvider) blockState.getBlock()).getVux(world, blockState, blockPos, context.getSide(), random);
-                if(canConvert(vux, random)){
-                    context.getPlayer().giveItemStack(new ItemStack(ModItems.ARTIFICIAL_BEDROCK_SCRAP));
-                }else{
-                    context.getPlayer().damage(DamageSource.MAGIC, 2.0f);
-                }
-                context.getStack().decrement(1);
-                return ActionResult.SUCCESS;
-            }
-        }
-
-        return super.useOnBlock(context);
-    }
 }

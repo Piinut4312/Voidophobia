@@ -1,0 +1,37 @@
+{
+  "parent": "voidophobia:voidophobia/obtain_artificial_bedrock_scrap",
+  "display": {
+    "icon": {
+      "item": "voidophobia:weak_artificial_bedrock"
+    },
+    "title": {
+      "translate": "advancements.voidophobia.obtain_weak_artificial_bedrock.title"
+    },
+    "description": {
+      "translate": "advancements.voidophobia.obtain_weak_artificial_bedrock.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "weak_artificial_bedrock": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "voidophobia:weak_artificial_bedrock"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "weak_artificial_bedrock"
+    ]
+  ]
+}

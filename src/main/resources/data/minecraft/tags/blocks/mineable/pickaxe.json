@@ -22,6 +22,9 @@
     "voidophobia:vacuum_coater",
     "voidophobia:strong_artificial_bedrock",
     "voidophobia:silver_ore",
-    "voidophobia:deepslate_silver_ore"
+    "voidophobia:deepslate_silver_ore",
+    "voidophobia:nickel_block",
+    "voidophobia:chrome_block",
+    "voidophobia:silver_block"
   ]
 }

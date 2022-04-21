@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "voidophobia:paradoxium"
+    }
+  ],
+  "result": {
+    "item": "voidophobia:paradoxium_dust",
+    "count": 1
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "voidophobia:chrome_block"
+    }
+  ],
+  "result": {
+    "item": "voidophobia:chrome_ingot",
+    "count": 9
+  }
+}

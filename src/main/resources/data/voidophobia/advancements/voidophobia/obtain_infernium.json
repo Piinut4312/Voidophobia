@@ -1,0 +1,37 @@
+{
+  "parent": "voidophobia:voidophobia/placed_vux_filter_machine",
+  "display": {
+    "icon": {
+      "item": "voidophobia:infernium"
+    },
+    "title": {
+      "translate": "advancements.voidophobia.obtain_inferium.title"
+    },
+    "description": {
+      "translate": "advancements.voidophobia.obtain_infernium.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "infernium": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "voidophobia:infernium"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "infernium"
+    ]
+  ]
+}
