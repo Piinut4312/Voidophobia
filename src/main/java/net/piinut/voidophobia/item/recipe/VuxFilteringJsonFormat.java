@@ -6,7 +6,7 @@ public class VuxFilteringJsonFormat {
 
     JsonObject ingredient;
     String filter;
-    String result;
+    JsonObject result;
     int count;
 
 }

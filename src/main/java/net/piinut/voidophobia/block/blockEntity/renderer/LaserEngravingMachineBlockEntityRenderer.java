@@ -80,7 +80,6 @@ public class LaserEngravingMachineBlockEntityRenderer implements BlockEntityRend
         float t = -innerRadius;
         float w = -h;
         float x = (float)maxY * heightScale * (0.5f / innerRadius) + w;
-        System.out.println(w);
         LaserEngravingMachineBlockEntityRenderer.renderBeamLayer(matrices, vertexConsumers.getBuffer(RenderLayer.getBeaconBeam(textureId, false)), j, k, l, 1.0f, yOffset, i, 0.0f, n, o, 0.0f, q, 0.0f, 0.0f, t, 0.0f, 1.0f, x, w);
         matrices.pop();
         matrices.pop();

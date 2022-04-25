@@ -1,0 +1,11 @@
+{
+  "type": "voidophobia:vacuum_coating",
+  "input1":{
+    "potion":"voidophobia:blindness"
+  },
+  "input2":{
+    "item":"voidophobia:silver_coated_amethyst_shard"
+  },
+  "result": "voidophobia:potion_of_blindness_in_silver_bottle",
+  "processTime":100
+}

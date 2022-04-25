@@ -4,7 +4,7 @@
     "item":"minecraft:gravel"
   },
   "input2":{
-    "item":"voidophobia:infernium"
+    "item":"voidophobia:refined_nether_dust"
   },
   "result": "minecraft:netherrack",
   "processTime":100

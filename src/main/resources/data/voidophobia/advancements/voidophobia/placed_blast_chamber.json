@@ -1,0 +1,31 @@
+{
+  "parent": "voidophobia:voidophobia/obtain_weak_artificial_bedrock",
+  "display": {
+    "icon": {
+      "item": "voidophobia:blast_chamber"
+    },
+    "title": {
+      "translate": "advancements.voidophobia.placed_blast_chamber.title"
+    },
+    "description": {
+      "translate": "advancements.voidophobia.placed_blast_chamber.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "blast_chamber": {
+      "trigger": "minecraft:placed_block",
+      "conditions": {
+        "block": "voidophobia:blast_chamber"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "blast_chamber"
+    ]
+  ]
+}

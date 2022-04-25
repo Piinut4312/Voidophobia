@@ -4,6 +4,8 @@
     "tag":"c:silver_ores"
   },
   "filter": "rock",
-  "result": "voidophobia:raw_silver",
+  "result": {
+    "item":"voidophobia:raw_silver"
+  },
   "count": 3
 }

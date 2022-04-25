@@ -4,6 +4,8 @@
     "item":"minecraft:magma_cream"
   },
   "filter": "heat",
-  "result": "minecraft:slime_ball",
+  "result": {
+    "item":"minecraft:slime_ball"
+  },
   "count": 1
 }

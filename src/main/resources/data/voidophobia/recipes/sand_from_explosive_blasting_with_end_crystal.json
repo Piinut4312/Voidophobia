@@ -1,0 +1,13 @@
+{
+  "type": "voidophobia:explosive_blasting",
+  "ingredient":{
+    "item":"minecraft:sandstone"
+  },
+  "inputCount": 1,
+  "explosive":{
+    "item":"minecraft:end_crystal"
+  },
+  "result": "minecraft:sand",
+  "outputCount": 4,
+  "chance":1.0
+}

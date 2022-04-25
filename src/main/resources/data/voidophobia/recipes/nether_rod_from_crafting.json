@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "voidophobia:refined_nether_dust"
+    },
+    {
+      "item": "minecraft:stick"
+    },
+    {
+      "item": "voidophobia:infernium"
+    }
+  ],
+  "result": {
+    "item": "voidophobia:nether_rod",
+    "count": 1
+  }
+}

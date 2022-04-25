@@ -14,12 +14,14 @@ public class ModRecipeTypes {
     public static RecipeType<LaserEngravingRecipe> LASER_ENGRAVING;
     public static RecipeType<VuxFilteringRecipe> VUX_FILTERING;
     public static RecipeType<VacuumCoatingRecipe> VACUUM_COATING;
+    public static RecipeType<ExplosiveBlastingRecipe> EXPLOSIVE_BLASTING;
 
     public static Identifier ALLOY_SMELTING_ID = getId("alloy_smelting");
     public static Identifier VUX_FORMING_ID = getId("vux_forming");
     public static Identifier LASER_ENGRAVING_ID = getId("laser_engraving");
     public static Identifier VUX_FILTERING_ID = getId("vux_filtering");
     public static Identifier VACUUM_COATING_ID = getId("vacuum_coating");
+    public static Identifier EXPLOSIVE_BLASTING_ID = getId("explosive_blasting");
 
     private static Identifier getId(String id){
         return new Identifier(Voidophobia.MODID, id);
@@ -49,6 +51,8 @@ public class ModRecipeTypes {
         VUX_FILTERING = registerType(VUX_FILTERING_ID);
         registerSerializer(VACUUM_COATING_ID, VacuumCoatingRecipeSerializer.INSTANCE);
         VACUUM_COATING = registerType(VACUUM_COATING_ID);
+        registerSerializer(EXPLOSIVE_BLASTING_ID, ExplosiveBlastingSerializer.INSTANCE);
+        EXPLOSIVE_BLASTING = registerType(EXPLOSIVE_BLASTING_ID);
     }
 
 }

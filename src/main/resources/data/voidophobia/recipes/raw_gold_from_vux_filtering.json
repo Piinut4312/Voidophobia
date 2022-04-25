@@ -4,6 +4,8 @@
     "tag":"minecraft:gold_ores"
   },
   "filter": "rock",
-  "result": "minecraft:raw_gold",
+  "result": {
+    "item":"minecraft:raw_gold"
+  },
   "count": 3
 }

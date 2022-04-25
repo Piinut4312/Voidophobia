@@ -4,6 +4,8 @@
     "item":"minecraft:magma_block"
   },
   "filter": "heat",
-  "result": "minecraft:basalt",
+  "result": {
+    "item":"minecraft:basalt"
+  },
   "count": 1
 }

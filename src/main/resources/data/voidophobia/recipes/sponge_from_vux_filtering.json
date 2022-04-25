@@ -4,6 +4,8 @@
     "item":"minecraft:wet_sponge"
   },
   "filter": "fluid",
-  "result": "minecraft:sponge",
+  "result": {
+    "item":"minecraft:sponge"
+  },
   "count": 1
 }

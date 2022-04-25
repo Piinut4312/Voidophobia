@@ -4,6 +4,8 @@
     "item":"minecraft:torch"
   },
   "filter": "heat",
-  "result": "minecraft:stick",
+  "result": {
+    "item":"minecraft:stick"
+  },
   "count": 1
 }

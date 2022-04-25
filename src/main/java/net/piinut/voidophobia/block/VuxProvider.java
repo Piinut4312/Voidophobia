@@ -14,4 +14,5 @@ public interface VuxProvider {
 
     double getVux(World world, BlockState state, BlockPos pos, Direction direction, Random random);
 
+    void handleVuxConsumption(World world, BlockState state, BlockPos pos, double input);
 }

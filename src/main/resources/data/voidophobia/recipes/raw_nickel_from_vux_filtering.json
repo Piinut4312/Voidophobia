@@ -4,6 +4,8 @@
     "tag":"c:nickel_ores"
   },
   "filter": "rock",
-  "result": "voidophobia:raw_nickel",
+  "result": {
+    "item":"voidophobia:raw_nickel"
+  },
   "count": 3
 }

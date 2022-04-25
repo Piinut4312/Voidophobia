@@ -1,0 +1,11 @@
+{
+  "type": "voidophobia:vux_filtering",
+  "ingredient":{
+    "potion":"voidophobia:poison_of_abyss"
+  },
+  "filter": "poison",
+  "result": {
+    "potion":"voidophobia:blindness"
+  },
+  "count": 1
+}

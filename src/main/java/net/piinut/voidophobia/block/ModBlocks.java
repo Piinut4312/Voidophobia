@@ -59,7 +59,8 @@ public class ModBlocks {
     public static final Block NICKEL_BLOCK = new Block(FabricBlockSettings.of(Material.METAL).strength(5.0f, 6.0f).requiresTool().sounds(BlockSoundGroup.METAL));
     public static final Block CHROME_BLOCK = new Block(FabricBlockSettings.of(Material.METAL).strength(5.0f, 6.0f).requiresTool().sounds(BlockSoundGroup.METAL));
     public static final Block SILVER_BLOCK = new Block(FabricBlockSettings.of(Material.METAL).strength(4.0f, 6.0f).requiresTool().sounds(BlockSoundGroup.METAL));
-    public static final Block REINFORCED_GLASS = new ReinforcedGlassBlock(FabricBlockSettings.of(Material.GLASS).strength(3.0f, 16.0f).sounds(BlockSoundGroup.GLASS).nonOpaque().allowsSpawning(ModBlocks::never).solidBlock(ModBlocks::never).blockVision(ModBlocks::never));
+    public static final Block REINFORCED_GLASS = new ReinforcedGlassBlock(FabricBlockSettings.of(Material.GLASS).strength(3.0f, 24.0f).sounds(BlockSoundGroup.GLASS).nonOpaque().allowsSpawning(ModBlocks::never).solidBlock(ModBlocks::never).blockVision(ModBlocks::never));
+    public static final Block BLAST_CHAMBER = new BlastChamberBlock(FabricBlockSettings.of(Material.METAL).strength(15.0f, 48.0f).sounds(BlockSoundGroup.METAL));
     private static Block createReinforcedPistonBlock(boolean sticky) {
         AbstractBlock.ContextPredicate contextPredicate = (state, world, pos) -> !state.get(ReinforcedPistonBlock.EXTENDED);
         return new ReinforcedPistonBlock(sticky, FabricBlockSettings.of(Material.PISTON).strength(7.5f).solidBlock(ModBlocks::never).suffocates(contextPredicate).blockVision(contextPredicate));
@@ -119,6 +120,7 @@ public class ModBlocks {
         register(CHROME_BLOCK, "chrome_block");
         register(SILVER_BLOCK, "silver_block");
         register(REINFORCED_GLASS, "reinforced_glass");
+        register(BLAST_CHAMBER, "blast_chamber");
     }
 
 }

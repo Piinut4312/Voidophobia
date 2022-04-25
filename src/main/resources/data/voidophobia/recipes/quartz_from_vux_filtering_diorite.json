@@ -4,6 +4,8 @@
     "item":"minecraft:diorite"
   },
   "filter": "rock",
-  "result": "minecraft:quartz",
+  "result": {
+    "item":"minecraft:quartz"
+  },
   "count": 1
 }

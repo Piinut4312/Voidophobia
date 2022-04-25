@@ -60,6 +60,7 @@ public class ModItems {
     public static final BlockItem CHROME_BLOCK = new BlockItem(ModBlocks.CHROME_BLOCK, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final BlockItem SILVER_BLOCK = new BlockItem(ModBlocks.SILVER_BLOCK, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final BlockItem REINFORCED_GLASS = new BlockItem(ModBlocks.REINFORCED_GLASS, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final BlockItem BLAST_CHAMBER = new BlockItem(ModBlocks.BLAST_CHAMBER, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item VUX_METER = new VuxMeterItem(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item GODEL_CRYSTAL_SHARD = new GodelCrystalShardItem(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item ARTIFICIAL_BEDROCK_SCRAP = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
@@ -112,8 +113,10 @@ public class ModItems {
     public static final Item SILVER_SHOVEL = new ShovelItem(SilverToolMaterial.INSTANCE, 1.5f, -3.0f, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item SILVER_AXE = new SilverAxeItem(6, -3f, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item SILVER_HOE = new ModHoeItem(SilverToolMaterial.INSTANCE, 0, -3.0f, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
-
-
+    public static final Item REFINED_NETHER_DUST = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final Item NETHER_ROD = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final Item POTION_OF_BLINDNESS_IN_SILVER_BOTTLE = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP).maxCount(16));
+    public static final Item BOTTLE_OF_SHADOW = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP).maxCount(16));
     private static void register(Item item, String id){
         Registry.register(Registry.ITEM, new Identifier(Voidophobia.MODID, id), item);
     }
@@ -133,6 +136,7 @@ public class ModItems {
         register(ETERNAL_FIRE_ITEM, "eternal_fire");
         register(COMPACT_NETHER_PORTAL_ITEM, "compact_nether_portal");
         register(ITEM_TDI_ITEM, "item_tdi");
+        register(COMPACT_PORTAL_LINKER, "portal_linker");
         register(AZURE_SAND_ITEM, "azure_sand");
         register(AZURE_SANDSTONE_ITEM, "azure_sandstone");
         register(AZURE_SANDSTONE_BRICKS_ITEM, "azure_sandstone_bricks");
@@ -141,8 +145,6 @@ public class ModItems {
         register(STARROCK_BRICKS_BLOCK_ITEM, "starrock_bricks");
         register(VUX_METER, "vux_meter");
         register(PARADOXIUM, "paradoxium");
-        register(COMPACT_PORTAL_LINKER, "portal_linker");
-        register(INFERNIUM, "infernium");
         register(LEVITATIUM, "levitatium");
         register(STARDUST, "stardust");
         register(ETHER_INGOT, "ether_ingot");
@@ -176,6 +178,8 @@ public class ModItems {
         register(WEAK_VUX_VALVE, "weak_vux_valve");
         register(VUX_FILTER_MACHINE_BLOCK_ITEM, "vux_filter_machine");
         register(COMPRESSED_NETHER_BRICKS_BLOCK_ITEM, "compressed_nether_bricks");
+        register(REFINED_NETHER_DUST, "refined_nether_dust");
+        register(INFERNIUM, "infernium");
         register(NICHROME_WIRE, "nichrome_wire");
         register(BASIC_HEATING_COIL, "basic_heating_coil");
         register(ADVANCED_HEATING_COIL, "advanced_heating_coil");
@@ -210,6 +214,10 @@ public class ModItems {
         register(PARADOXIUM_DUST, "paradoxium_dust");
         register(ENSORCELLED_PARADOXIUM_DUST, "ensorcelled_paradoxium_dust");
         register(REINFORCED_GLASS, "reinforced_glass");
+        register(BLAST_CHAMBER, "blast_chamber");
+        register(NETHER_ROD, "nether_rod");
+        register(POTION_OF_BLINDNESS_IN_SILVER_BOTTLE, "potion_of_blindness_in_silver_bottle");
+        register(BOTTLE_OF_SHADOW, "bottle_of_shadow");
     }
 
 }

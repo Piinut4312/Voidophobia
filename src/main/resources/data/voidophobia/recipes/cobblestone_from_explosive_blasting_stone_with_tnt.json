@@ -1,0 +1,13 @@
+{
+  "type": "voidophobia:explosive_blasting",
+  "ingredient":{
+    "item":"minecraft:stone"
+  },
+  "inputCount": 1,
+  "explosive":{
+    "item":"minecraft:tnt"
+  },
+  "result": "minecraft:cobblestone",
+  "outputCount": 1,
+  "chance":0.8
+}

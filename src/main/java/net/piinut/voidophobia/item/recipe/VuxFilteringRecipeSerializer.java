@@ -8,6 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.RecipeSerializer;
+import net.minecraft.recipe.ShapedRecipe;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
@@ -22,11 +23,11 @@ public class VuxFilteringRecipeSerializer implements RecipeSerializer<VuxFilteri
             throw new JsonSyntaxException("A required attribute is missing!");
         }
         Ingredient ingredient = Ingredient.fromJson(recipeJson.ingredient);
-        Item result = Registry.ITEM.getOrEmpty(new Identifier(recipeJson.result))
-                .orElseThrow(() -> new JsonSyntaxException("No such item " + recipeJson.result));
+        ItemStack result = ShapedRecipe.outputFromJson(recipeJson.result);
         String filter = recipeJson.filter;
         int count = recipeJson.count;
-        return new VuxFilteringRecipe(ingredient, filter, new ItemStack(result, count), count, id);
+        result.setCount(count);
+        return new VuxFilteringRecipe(ingredient, filter, result, count, id);
     }
 
     @Override

@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "#$#",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "voidophobia:artificial_bedrock_scrap"
+    },
+    "$": {
+      "item": "minecraft:glass"
+    }
+  },
+  "result": {
+    "item": "voidophobia:reinforced_glass",
+    "count": 1
+  }
+}

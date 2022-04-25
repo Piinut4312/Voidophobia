@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "# #",
+    "%$%"
+  ],
+  "key": {
+    "#": {
+      "item": "voidophobia:reinforced_glass"
+    },
+    "%": {
+      "item": "voidophobia:vuxout"
+    },
+    "$": {
+      "item": "voidophobia:vux_machine_core"
+    }
+  },
+  "result": {
+    "item": "voidophobia:blast_chamber",
+    "count": 1
+  }
+}

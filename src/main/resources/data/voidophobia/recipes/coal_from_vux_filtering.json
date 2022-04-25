@@ -4,6 +4,8 @@
     "tag":"minecraft:coal_ores"
   },
   "filter": "rock",
-  "result": "minecraft:coal",
+  "result": {
+    "item":"minecraft:coal"
+  },
   "count": 6
 }

@@ -11,6 +11,7 @@ import net.minecraft.entity.SpawnGroup;
 import net.minecraft.world.biome.SpawnSettings;
 import net.piinut.voidophobia.block.ModBlocks;
 import net.piinut.voidophobia.block.blockEntity.ModBlockEntities;
+import net.piinut.voidophobia.block.blockEntity.renderer.BlastChamberBlockEntityRenderer;
 import net.piinut.voidophobia.block.blockEntity.renderer.LaserEngravingMachineBlockEntityRenderer;
 import net.piinut.voidophobia.block.blockEntity.renderer.ReinforcedPistonBlockEntityRenderer;
 import net.piinut.voidophobia.entity.ModEntities;
@@ -26,8 +27,10 @@ public class VoidophobiaClient implements ClientModInitializer {
     private void registerBlockEntityRenderers(){
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.COMPACT_NETHER_PORTAL, RenderLayer.getTranslucent());
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.REINFORCED_GLASS, RenderLayer.getTranslucent());
+        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.BLAST_CHAMBER, RenderLayer.getTranslucent());
         BlockEntityRendererRegistry.register(ModBlockEntities.REINFORCED_PISTON, ReinforcedPistonBlockEntityRenderer::new);
         BlockEntityRendererRegistry.register(ModBlockEntities.LASER_ENGRAVING_MACHINE, LaserEngravingMachineBlockEntityRenderer::new);
+        BlockEntityRendererRegistry.register(ModBlockEntities.BLAST_CHAMBER, BlastChamberBlockEntityRenderer::new);
         ModScreens.registerAll();
         ModEntityRenderers.registerAll();
         BiomeModifications.addSpawn(BiomeSelectors.foundInOverworld(), SpawnGroup.MONSTER, ModEntities.ENSORCELLED, 3, 1, 2);

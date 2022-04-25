@@ -4,6 +4,8 @@
     "tag":"c:chrome_ores"
   },
   "filter": "rock",
-  "result": "voidophobia:raw_chrome",
+  "result": {
+    "item":"voidophobia:raw_chrome"
+  },
   "count": 3
 }

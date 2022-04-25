@@ -102,6 +102,7 @@ public abstract class AbstractVuxductBlockEntity extends BlockEntity {
                 double input = ((VuxProvider) blockState.getBlock()).getVux(world, blockState, blockPos, direction.getOpposite(), world.getRandom());
                 input = Math.min(input, be.maxVuxRate);
                 be.addVux(input);
+                ((VuxProvider) blockState.getBlock()).handleVuxConsumption(world, blockState, blockPos, input);
             }else if(block instanceof AbstractVuxductBlock){
                 AbstractVuxductBlockEntity neighborBE = (AbstractVuxductBlockEntity) world.getBlockEntity(blockPos);
                 double neighborVux = neighborBE.getVuxContaining();

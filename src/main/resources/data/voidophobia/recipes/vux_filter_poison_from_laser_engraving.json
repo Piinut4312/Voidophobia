@@ -1,0 +1,7 @@
+{
+  "type": "voidophobia:laser_engraving",
+  "modifier":{
+    "item":"minecraft:spider_eye"
+  },
+  "type_name": "poison"
+}

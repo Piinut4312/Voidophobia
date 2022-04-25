@@ -4,6 +4,8 @@
     "item":"minecraft:gravel"
   },
   "filter": "rock",
-  "result": "minecraft:flint",
+  "result": {
+    "item":"minecraft:flint"
+  },
   "count": 2
 }

@@ -77,5 +77,8 @@ public abstract class AbstractCrackedBedrockBlock extends Block implements VuxPr
         return super.onUse(state, world, pos, player, hand, hit);
     }
 
+    @Override
+    public void handleVuxConsumption(World world, BlockState state, BlockPos pos, double input) {
 
+    }
 }

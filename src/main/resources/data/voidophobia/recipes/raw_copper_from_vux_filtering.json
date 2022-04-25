@@ -4,6 +4,8 @@
     "tag":"minecraft:copper_ores"
   },
   "filter": "rock",
-  "result": "minecraft:raw_copper",
+  "result": {
+    "item":"minecraft:raw_copper"
+  },
   "count": 9
 }

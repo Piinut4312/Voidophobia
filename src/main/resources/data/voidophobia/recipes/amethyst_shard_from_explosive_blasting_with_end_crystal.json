@@ -1,0 +1,13 @@
+{
+  "type": "voidophobia:explosive_blasting",
+  "ingredient":{
+    "item":"minecraft:amethyst_block"
+  },
+  "inputCount": 1,
+  "explosive":{
+    "item":"minecraft:end_crystal"
+  },
+  "result": "minecraft:amethyst_shard",
+  "outputCount": 4,
+  "chance":0.85
+}

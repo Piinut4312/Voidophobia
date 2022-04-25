@@ -1,5 +1,5 @@
 {
-  "parent": "voidophobia:voidophobia/placed_vux_forming_machine",
+  "parent": "voidophobia:voidophobia/obtain_infernium",
   "display": {
     "icon": {
       "item": "voidophobia:vacuum_coater"
