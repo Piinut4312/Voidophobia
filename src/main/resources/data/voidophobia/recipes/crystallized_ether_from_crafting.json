@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "voidophobia:ether_bottle"
+    },
+    {
+      "item": "voidophobia:activated_paradoxium"
+    }
+  ],
+  "result": {
+    "item": "voidophobia:crystallized_ether",
+    "count": 1
+  }
+}

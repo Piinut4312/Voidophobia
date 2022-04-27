@@ -28,39 +28,18 @@
               "name": "voidophobia:godel_crystal_block"
             },
             {
-              "type": "minecraft:alternatives",
-              "children": [
+              "type": "minecraft:item",
+              "functions": [
                 {
-                  "type": "minecraft:item",
-                  "functions": [
-                    {
-                      "function": "minecraft:set_count",
-                      "count": 4.0,
-                      "add": false
-                    },
-                    {
-                      "function": "minecraft:apply_bonus",
-                      "enchantment": "minecraft:fortune",
-                      "formula": "minecraft:ore_drops"
-                    }
-                  ],
-                  "name": "voidophobia:godel_crystal_shard"
+                  "function": "minecraft:set_count",
+                  "count": 4.0,
+                  "add": false
                 },
                 {
-                  "type": "minecraft:item",
-                  "functions": [
-                    {
-                      "function": "minecraft:set_count",
-                      "count": 4.0,
-                      "add": false
-                    },
-                    {
-                      "function": "minecraft:explosion_decay"
-                    }
-                  ],
-                  "name": "voidophobia:godel_crystal_shard"
+                  "function": "minecraft:explosion_decay"
                 }
-              ]
+              ],
+              "name": "voidophobia:godel_crystal_shard"
             }
           ]
         }

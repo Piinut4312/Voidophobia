@@ -6,6 +6,7 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.SidedInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.Packet;
 import net.minecraft.network.listener.ClientPlayPacketListener;
@@ -187,7 +188,7 @@ public class BlastChamberBlockEntity extends BlockEntity implements BasicInvento
                 }
                 if (BlastChamberBlockEntity.canAcceptRecipeOutput(recipe, blockEntity.inventory)) {
                     if (blockEntity.coolDown == 0) {
-                        blockEntity.coolDown = MAX_COOLDOWN;
+                        blockEntity.coolDown = BlastChamberBlockEntity.getCooldown(blockEntity.inventory.get(1));
                         BlastChamberBlockEntity.craftRecipe(world.getRandom(), recipe, blockEntity.inventory);
                         world.playSound(null, blockPos, SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.BLOCKS, 0.5f, 1f);
                         blockEntity.vuxStored = MathHelper.clamp(blockEntity.vuxStored + 1000, 0, BlastChamberBlockEntity.MAX_VUX_CAPACITY);
@@ -204,6 +205,16 @@ public class BlastChamberBlockEntity extends BlockEntity implements BasicInvento
             }
             ((ServerWorld) world).getChunkManager().markForUpdate(blockEntity.getPos());
         }
+    }
+
+    private static int getCooldown(ItemStack itemStack) {
+        if(itemStack.isOf(Items.TNT)){
+            return 200;
+        }
+        if(itemStack.isOf(Items.END_CRYSTAL)){
+            return 100;
+        }
+        return MAX_COOLDOWN;
     }
 
     @Nullable

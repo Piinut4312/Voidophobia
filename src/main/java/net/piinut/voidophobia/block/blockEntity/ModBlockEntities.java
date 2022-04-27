@@ -5,6 +5,7 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.piinut.voidophobia.Voidophobia;
+import net.piinut.voidophobia.block.LaserworkTableBlock;
 import net.piinut.voidophobia.block.ModBlocks;
 
 
@@ -21,6 +22,7 @@ public class ModBlockEntities {
     public static BlockEntityType<VacuumCoaterBlockEntity> VACUUM_COATER;
     public static BlockEntityType<BlastChamberBlockEntity> BLAST_CHAMBER;
     public static BlockEntityType<LaserTransmitterBlockEntity> LASER_TRANSMITTER;
+    public static BlockEntityType<LaserworkTableBlockEntity> LASERWORK_TABLE;
     public static void registerAll(){
         BASIC_VUXDUCT = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(Voidophobia.MODID, "basic_vuxduct")
                 , FabricBlockEntityTypeBuilder.create(BasicVuxductBlockEntity::new, ModBlocks.BASIC_VUXDUCT).build(null));
@@ -44,6 +46,8 @@ public class ModBlockEntities {
                 , FabricBlockEntityTypeBuilder.create(BlastChamberBlockEntity::new, ModBlocks.BLAST_CHAMBER).build(null));
         LASER_TRANSMITTER = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(Voidophobia.MODID, "laser_transmitter")
                 , FabricBlockEntityTypeBuilder.create(LaserTransmitterBlockEntity::new, ModBlocks.LASER_TRANSMITTER).build(null));
+        LASERWORK_TABLE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(Voidophobia.MODID, "laserwork_table")
+                , FabricBlockEntityTypeBuilder.create(LaserworkTableBlockEntity::new, ModBlocks.LASERWORK_TABLE).build(null));
     }
 
 }

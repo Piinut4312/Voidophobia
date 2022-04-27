@@ -1,0 +1,10 @@
+{
+    "type":"voidophobia:laser_activating",
+    "source":{
+        "item":"voidophobia:paradoxium"
+    },
+    "target":{
+        "item":"voidophobia:activated_paradoxium"
+    },
+    "time":200
+}

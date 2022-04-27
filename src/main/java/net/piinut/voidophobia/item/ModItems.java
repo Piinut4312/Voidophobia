@@ -124,6 +124,9 @@ public class ModItems {
     public static final Item BURNING_LASER_LENS = new LaserLensItem(12);
     public static final Item DESTRUCTION_LASER_LENS = new LaserLensItem(6);
     public static final Item ENHANCED_VUX_LASER_COMPONENT = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final Item ETHER_BOTTLE = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP).maxCount(16).recipeRemainder(Items.GLASS_BOTTLE));
+    public static final Item ACTIVATED_PARADOXIUM = new ActivatedParadoxiumItem(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final Item CRYSTALLIZED_ETHER = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     private static void register(Item item, String id){
         Registry.register(Registry.ITEM, new Identifier(Voidophobia.MODID, id), item);
     }
@@ -234,6 +237,9 @@ public class ModItems {
         register(AZURE_SAND_ITEM, "azure_sand");
         register(AZURE_SANDSTONE_ITEM, "azure_sandstone");
         register(AZURE_SANDSTONE_BRICKS_ITEM, "azure_sandstone_bricks");
+        register(ETHER_BOTTLE, "ether_bottle");
+        register(ACTIVATED_PARADOXIUM, "activated_paradoxium");
+        register(CRYSTALLIZED_ETHER, "crystallized_ether");
     }
 
 }

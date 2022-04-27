@@ -61,7 +61,7 @@ public class ModBlocks {
     public static final Block SILVER_BLOCK = new Block(FabricBlockSettings.of(Material.METAL).strength(4.0f, 6.0f).requiresTool().sounds(BlockSoundGroup.METAL));
     public static final Block REINFORCED_GLASS = new ReinforcedGlassBlock(FabricBlockSettings.of(Material.GLASS).strength(3.0f, 24.0f).sounds(BlockSoundGroup.GLASS).nonOpaque().allowsSpawning(ModBlocks::never).solidBlock(ModBlocks::never).blockVision(ModBlocks::never));
     public static final Block BLAST_CHAMBER = new BlastChamberBlock(FabricBlockSettings.of(Material.METAL).strength(15.0f, 48.0f).sounds(BlockSoundGroup.METAL).requiresTool());
-    public static final Block LASER_TRANSMITTER = new LaserTransmitterBlock(FabricBlockSettings.of(Material.METAL).strength(12.0f, 12.0f).sounds(BlockSoundGroup.METAL).requiresTool());
+    public static final Block LASER_TRANSMITTER = new LaserTransmitterBlock(FabricBlockSettings.of(Material.METAL).strength(12.0f, 12.0f).sounds(BlockSoundGroup.METAL).requiresTool().luminance((state) -> state.get(LaserTransmitterBlock.LIT)? 15:0));
     public static final Block END_SAND = new Block(FabricBlockSettings.of(Material.AGGREGATE).strength(1.0f).sounds(BlockSoundGroup.SAND));
     public static final Block PRECISION_VUX_MACHINE_CORE = new Block(FabricBlockSettings.of(Material.METAL).strength(16f, 16f).requiresTool().sounds(BlockSoundGroup.METAL));
     public static final Block INVAR_BLOCK = new Block(FabricBlockSettings.of(Material.METAL).strength(7.0f, 8.0f).requiresTool().sounds(BlockSoundGroup.METAL));

@@ -1,0 +1,10 @@
+{
+    "type":"voidophobia:laser_activating",
+    "source":{
+        "item":"voidophobia:bottle_of_shadow"
+    },
+    "target":{
+        "item":"voidophobia:ether_bottle"
+    },
+    "time":400
+}

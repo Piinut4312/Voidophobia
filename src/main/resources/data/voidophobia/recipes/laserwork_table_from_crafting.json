@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "$",
+    "#"
+  ],
+  "key": {
+    "#": {
+      "item": "voidophobia:invar_block"
+    },
+    "$": {
+      "item": "voidophobia:silver_coated_amethyst_shard"
+    }
+  },
+  "result": {
+    "item": "voidophobia:laserwork_table",
+    "count": 1
+  }
+}

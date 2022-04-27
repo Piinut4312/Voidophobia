@@ -14,19 +14,24 @@ import net.minecraft.nbt.NbtHelper;
 import net.minecraft.network.Packet;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
+import net.minecraft.particle.BlockStateParticleEffect;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
-import net.piinut.voidophobia.Voidophobia;
 import net.piinut.voidophobia.block.LaserTransmitterBlock;
+import net.piinut.voidophobia.block.ModBlocks;
 import net.piinut.voidophobia.item.LaserLensItem;
 import net.piinut.voidophobia.item.ModItems;
 import net.piinut.voidophobia.item.recipe.LaserActivatingRecipe;
 import net.piinut.voidophobia.item.recipe.ModRecipeTypes;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Random;
 
 public class LaserTransmitterBlockEntity extends BlockEntity implements BasicInventory {
 
@@ -125,7 +130,6 @@ public class LaserTransmitterBlockEntity extends BlockEntity implements BasicInv
     private static void updateAfterActivatingTarget(World world, LaserTransmitterBlockEntity blockEntity, BlockState newState, BlockPos blockPos, BlockState blockState){
         world.setBlockState(blockEntity.targetPos, newState, Block.NOTIFY_ALL);
         LaserTransmitterBlockEntity.updateBeam(world, blockPos, blockState, blockEntity);
-        blockEntity.processTime = 0;
     }
 
     private static int getProcessTime(World world, Inventory inventory) {
@@ -140,11 +144,15 @@ public class LaserTransmitterBlockEntity extends BlockEntity implements BasicInv
         return !itemStack.isEmpty() && source.getItem() instanceof BlockItem && itemStack.getItem() instanceof BlockItem;
     }
 
-    private static ItemStack craftRecipe(LaserActivatingRecipe recipe, ItemStack source) {
-        if (recipe == null || !LaserTransmitterBlockEntity.canAcceptRecipeOutputAsBlock(recipe, source)) {
+    private static boolean canAcceptRecipeOutput(LaserActivatingRecipe recipe, ItemStack source){
+        return !source.isEmpty() && recipe != null;
+    }
+
+    private static ItemStack craftRecipe(LaserActivatingRecipe recipe, ItemStack source, boolean isLaserworkTable) {
+        if (recipe == null || (!isLaserworkTable && !LaserTransmitterBlockEntity.canAcceptRecipeOutputAsBlock(recipe, source))) {
             return ItemStack.EMPTY;
         }
-        return recipe.getOutput();
+        return LaserTransmitterBlockEntity.canAcceptRecipeOutput(recipe, source)? recipe.getOutput() : ItemStack.EMPTY;
     }
     public static void serverTick(World world, BlockPos blockPos, BlockState blockState, LaserTransmitterBlockEntity blockEntity) {
         boolean bl = false;
@@ -166,18 +174,32 @@ public class LaserTransmitterBlockEntity extends BlockEntity implements BasicInv
                         }
                     }else if(laserLensItem == ModItems.ACTIVATION_LASER_LENS){
                         if(!blockEntity.targetState.isAir()){
-                            ItemStack itemStack = new ItemStack(blockEntity.targetState.getBlock().asItem());
+                            boolean isLaserworkTable = blockEntity.targetState.isOf(ModBlocks.LASERWORK_TABLE);
+                            ItemStack itemStack;
+                            LaserworkTableBlockEntity laserworkTableBlockEntity = null;
+                            if(isLaserworkTable){
+                                laserworkTableBlockEntity = (LaserworkTableBlockEntity) world.getBlockEntity(blockEntity.targetPos);
+                                itemStack = laserworkTableBlockEntity.getStack(0);
+                            }else{
+                                itemStack = new ItemStack(blockEntity.targetState.getBlock().asItem());
+                            }
                             SimpleInventory dummyInventory = new SimpleInventory(1);
                             dummyInventory.setStack(0, itemStack);
                             LaserActivatingRecipe recipe = world.getRecipeManager().getFirstMatch(ModRecipeTypes.LASER_ACTIVATING, dummyInventory, world).orElse(null);
-                            if(LaserTransmitterBlockEntity.canAcceptRecipeOutputAsBlock(recipe, itemStack)){
+                            boolean canAcceptRecipe = isLaserworkTable? canAcceptRecipeOutput(recipe, itemStack) : canAcceptRecipeOutputAsBlock(recipe, itemStack);
+                            if(canAcceptRecipe){
                                 blockEntity.processTimeTotal = LaserTransmitterBlockEntity.getProcessTime(world, dummyInventory);
                                 blockEntity.updateProgress();
                                 if(blockEntity.processTime == blockEntity.processTimeTotal){
-                                    ItemStack resultStack = LaserTransmitterBlockEntity.craftRecipe(recipe, itemStack);
+                                    ItemStack resultStack = LaserTransmitterBlockEntity.craftRecipe(recipe, itemStack, isLaserworkTable);
                                     if(!resultStack.isEmpty()){
-                                        BlockState newState = Block.getBlockFromItem(resultStack.getItem()).getDefaultState();
-                                        LaserTransmitterBlockEntity.updateAfterActivatingTarget(world, blockEntity, newState, blockPos, blockState);
+                                        if(isLaserworkTable){
+                                            laserworkTableBlockEntity.craftItem((ServerWorld) world, recipe.getOutput());
+                                        }else{
+                                            BlockState newState = Block.getBlockFromItem(resultStack.getItem()).getDefaultState();
+                                            LaserTransmitterBlockEntity.updateAfterActivatingTarget(world, blockEntity, newState, blockPos, blockState);
+                                        }
+                                        blockEntity.processTime = 0;
                                     }
                                 }
                             }
@@ -216,7 +238,7 @@ public class LaserTransmitterBlockEntity extends BlockEntity implements BasicInv
         for(i = 0; i < affectDistance; i++){
             pos.move(dir);
             BlockState state = world.getBlockState(pos);
-            if(!(state.getOpacity(world, pos) < 15)){
+            if(!(state.getOpacity(world, pos) < 15) || (state.isOf(ModBlocks.LASERWORK_TABLE) && blockState.get(LaserTransmitterBlock.FACING) == Direction.DOWN)){
                 if(pos.getX() != blockEntity.targetPos.getX() || pos.getY() != blockEntity.targetPos.getY() || pos.getZ() != blockEntity.targetPos.getZ()){
                     blockEntity.processTime = 0;
                 }
@@ -227,6 +249,11 @@ public class LaserTransmitterBlockEntity extends BlockEntity implements BasicInv
         }
 
         blockEntity.setBeamLength(i);
+        if(i > 0){
+            world.setBlockState(blockPos, blockState.with(LaserTransmitterBlock.LIT, true));
+        }else{
+            world.setBlockState(blockPos, blockState.with(LaserTransmitterBlock.LIT, false));
+        }
     }
 
     private void setBeamLength(int i) {
@@ -236,6 +263,21 @@ public class LaserTransmitterBlockEntity extends BlockEntity implements BasicInv
     }
 
     public static void clientTick(World world, BlockPos blockPos, BlockState blockState, LaserTransmitterBlockEntity blockEntity) {
+        if(blockEntity.getBeamLength() > 0){
+            ItemStack itemStack = blockEntity.getStack(0);
+            if(!itemStack.isEmpty()){
+                Random random = world.getRandom();
+                Vec3i dir = blockState.get(LaserTransmitterBlock.FACING).getVector();
+                float x = blockEntity.targetPos.getX() + 0.4f * (1-dir.getX()) + random.nextFloat()*0.2f;
+                float y = blockEntity.targetPos.getY() + 0.4f * (1-dir.getY()) + random.nextFloat()*0.2f;
+                float z = blockEntity.targetPos.getZ() + 0.4f * (1-dir.getZ()) + random.nextFloat()*0.2f;
+                if(itemStack.getItem() == ModItems.DESTRUCTION_LASER_LENS){
+                    for(int i = 0; i < 6; i++){
+                        world.addParticle(new BlockStateParticleEffect(ParticleTypes.BLOCK, blockEntity.targetState), x, y, z, random.nextFloat()*0.2-0.1, random.nextFloat()*0.2-0.1, random.nextFloat()*0.2-0.1);
+                    }
+                }
+            }
+        }
     }
 
     public void addItem(ItemStack itemStack1) {
