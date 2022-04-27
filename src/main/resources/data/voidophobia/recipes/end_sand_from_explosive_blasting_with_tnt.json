@@ -1,0 +1,13 @@
+{
+  "type": "voidophobia:explosive_blasting",
+  "ingredient":{
+    "item":"minecraft:end_stone"
+  },
+  "inputCount": 1,
+  "explosive":{
+    "item":"minecraft:tnt"
+  },
+  "result": "voidophobia:end_sand",
+  "outputCount": 1,
+  "chance":0.5
+}

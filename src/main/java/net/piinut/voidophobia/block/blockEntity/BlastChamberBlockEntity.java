@@ -35,7 +35,7 @@ public class BlastChamberBlockEntity extends BlockEntity implements BasicInvento
     float vuxStored = 0;
     int coolDown = MAX_COOLDOWN;
     public static final int MAX_COOLDOWN = 200;
-    public static final float MAX_VUX_CAPACITY = 60000;
+    public static final float MAX_VUX_CAPACITY = 40000;
     protected final PropertyDelegate propertyDelegate = new PropertyDelegate() {
         @Override
         public int get(int index) {
@@ -80,6 +80,7 @@ public class BlastChamberBlockEntity extends BlockEntity implements BasicInvento
     @Override
     public void readNbt(NbtCompound nbt) {
         super.readNbt(nbt);
+        this.inventory.clear();
         Inventories.readNbt(nbt, this.inventory);
         this.vuxStored = nbt.getFloat("VuxStored");
         this.coolDown = nbt.getInt("CoolDown");
@@ -136,11 +137,12 @@ public class BlastChamberBlockEntity extends BlockEntity implements BasicInvento
     }
 
     private static void craftRecipe(Random random, ExplosiveBlastingRecipe recipe, DefaultedList<ItemStack> slots) {
+        ItemStack itemStack1 = slots.get(1);
         if (recipe == null || !BlastChamberBlockEntity.canAcceptRecipeOutput(recipe, slots)) {
+            itemStack1.decrement(1);
             return;
         }
         ItemStack itemStack = slots.get(0);
-        ItemStack itemStack1 = slots.get(1);
         ItemStack itemStack2 = recipe.getOutput();
         for(int i = 0; i < recipe.getOutputCount(); i++){
             ItemStack itemStack3 = slots.get(2);
@@ -156,6 +158,8 @@ public class BlastChamberBlockEntity extends BlockEntity implements BasicInvento
         itemStack.decrement(recipe.getInputCount());
         itemStack1.decrement(1);
     }
+
+
 
     public static void clientTick(World world, BlockPos blockPos, BlockState blockState, BlastChamberBlockEntity blockEntity) {
         if(world.isClient){
@@ -223,4 +227,6 @@ public class BlastChamberBlockEntity extends BlockEntity implements BasicInvento
     public PropertyDelegate getPropertyDelegate() {
         return this.propertyDelegate;
     }
+
+
 }

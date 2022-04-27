@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " # ",
+    "#$#",
+    " # "
+  ],
+  "key": {
+    "#": {
+      "item": "voidophobia:invar_ingot"
+    },
+    "$": {
+      "item": "voidophobia:vux_machine_core"
+    }
+  },
+  "result": {
+    "item": "voidophobia:precision_vux_machine_core",
+    "count": 1
+  }
+}

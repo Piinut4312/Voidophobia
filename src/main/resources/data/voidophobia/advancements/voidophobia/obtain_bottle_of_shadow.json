@@ -1,0 +1,37 @@
+{
+  "parent": "voidophobia:voidophobia/obtain_abyss_spider_fang",
+  "display": {
+    "icon": {
+      "item": "voidophobia:bottle_of_shadow"
+    },
+    "title": {
+      "translate": "advancements.voidophobia.obtain_bottle_of_shadow.title"
+    },
+    "description": {
+      "translate": "advancements.voidophobia.obtain_bottle_of_shadow.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "bottle_of_shadow": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "voidophobia:bottle_of_shadow"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "bottle_of_shadow"
+    ]
+  ]
+}

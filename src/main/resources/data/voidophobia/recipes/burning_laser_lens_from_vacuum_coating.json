@@ -1,0 +1,11 @@
+{
+  "type": "voidophobia:vacuum_coating",
+  "input1":{
+    "item":"voidophobia:amethyst_lens"
+  },
+  "input2":{
+    "item":"voidophobia:infernium"
+  },
+  "result": "voidophobia:burning_laser_lens",
+  "processTime":200
+}

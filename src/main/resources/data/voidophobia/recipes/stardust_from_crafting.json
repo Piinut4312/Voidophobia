@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "voidophobia:block_of_stardust"
+    }
+  ],
+  "result": {
+    "item": "voidophobia:stardust",
+    "count": 4
+  }
+}

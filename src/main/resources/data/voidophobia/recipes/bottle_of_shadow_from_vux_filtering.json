@@ -1,7 +1,7 @@
 {
   "type": "voidophobia:vux_filtering",
   "ingredient":{
-    "item":"voidophobia:potion_of_blindness_in_silver_bottlw"
+    "item":"voidophobia:potion_of_blindness_in_silver_bottle"
   },
   "filter": "fluid",
   "result": {

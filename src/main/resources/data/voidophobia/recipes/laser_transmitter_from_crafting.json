@@ -1,29 +1,29 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "^$^",
     " @ ",
-    "%#%"
+    "%^%",
+    "$#$"
   ],
   "key": {
     "#": {
       "item": "voidophobia:precision_vux_machine_core"
     },
     "@": {
-      "item": "voidophobia:vux_laser_component"
+      "item": "voidophobia:enhanced_vux_laser_component"
     },
     "$": {
-      "item": "voidophobia:vpu_chip"
+      "item": "voidophobia:invar_ingot"
     },
     "%": {
       "item": "voidophobia:vuxin"
     },
     "^": {
-      "item": "minecraft:gold_nugget"
+      "item": "voidophobia:cooling_pad"
     }
   },
   "result": {
-    "item": "voidophobia:laser_engraving_machine",
+    "item": "voidophobia:laser_transmitter",
     "count": 1
   }
 }

@@ -79,6 +79,7 @@ public class LaserEngravingMachineBlockEntity extends BlockEntity implements Bas
     @Override
     public void readNbt(NbtCompound nbt) {
         super.readNbt(nbt);
+        this.inventory.clear();
         Inventories.readNbt(nbt, this.inventory);
         this.processTime = nbt.getInt("ProcessTime");
         this.vuxStored = nbt.getFloat("VuxStored");
@@ -101,11 +102,11 @@ public class LaserEngravingMachineBlockEntity extends BlockEntity implements Bas
         if(this.vuxStored >= LaserEngravingMachineBlockEntity.MAX_VUX_CAPACITY){
             return 0;
         }
-        return Math.min(LaserEngravingMachineBlockEntity.MAX_VUX_CAPACITY - this.vuxStored, 200);
+        return Math.min(LaserEngravingMachineBlockEntity.MAX_VUX_CAPACITY - this.vuxStored, 500);
     }
 
     public void addVux(double vuxIn) {
-        this.vuxStored += Math.min(vuxIn, 200);
+        this.vuxStored += Math.min(vuxIn, 500);
         if(this.vuxStored > LaserEngravingMachineBlockEntity.MAX_VUX_CAPACITY){
             this.vuxStored = LaserEngravingMachineBlockEntity.MAX_VUX_CAPACITY;
         }

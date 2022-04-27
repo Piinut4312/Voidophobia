@@ -12,8 +12,6 @@ import net.piinut.voidophobia.block.ModBlocks;
 import net.piinut.voidophobia.entity.ModEntities;
 import net.piinut.voidophobia.item.tool.*;
 
-import static net.piinut.voidophobia.Voidophobia.LOGGER;
-
 
 public class ModItems {
 
@@ -56,11 +54,14 @@ public class ModItems {
     public static final BlockItem SILVER_ORE_BLOCK_ITEM = new BlockItem(ModBlocks.SILVER_ORE, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final BlockItem DEEPSLATE_SILVER_ORE_BLOCK_ITEM = new BlockItem(ModBlocks.DEEPSLATE_SILVER_ORE, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final BlockItem CRACKED_BEDROCK_BLOCK_ITEM = new BlockItem(ModBlocks.CRACKED_BEDROCK, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
-    public static final BlockItem NICKEL_BLOCK = new BlockItem(ModBlocks.NICKEL_BLOCK, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
-    public static final BlockItem CHROME_BLOCK = new BlockItem(ModBlocks.CHROME_BLOCK, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
-    public static final BlockItem SILVER_BLOCK = new BlockItem(ModBlocks.SILVER_BLOCK, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final BlockItem NICKEL_BLOCK_ITEM = new BlockItem(ModBlocks.NICKEL_BLOCK, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final BlockItem CHROME_BLOCK_ITEM = new BlockItem(ModBlocks.CHROME_BLOCK, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final BlockItem SILVER_BLOCK_ITEM = new BlockItem(ModBlocks.SILVER_BLOCK, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final BlockItem REINFORCED_GLASS = new BlockItem(ModBlocks.REINFORCED_GLASS, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final BlockItem BLAST_CHAMBER = new BlockItem(ModBlocks.BLAST_CHAMBER, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final BlockItem LASER_TRANSMITTER = new BlockItem(ModBlocks.LASER_TRANSMITTER, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final BlockItem END_SAND = new BlockItem(ModBlocks.END_SAND, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final BlockItem PRECISION_VUX_MACHINE_CORE_BLOCK_ITEM = new BlockItem(ModBlocks.PRECISION_VUX_MACHINE_CORE, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item VUX_METER = new VuxMeterItem(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item GODEL_CRYSTAL_SHARD = new GodelCrystalShardItem(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item ARTIFICIAL_BEDROCK_SCRAP = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
@@ -116,7 +117,11 @@ public class ModItems {
     public static final Item REFINED_NETHER_DUST = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item NETHER_ROD = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item POTION_OF_BLINDNESS_IN_SILVER_BOTTLE = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP).maxCount(16));
-    public static final Item BOTTLE_OF_SHADOW = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP).maxCount(16));
+    public static final Item BOTTLE_OF_SHADOW = new BottleOfShadowItem(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP).maxCount(16));
+    public static final Item ACTIVATION_LASER_LENS = new LaserLensItem(12);
+    public static final Item BURNING_LASER_LENS = new LaserLensItem(12);
+    public static final Item DESTRUCTION_LASER_LENS = new LaserLensItem(6);
+    public static final Item ENHANCED_VUX_LASER_COMPONENT = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     private static void register(Item item, String id){
         Registry.register(Registry.ITEM, new Identifier(Voidophobia.MODID, id), item);
     }
@@ -137,29 +142,22 @@ public class ModItems {
         register(COMPACT_NETHER_PORTAL_ITEM, "compact_nether_portal");
         register(ITEM_TDI_ITEM, "item_tdi");
         register(COMPACT_PORTAL_LINKER, "portal_linker");
-        register(AZURE_SAND_ITEM, "azure_sand");
-        register(AZURE_SANDSTONE_ITEM, "azure_sandstone");
-        register(AZURE_SANDSTONE_BRICKS_ITEM, "azure_sandstone_bricks");
-        register(STARDUST_BLOCK_ITEM, "block_of_stardust");
-        register(STARROCK_ITEM, "starrock");
-        register(STARROCK_BRICKS_BLOCK_ITEM, "starrock_bricks");
         register(VUX_METER, "vux_meter");
         register(PARADOXIUM, "paradoxium");
         register(LEVITATIUM, "levitatium");
-        register(STARDUST, "stardust");
         register(ETHER_INGOT, "ether_ingot");
         register(CHROME_ORE_BLOCK_ITEM, "chrome_ore");
         register(DEEPSLATE_CHROME_ORE_BLOCK_ITEM, "deepslate_chrome_ore");
         register(RAW_CHROME, "raw_chrome");
         register(RAW_CHROME_BLOCK_ITEM, "raw_chrome_block");
         register(CHROME_INGOT, "chrome_ingot");
-        register(CHROME_BLOCK, "chrome_block");
+        register(CHROME_BLOCK_ITEM, "chrome_block");
         register(NICKEL_ORE_BLOCK_ITEM, "nickel_ore");
         register(DEEPSLATE_NICKEL_ORE_BLOCK_ITEM, "deepslate_nickel_ore");
         register(RAW_NICKEL, "raw_nickel");
         register(RAW_NICKEL_BLOCK, "raw_nickel_block");
         register(NICKEL_INGOT, "nickel_ingot");
-        register(NICKEL_BLOCK, "nickel_block");
+        register(NICKEL_BLOCK_ITEM, "nickel_block");
         register(RESONATING_QUARTZ, "resonating_quartz");
         register(ALLOY_FURNACE_BLOCK, "alloy_furnace");
         register(NICHROME_INGOT, "nichrome_ingot");
@@ -170,7 +168,9 @@ public class ModItems {
         register(VUXIN, "vuxin");
         register(VUXOUT, "vuxout");
         register(VUX_LASER_COMPONENT, "vux_laser_component");
+        register(ENHANCED_VUX_LASER_COMPONENT, "enhanced_vux_laser_component");
         register(VUX_MACHINE_CORE_BLOCK_ITEM, "vux_machine_core");
+        register(PRECISION_VUX_MACHINE_CORE_BLOCK_ITEM, "precision_vux_machine_core");
         register(VUX_FORMING_MACHINE, "vux_forming_machine");
         register(VUX_FILTER_TEMPLATE, "vux_filter_template");
         register(VUX_FILTER, "vux_filter");
@@ -191,7 +191,7 @@ public class ModItems {
         register(SILVER_COATED_AMETHYST_SHARD, "silver_coated_amethyst_shard");
         register(RAW_SILVER, "raw_silver");
         register(SILVER_INGOT, "silver_ingot");
-        register(SILVER_BLOCK, "silver_block");
+        register(SILVER_BLOCK_ITEM, "silver_block");
         register(SILVER_ORE_BLOCK_ITEM, "silver_ore");
         register(DEEPSLATE_SILVER_ORE_BLOCK_ITEM, "deepslate_silver_ore");
         register(SILVER_PICKAXE, "silver_pickaxe");
@@ -218,6 +218,18 @@ public class ModItems {
         register(NETHER_ROD, "nether_rod");
         register(POTION_OF_BLINDNESS_IN_SILVER_BOTTLE, "potion_of_blindness_in_silver_bottle");
         register(BOTTLE_OF_SHADOW, "bottle_of_shadow");
+        register(LASER_TRANSMITTER, "laser_transmitter");
+        register(ACTIVATION_LASER_LENS, "activation_laser_lens");
+        register(BURNING_LASER_LENS, "burning_laser_lens");
+        register(DESTRUCTION_LASER_LENS, "destruction_laser_lens");
+        register(END_SAND, "end_sand");
+        register(STARDUST, "stardust");
+        register(STARDUST_BLOCK_ITEM, "block_of_stardust");
+        register(STARROCK_ITEM, "starrock");
+        register(STARROCK_BRICKS_BLOCK_ITEM, "starrock_bricks");
+        register(AZURE_SAND_ITEM, "azure_sand");
+        register(AZURE_SANDSTONE_ITEM, "azure_sandstone");
+        register(AZURE_SANDSTONE_BRICKS_ITEM, "azure_sandstone_bricks");
     }
 
 }

@@ -25,6 +25,10 @@
     "voidophobia:deepslate_silver_ore",
     "voidophobia:nickel_block",
     "voidophobia:chrome_block",
-    "voidophobia:silver_block"
+    "voidophobia:silver_block",
+    "voidophobia:reinforced_glass",
+    "voidophobia:blast_chamber",
+    "voidophobia:laser_transmitter",
+    "voidophobia:precision_vux_machine_core"
   ]
 }

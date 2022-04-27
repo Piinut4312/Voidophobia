@@ -1,0 +1,11 @@
+{
+  "type": "voidophobia:vux_filtering",
+  "ingredient":{
+    "item":"voidophobia:end_sand"
+  },
+  "filter": "light",
+  "result": {
+    "item":"voidophobia:azure_sand"
+  },
+  "count": 1
+}

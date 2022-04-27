@@ -164,5 +164,4 @@ public class LaserEngravingMachineBlock extends BlockWithEntity implements VuxCo
     }
 
 
-
 }

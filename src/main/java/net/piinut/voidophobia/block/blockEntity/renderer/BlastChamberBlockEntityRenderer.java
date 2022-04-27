@@ -43,9 +43,9 @@ public class BlastChamberBlockEntityRenderer implements BlockEntityRenderer<Blas
 
         if(!itemStack1.isEmpty()){
             renderItemWithPosAndScale(itemStack1, 0.5, 0.25, 0.5, explosiveSize, explosiveSize, explosiveSize, light, overlay, matrices, vertexConsumers);
-            renderItemWithPosAndScale(itemStack, 0.5+offset*Math.cos(theta1), 0.25, 0.5+offset*Math.sin(theta1), 0.3f, 0.3f, 0.3f, light, overlay, matrices, vertexConsumers);
+            renderItemWithPosAndScale(itemStack, 0.5+offset*Math.cos(theta1), 0.25, 0.5+offset*Math.sin(theta1), 0.4f, 0.4f, 0.4f, light, overlay, matrices, vertexConsumers);
         }else{
-            renderItemWithPosAndScale(itemStack, 0.5, 0.25, 0.5, 0.3f, 0.3f, 0.3f, light, overlay, matrices, vertexConsumers);
+            renderItemWithPosAndScale(itemStack, 0.5, 0.25, 0.5, 0.4f, 0.4f, 0.4f, light, overlay, matrices, vertexConsumers);
         }
 
     }

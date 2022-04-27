@@ -3,6 +3,7 @@ package net.piinut.voidophobia.block.blockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.Inventory;
+import net.minecraft.inventory.InventoryChangedListener;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.collection.DefaultedList;
 
@@ -13,6 +14,7 @@ import net.minecraft.util.collection.DefaultedList;
  */
 
 public interface BasicInventory extends Inventory {
+
 
     /**
      * Retrieves the item list of this inventory.
@@ -73,8 +75,7 @@ public interface BasicInventory extends Inventory {
      */
     @Override
     default ItemStack removeStack(int slot, int count) {
-        ItemStack result = Inventories.splitStack(getItems(), slot, count);
-        return result;
+        return Inventories.splitStack(getItems(), slot, count);
     }
 
     /**
@@ -117,7 +118,6 @@ public interface BasicInventory extends Inventory {
      */
     @Override
     default void markDirty() {
-        // Override if you want behavior.
     }
 
     /**

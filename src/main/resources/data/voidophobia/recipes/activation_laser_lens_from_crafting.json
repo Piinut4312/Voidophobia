@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " # ",
+    "#@#",
+    " # "
+  ],
+  "key": {
+    "#": {
+      "item": "voidophobia:resonating_quartz"
+    },
+    "@": {
+      "item": "voidophobia:amethyst_lens"
+    }
+  },
+  "result": {
+    "item": "voidophobia:activation_laser_lens",
+    "count": 1
+  }
+}

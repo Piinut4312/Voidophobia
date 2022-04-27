@@ -1,0 +1,11 @@
+{
+  "type": "voidophobia:vux_filtering",
+  "ingredient":{
+    "item":"voidophobia:azure_sand"
+  },
+  "filter": "rock",
+  "result": {
+    "item":"voidophobia:levitatium"
+  },
+  "count": 3
+}
