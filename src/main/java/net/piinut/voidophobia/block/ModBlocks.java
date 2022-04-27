@@ -64,6 +64,8 @@ public class ModBlocks {
     public static final Block LASER_TRANSMITTER = new LaserTransmitterBlock(FabricBlockSettings.of(Material.METAL).strength(12.0f, 12.0f).sounds(BlockSoundGroup.METAL).requiresTool());
     public static final Block END_SAND = new Block(FabricBlockSettings.of(Material.AGGREGATE).strength(1.0f).sounds(BlockSoundGroup.SAND));
     public static final Block PRECISION_VUX_MACHINE_CORE = new Block(FabricBlockSettings.of(Material.METAL).strength(16f, 16f).requiresTool().sounds(BlockSoundGroup.METAL));
+    public static final Block INVAR_BLOCK = new Block(FabricBlockSettings.of(Material.METAL).strength(7.0f, 8.0f).requiresTool().sounds(BlockSoundGroup.METAL));
+    public static final Block LASERWORK_TABLE = new LaserworkTableBlock(FabricBlockSettings.of(Material.METAL).strength(6.0f, 8.0f).requiresTool().sounds(BlockSoundGroup.METAL));
     private static Block createReinforcedPistonBlock(boolean sticky) {
         AbstractBlock.ContextPredicate contextPredicate = (state, world, pos) -> !state.get(ReinforcedPistonBlock.EXTENDED);
         return new ReinforcedPistonBlock(sticky, FabricBlockSettings.of(Material.PISTON).strength(7.5f).solidBlock(ModBlocks::never).suffocates(contextPredicate).blockVision(contextPredicate));
@@ -127,6 +129,8 @@ public class ModBlocks {
         register(LASER_TRANSMITTER, "laser_transmitter");
         register(END_SAND, "end_sand");
         register(PRECISION_VUX_MACHINE_CORE, "precision_vux_machine_core");
+        register(INVAR_BLOCK, "invar_block");
+        register(LASERWORK_TABLE, "laserwork_table");
     }
 
 }

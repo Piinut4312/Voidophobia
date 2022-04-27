@@ -1,0 +1,10 @@
+{
+    "type":"voidophobia:laser_activating",
+    "source":{
+        "item":"minecraft:netherrack"
+    },
+    "target":{
+        "item":"minecraft:glowstone"
+    },
+    "time":1200
+}

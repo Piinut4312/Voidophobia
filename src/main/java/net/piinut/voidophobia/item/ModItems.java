@@ -62,6 +62,8 @@ public class ModItems {
     public static final BlockItem LASER_TRANSMITTER = new BlockItem(ModBlocks.LASER_TRANSMITTER, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final BlockItem END_SAND = new BlockItem(ModBlocks.END_SAND, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final BlockItem PRECISION_VUX_MACHINE_CORE_BLOCK_ITEM = new BlockItem(ModBlocks.PRECISION_VUX_MACHINE_CORE, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final BlockItem INVAR_BLOCK = new BlockItem(ModBlocks.INVAR_BLOCK, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final BlockItem LASERWORK_TABLE = new BlockItem(ModBlocks.LASERWORK_TABLE, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item VUX_METER = new VuxMeterItem(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item GODEL_CRYSTAL_SHARD = new GodelCrystalShardItem(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item ARTIFICIAL_BEDROCK_SCRAP = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
@@ -200,6 +202,7 @@ public class ModItems {
         register(SILVER_SWORD, "silver_sword");
         register(SILVER_HOE, "silver_hoe");
         register(INVAR_INGOT, "invar_ingot");
+        register(INVAR_BLOCK, "invar_block");
         register(REDSTONE_QUARTZ, "redstone_quartz");
         register(MODIFIER_MODULE_TEMPLATE, "modifier_module_template");
         register(BASIC_MODIFIER_MODULE, "basic_modifier_module");
@@ -219,6 +222,7 @@ public class ModItems {
         register(POTION_OF_BLINDNESS_IN_SILVER_BOTTLE, "potion_of_blindness_in_silver_bottle");
         register(BOTTLE_OF_SHADOW, "bottle_of_shadow");
         register(LASER_TRANSMITTER, "laser_transmitter");
+        register(LASERWORK_TABLE, "laserwork_table");
         register(ACTIVATION_LASER_LENS, "activation_laser_lens");
         register(BURNING_LASER_LENS, "burning_laser_lens");
         register(DESTRUCTION_LASER_LENS, "destruction_laser_lens");

@@ -1,0 +1,37 @@
+{
+  "parent": "voidophobia:voidophobia/placed_alloy_furnace",
+  "display": {
+    "icon": {
+      "item": "voidophobia:invar_ingot"
+    },
+    "title": {
+      "translate": "advancements.voidophobia.obtain_invar_ingot.title"
+    },
+    "description": {
+      "translate": "advancements.voidophobia.obtain_invar_ingot.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "invar_ingot": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "voidophobia:invar_ingot"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "invar_ingot"
+    ]
+  ]
+}

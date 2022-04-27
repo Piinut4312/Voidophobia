@@ -1,0 +1,31 @@
+{
+  "parent": "voidophobia:voidophobia/placed_vacuum_coater",
+  "display": {
+    "icon": {
+      "item": "voidophobia:laser_transmitter"
+    },
+    "title": {
+      "translate": "advancements.voidophobia.placed_laser_transmitter.title"
+    },
+    "description": {
+      "translate": "advancements.voidophobia.placed_laser_transmitter.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "laser_transmitter": {
+      "trigger": "minecraft:placed_block",
+      "conditions": {
+        "block": "voidophobia:laser_transmitter"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "laser_transmitter"
+    ]
+  ]
+}

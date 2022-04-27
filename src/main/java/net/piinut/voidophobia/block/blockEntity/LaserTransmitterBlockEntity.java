@@ -5,6 +5,9 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.inventory.Inventories;
+import net.minecraft.inventory.Inventory;
+import net.minecraft.inventory.SimpleInventory;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtHelper;
@@ -17,17 +20,19 @@ import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
+import net.piinut.voidophobia.Voidophobia;
 import net.piinut.voidophobia.block.LaserTransmitterBlock;
-import net.piinut.voidophobia.block.ModBlocks;
 import net.piinut.voidophobia.item.LaserLensItem;
 import net.piinut.voidophobia.item.ModItems;
+import net.piinut.voidophobia.item.recipe.LaserActivatingRecipe;
+import net.piinut.voidophobia.item.recipe.ModRecipeTypes;
 import org.jetbrains.annotations.Nullable;
 
 public class LaserTransmitterBlockEntity extends BlockEntity implements BasicInventory {
 
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(1, ItemStack.EMPTY);
     private static final int DEFAULT_BEAM_LENGTH = 20;
-    private static final float vuxConsumePerTick = 800;
+    private static final float vuxConsumePerTick = 600;
     private static final float MAX_VUX_CAPACITY = 60000;
     private int processTime;
     private int processTimeTotal;
@@ -123,6 +128,24 @@ public class LaserTransmitterBlockEntity extends BlockEntity implements BasicInv
         blockEntity.processTime = 0;
     }
 
+    private static int getProcessTime(World world, Inventory inventory) {
+        return world.getRecipeManager().getFirstMatch(ModRecipeTypes.LASER_ACTIVATING, inventory, world).map(LaserActivatingRecipe::getTime).orElse(200);
+    }
+
+    private static boolean canAcceptRecipeOutputAsBlock(LaserActivatingRecipe recipe, ItemStack source) {
+        if (source.isEmpty() || recipe == null) {
+            return false;
+        }
+        ItemStack itemStack = recipe.getOutput();
+        return !itemStack.isEmpty() && source.getItem() instanceof BlockItem && itemStack.getItem() instanceof BlockItem;
+    }
+
+    private static ItemStack craftRecipe(LaserActivatingRecipe recipe, ItemStack source) {
+        if (recipe == null || !LaserTransmitterBlockEntity.canAcceptRecipeOutputAsBlock(recipe, source)) {
+            return ItemStack.EMPTY;
+        }
+        return recipe.getOutput();
+    }
     public static void serverTick(World world, BlockPos blockPos, BlockState blockState, LaserTransmitterBlockEntity blockEntity) {
         boolean bl = false;
         if(!world.isClient){
@@ -142,26 +165,21 @@ public class LaserTransmitterBlockEntity extends BlockEntity implements BasicInv
                             }
                         }
                     }else if(laserLensItem == ModItems.ACTIVATION_LASER_LENS){
-                        if(blockEntity.targetState.isOf(ModBlocks.END_SAND)){
-                            blockEntity.processTimeTotal = 1600;
-                            blockEntity.updateProgress();
-                            if(blockEntity.processTime == blockEntity.processTimeTotal){
-                                BlockState newState = ModBlocks.BLOCK_OF_STARDUST.getDefaultState();
-                                LaserTransmitterBlockEntity.updateAfterActivatingTarget(world, blockEntity, newState, blockPos, blockState);
-                            }
-                        }else if(blockEntity.targetState.isOf(Blocks.NETHERRACK)){
-                            blockEntity.processTimeTotal = 3200;
-                            blockEntity.updateProgress();
-                            if(blockEntity.processTime == blockEntity.processTimeTotal){
-                                BlockState newState = Blocks.GLOWSTONE.getDefaultState();
-                                LaserTransmitterBlockEntity.updateAfterActivatingTarget(world, blockEntity, newState, blockPos, blockState);
-                            }
-                        }else if(blockEntity.targetState.isOf(Blocks.CARVED_PUMPKIN)){
-                            blockEntity.processTimeTotal = 400;
-                            blockEntity.updateProgress();
-                            if(blockEntity.processTime == blockEntity.processTimeTotal){
-                                BlockState newState = Blocks.JACK_O_LANTERN.getDefaultState();
-                                LaserTransmitterBlockEntity.updateAfterActivatingTarget(world, blockEntity, newState, blockPos, blockState);
+                        if(!blockEntity.targetState.isAir()){
+                            ItemStack itemStack = new ItemStack(blockEntity.targetState.getBlock().asItem());
+                            SimpleInventory dummyInventory = new SimpleInventory(1);
+                            dummyInventory.setStack(0, itemStack);
+                            LaserActivatingRecipe recipe = world.getRecipeManager().getFirstMatch(ModRecipeTypes.LASER_ACTIVATING, dummyInventory, world).orElse(null);
+                            if(LaserTransmitterBlockEntity.canAcceptRecipeOutputAsBlock(recipe, itemStack)){
+                                blockEntity.processTimeTotal = LaserTransmitterBlockEntity.getProcessTime(world, dummyInventory);
+                                blockEntity.updateProgress();
+                                if(blockEntity.processTime == blockEntity.processTimeTotal){
+                                    ItemStack resultStack = LaserTransmitterBlockEntity.craftRecipe(recipe, itemStack);
+                                    if(!resultStack.isEmpty()){
+                                        BlockState newState = Block.getBlockFromItem(resultStack.getItem()).getDefaultState();
+                                        LaserTransmitterBlockEntity.updateAfterActivatingTarget(world, blockEntity, newState, blockPos, blockState);
+                                    }
+                                }
                             }
                         }
                     }
@@ -244,11 +262,11 @@ public class LaserTransmitterBlockEntity extends BlockEntity implements BasicInv
         if(this.vuxStored >= LaserTransmitterBlockEntity.MAX_VUX_CAPACITY){
             return 0;
         }
-        return Math.min(LaserTransmitterBlockEntity.MAX_VUX_CAPACITY - this.vuxStored, 1800);
+        return Math.min(LaserTransmitterBlockEntity.MAX_VUX_CAPACITY - this.vuxStored, 1250);
     }
 
     public void addVux(double vuxIn) {
-        this.vuxStored += Math.min(vuxIn, 1800);
+        this.vuxStored += Math.min(vuxIn, 1250);
         if(this.vuxStored > LaserTransmitterBlockEntity.MAX_VUX_CAPACITY){
             this.vuxStored = LaserTransmitterBlockEntity.MAX_VUX_CAPACITY;
         }

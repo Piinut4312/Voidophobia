@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "voidophobia:invar_ingot"
+    }
+  },
+  "result": {
+    "item": "voidophobia:invar_block",
+    "count": 1
+  }
+}

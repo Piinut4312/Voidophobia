@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "voidophobia:invar_block"
+    }
+  ],
+  "result": {
+    "item": "voidophobia:invar_ingot",
+    "count": 9
+  }
+}

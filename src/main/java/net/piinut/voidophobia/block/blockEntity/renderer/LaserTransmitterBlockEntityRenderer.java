@@ -34,7 +34,7 @@ public class LaserTransmitterBlockEntityRenderer implements BlockEntityRenderer<
         matrices.scale(0.5f, 0.5f, 0.5f);
         matrices.multiply(dir.getRotationQuaternion());
         matrices.multiply(Vec3f.NEGATIVE_X.getDegreesQuaternion(90.0f));
-        matrices.translate(0, 0, 0.5);
+        matrices.translate(0, 0, -0.4);
         ItemStack itemStack = entity.getStack(0);
         MinecraftClient.getInstance().getItemRenderer().renderItem(itemStack, ModelTransformation.Mode.FIXED, light, overlay, matrices, vertexConsumers, 0);
         matrices.pop();
