@@ -1,0 +1,37 @@
+{
+  "parent": "voidophobia:voidophobia/obtain_stardust",
+  "display": {
+    "icon": {
+      "item": "voidophobia:levitatium"
+    },
+    "title": {
+      "translate": "advancements.voidophobia.obtain_levitatium.title"
+    },
+    "description": {
+      "translate": "advancements.voidophobia.obtain_levitatium.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "levitatium": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "voidophobia:levitatium"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "levitatium"
+    ]
+  ]
+}

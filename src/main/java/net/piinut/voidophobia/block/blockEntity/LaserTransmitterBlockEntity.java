@@ -239,7 +239,7 @@ public class LaserTransmitterBlockEntity extends BlockEntity implements BasicInv
     public static void clientTick(World world, BlockPos blockPos, BlockState blockState, LaserTransmitterBlockEntity blockEntity) {
         if(blockEntity.getBeamLength() > 0){
             ItemStack itemStack = blockEntity.getStack(0);
-            if(!itemStack.isEmpty() && blockEntity.processTime > 0){
+            if(!itemStack.isEmpty() && blockEntity.processTimeTotal > 0){
                 Random random = world.getRandom();
                 Vec3i dir = blockState.get(LaserTransmitterBlock.FACING).getVector();
                 float x = blockEntity.targetPos.getX() + 0.4f * (1-dir.getX()) + random.nextFloat()*0.2f;

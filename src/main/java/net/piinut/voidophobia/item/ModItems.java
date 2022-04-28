@@ -87,7 +87,7 @@ public class ModItems {
     public static final Item VUXOUT = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item VUX_LASER_COMPONENT = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item VUX_FILTER_TEMPLATE = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
-    public static final Item VUX_FILTER = new VuxFilterItem(new FabricItemSettings().maxCount(1).maxDamage(64));
+    public static final Item VUX_FILTER = new VuxFilterItem(new FabricItemSettings().maxCount(1).maxDamage(256));
     public static final Item WEAK_VUX_VALVE = new AbstractVuxValveItem(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item NICHROME_WIRE = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item BASIC_HEATING_COIL = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
@@ -129,6 +129,8 @@ public class ModItems {
     public static final Item ETHER_BOTTLE = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP).maxCount(16).recipeRemainder(Items.GLASS_BOTTLE));
     public static final Item ACTIVATED_PARADOXIUM = new ActivatedParadoxiumItem(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item CRYSTALLIZED_ETHER = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final Item ANOMALOUS_MEDIUM = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final Item CORRUPTION_CATALYST = new CorruptionCatalystItem(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     private static void register(Item item, String id){
         Registry.register(Registry.ITEM, new Identifier(Voidophobia.MODID, id), item);
     }
@@ -243,6 +245,8 @@ public class ModItems {
         register(ETHER_BOTTLE, "ether_bottle");
         register(ACTIVATED_PARADOXIUM, "activated_paradoxium");
         register(CRYSTALLIZED_ETHER, "crystallized_ether");
+        register(ANOMALOUS_MEDIUM, "anomalous_medium");
+        register(CORRUPTION_CATALYST, "corruption_catalyst");
     }
 
 }

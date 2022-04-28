@@ -2,17 +2,14 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "item": "voidophobia:ether_bottle"
+      "item": "voidophobia:anomalous_medium"
     },
     {
       "item": "voidophobia:activated_paradoxium"
-    },
-    {
-      "item": "voidophobia:levitatium"
     }
   ],
   "result": {
-    "item": "voidophobia:crystallized_ether",
+    "item": "voidophobia:corruption_catalyst",
     "count": 1
   }
 }

@@ -5,6 +5,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.SidedInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
@@ -145,22 +146,34 @@ public class BlastChamberBlockEntity extends BlockEntity implements BasicInvento
         }
         ItemStack itemStack = slots.get(0);
         ItemStack itemStack2 = recipe.getOutput();
-        for(int i = 0; i < recipe.getOutputCount(); i++){
-            ItemStack itemStack3 = slots.get(2);
-            if(random.nextFloat() < recipe.getChance()){
-                if(itemStack3.isEmpty()){
-                    itemStack2.setCount(1);
-                    slots.set(2, itemStack2.copy());
-                }else if(itemStack3.isOf(itemStack2.getItem())){
-                    itemStack3.increment(1);
+        int count = BlastChamberBlockEntity.getMaxBatch(itemStack1.getItem());
+        while(count > 0 && slots.get(2).getCount() < recipe.getOutput().getMaxCount()){
+            for(int i = 0; i < recipe.getOutputCount(); i++){
+                ItemStack itemStack3 = slots.get(2);
+                if(random.nextFloat() < recipe.getChance()){
+                    if(itemStack3.isEmpty()){
+                        itemStack2.setCount(1);
+                        slots.set(2, itemStack2.copy());
+                    }else if(itemStack3.isOf(itemStack2.getItem())){
+                        itemStack3.increment(1);
+                    }
                 }
             }
+            itemStack.decrement(recipe.getInputCount());
+            itemStack1.decrement(1);
+            count--;
         }
-        itemStack.decrement(recipe.getInputCount());
-        itemStack1.decrement(1);
     }
 
-
+    private static int getMaxBatch(Item item) {
+        if(item == Items.TNT){
+            return 8;
+        }
+        if(item == Items.END_CRYSTAL){
+            return 32;
+        }
+        return 0;
+    }
 
     public static void clientTick(World world, BlockPos blockPos, BlockState blockState, BlastChamberBlockEntity blockEntity) {
         if(world.isClient){
@@ -185,18 +198,15 @@ public class BlastChamberBlockEntity extends BlockEntity implements BasicInvento
                 ExplosiveBlastingRecipe recipe = world.getRecipeManager().getFirstMatch(ModRecipeTypes.EXPLOSIVE_BLASTING, blockEntity, world).orElse(null);
                 if (BlastChamberBlockEntity.canAcceptRecipeOutput(recipe, blockEntity.inventory)) {
                     bl2 = true;
-                }
-                if (BlastChamberBlockEntity.canAcceptRecipeOutput(recipe, blockEntity.inventory)) {
                     if (blockEntity.coolDown == 0) {
                         blockEntity.coolDown = BlastChamberBlockEntity.getCooldown(blockEntity.inventory.get(1));
                         BlastChamberBlockEntity.craftRecipe(world.getRandom(), recipe, blockEntity.inventory);
                         world.playSound(null, blockPos, SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.BLOCKS, 0.5f, 1f);
                         blockEntity.vuxStored = MathHelper.clamp(blockEntity.vuxStored + 1000, 0, BlastChamberBlockEntity.MAX_VUX_CAPACITY);
-                        bl2 = true;
                     }
-                }
-                if (blockEntity.coolDown > 0) {
-                    blockEntity.coolDown = MathHelper.clamp(blockEntity.coolDown - 2, 0, BlastChamberBlockEntity.MAX_COOLDOWN);
+                    if (blockEntity.coolDown > 0 && blockEntity.getStack(2).getCount() < blockEntity.getStack(2).getMaxCount()) {
+                        blockEntity.coolDown = MathHelper.clamp(blockEntity.coolDown - 2, 0, BlastChamberBlockEntity.MAX_COOLDOWN);
+                    }
                 }
             }
             if (bl2) {
@@ -212,7 +222,7 @@ public class BlastChamberBlockEntity extends BlockEntity implements BasicInvento
             return 200;
         }
         if(itemStack.isOf(Items.END_CRYSTAL)){
-            return 100;
+            return 80;
         }
         return MAX_COOLDOWN;
     }

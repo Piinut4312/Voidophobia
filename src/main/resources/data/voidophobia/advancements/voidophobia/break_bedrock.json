@@ -1,0 +1,42 @@
+{
+  "parent": "voidophobia:voidophobia/obtain_levitatium",
+  "display": {
+    "icon": {
+      "item": "voidophobia:corruption_catalyst"
+    },
+    "title": {
+      "translate": "advancements.voidophobia.break_bedrock.title"
+    },
+    "description": {
+      "translate": "advancements.voidophobia.break_bedrock.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "break_bedrock": {
+      "trigger": "minecraft:item_used_on_block",
+      "conditions": {
+        "location": {
+          "block": {
+            "blocks": [
+              "voidophobia:cracked_bedrock"
+            ]
+          }
+        },
+        "item": {
+          "items": [
+            "voidophobia:corruption_catalyst"
+          ]
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "break_bedrock"
+    ]
+  ]
+}

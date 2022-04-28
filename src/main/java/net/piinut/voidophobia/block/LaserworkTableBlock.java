@@ -4,7 +4,15 @@ import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.block.entity.CampfireBlockEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.recipe.CampfireCookingRecipe;
+import net.minecraft.stat.Stats;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
 import net.minecraft.util.ItemScatterer;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
@@ -13,6 +21,8 @@ import net.minecraft.world.World;
 import net.piinut.voidophobia.block.blockEntity.LaserworkTableBlockEntity;
 import net.piinut.voidophobia.block.blockEntity.ModBlockEntities;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Optional;
 
 public class LaserworkTableBlock extends BlockWithEntity {
 
@@ -60,5 +70,32 @@ public class LaserworkTableBlock extends BlockWithEntity {
             }
             super.onStateReplaced(state, world, pos, newState, moved);
         }
+    }
+
+    @Override
+    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+        ItemStack itemStack = player.getStackInHand(hand);
+        LaserworkTableBlockEntity laserworkTableBlockEntity;
+        BlockEntity blockEntity = world.getBlockEntity(pos);
+        if (blockEntity instanceof LaserworkTableBlockEntity) {
+            laserworkTableBlockEntity = (LaserworkTableBlockEntity) blockEntity;
+            if (!world.isClient) {
+                if(!itemStack.isEmpty() && laserworkTableBlockEntity.addItem(player.getAbilities().creativeMode ? itemStack.copy() : itemStack)){
+                    return ActionResult.SUCCESS;
+                } else if (!laserworkTableBlockEntity.getStack(1).isEmpty()) {
+                    ItemStack itemStack1 = laserworkTableBlockEntity.getStack(1).copy();
+                    laserworkTableBlockEntity.removeStack(1);
+                    player.giveItemStack(itemStack1);
+                    return ActionResult.SUCCESS;
+                } else if (!laserworkTableBlockEntity.getStack(0).isEmpty()) {
+                    ItemStack itemStack1 = laserworkTableBlockEntity.getStack(0).copy();
+                    laserworkTableBlockEntity.removeStack(0);
+                    player.giveItemStack(itemStack1);
+                    return ActionResult.SUCCESS;
+                }
+            }
+            return ActionResult.CONSUME;
+        }
+        return ActionResult.PASS;
     }
 }

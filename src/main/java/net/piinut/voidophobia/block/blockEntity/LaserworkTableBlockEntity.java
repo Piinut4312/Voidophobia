@@ -131,4 +131,16 @@ public class LaserworkTableBlockEntity extends BlockEntity implements BasicInven
     public static void serverTick(World world, BlockPos blockPos, BlockState blockState, LaserworkTableBlockEntity blockEntity) {
         ((ServerWorld) world).getChunkManager().markForUpdate(blockEntity.getPos());
     }
+
+    public boolean addItem(ItemStack itemStack){
+        if(this.getStack(0).isEmpty()){
+            this.setStack(0, itemStack.copy());
+            return true;
+        }
+        if(this.getStack(0).isItemEqual(itemStack)){
+            this.getStack(0).setCount(Math.min(this.getStack(0).getCount() + itemStack.getCount(), itemStack.getMaxCount()));
+            return true;
+        }
+        return false;
+    }
 }

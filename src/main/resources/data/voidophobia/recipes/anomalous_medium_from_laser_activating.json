@@ -1,0 +1,10 @@
+{
+    "type":"voidophobia:laser_activating",
+    "source":{
+        "item":"voidophobia:levitatium"
+    },
+    "target":{
+        "item":"voidophobia:anomalous_medium"
+    },
+    "time":200
+}
