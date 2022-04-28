@@ -4,6 +4,7 @@ import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.entity.EntityType;
 import net.minecraft.sound.BlockSoundGroup;
+import net.minecraft.state.property.Property;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
@@ -66,6 +67,7 @@ public class ModBlocks {
     public static final Block PRECISION_VUX_MACHINE_CORE = new Block(FabricBlockSettings.of(Material.METAL).strength(16f, 16f).requiresTool().sounds(BlockSoundGroup.METAL));
     public static final Block INVAR_BLOCK = new Block(FabricBlockSettings.of(Material.METAL).strength(7.0f, 8.0f).requiresTool().sounds(BlockSoundGroup.METAL));
     public static final Block LASERWORK_TABLE = new LaserworkTableBlock(FabricBlockSettings.of(Material.METAL).strength(6.0f, 8.0f).requiresTool().sounds(BlockSoundGroup.METAL));
+    public static final Block LASER_DETECTOR = new LaserDetectorBlock(FabricBlockSettings.of(Material.STONE).strength(4.0f, 5.0f).sounds(BlockSoundGroup.STONE).luminance(state -> state.get(LaserDetectorBlock.POWERED)? 15:0));
     private static Block createReinforcedPistonBlock(boolean sticky) {
         AbstractBlock.ContextPredicate contextPredicate = (state, world, pos) -> !state.get(ReinforcedPistonBlock.EXTENDED);
         return new ReinforcedPistonBlock(sticky, FabricBlockSettings.of(Material.PISTON).strength(7.5f).solidBlock(ModBlocks::never).suffocates(contextPredicate).blockVision(contextPredicate));
@@ -131,6 +133,7 @@ public class ModBlocks {
         register(PRECISION_VUX_MACHINE_CORE, "precision_vux_machine_core");
         register(INVAR_BLOCK, "invar_block");
         register(LASERWORK_TABLE, "laserwork_table");
+        register(LASER_DETECTOR, "laser_detector");
     }
 
 }

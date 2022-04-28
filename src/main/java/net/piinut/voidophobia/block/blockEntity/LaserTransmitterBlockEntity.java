@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
@@ -19,10 +20,9 @@ import net.minecraft.particle.ParticleTypes;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.collection.DefaultedList;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Vec3i;
+import net.minecraft.util.math.*;
 import net.minecraft.world.World;
+import net.piinut.voidophobia.block.LaserDetectorBlock;
 import net.piinut.voidophobia.block.LaserTransmitterBlock;
 import net.piinut.voidophobia.block.ModBlocks;
 import net.piinut.voidophobia.item.LaserLensItem;
@@ -31,13 +31,13 @@ import net.piinut.voidophobia.item.recipe.LaserActivatingRecipe;
 import net.piinut.voidophobia.item.recipe.ModRecipeTypes;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.Random;
 
 public class LaserTransmitterBlockEntity extends BlockEntity implements BasicInventory {
 
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(1, ItemStack.EMPTY);
-    private static final int DEFAULT_BEAM_LENGTH = 20;
-    private static final float vuxConsumePerTick = 600;
+    private static final int DEFAULT_BEAM_LENGTH = 0;
     private static final float MAX_VUX_CAPACITY = 60000;
     private int processTime;
     private int processTimeTotal;
@@ -82,7 +82,7 @@ public class LaserTransmitterBlockEntity extends BlockEntity implements BasicInv
 
     public LaserTransmitterBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.LASER_TRANSMITTER, pos, state);
-        this.beamLength = DEFAULT_BEAM_LENGTH;
+        this.beamLength = 0;
         this.processTime = 0;
         this.processTimeTotal = 0;
         this.vuxStored = 0;
@@ -156,12 +156,12 @@ public class LaserTransmitterBlockEntity extends BlockEntity implements BasicInv
     }
     public static void serverTick(World world, BlockPos blockPos, BlockState blockState, LaserTransmitterBlockEntity blockEntity) {
         boolean bl = false;
-        if(!world.isClient){
-            LaserTransmitterBlockEntity.updateBeam(world, blockPos, blockState, blockEntity);
-            if(blockEntity.getBeamLength() > 0 && blockEntity.vuxStored >= LaserTransmitterBlockEntity.vuxConsumePerTick){
-                blockEntity.consumeVux();
+        LaserTransmitterBlockEntity.updateBeam(world, blockPos, blockState, blockEntity);
+        if(blockEntity.getBeamLength() > 0 && !blockEntity.getStack(0).isEmpty()){
+            if(blockEntity.getStack(0).getItem() instanceof LaserLensItem laserLensItem){
                 bl = true;
-                if(!blockEntity.getStack(0).isEmpty() && blockEntity.getStack(0).getItem() instanceof LaserLensItem laserLensItem){
+                if(blockEntity.vuxStored >= laserLensItem.getVuxConsumption()){
+                    blockEntity.consumeVux(laserLensItem.getVuxConsumption());
                     if(laserLensItem == ModItems.DESTRUCTION_LASER_LENS){
                         blockEntity.processTimeTotal = (int) (20*world.getBlockState(blockEntity.targetPos).getHardness(world, blockEntity.targetPos));
                         if(blockEntity.processTimeTotal > 0){
@@ -204,22 +204,63 @@ public class LaserTransmitterBlockEntity extends BlockEntity implements BasicInv
                                 }
                             }
                         }
+                    }else if(laserLensItem == ModItems.BURNING_LASER_LENS){
+                        Direction dir = blockState.get(LaserTransmitterBlock.FACING);
+                        Vec3i unitVec3i = dir.getVector();
+                        Vec3d pos1 = new Vec3d(blockPos.getX()+0.5, blockPos.getY()+0.5, blockPos.getZ()+0.5);
+                        Vec3d pos2 = new Vec3d(pos1.getX(), pos1.getY(), pos1.getZ());
+                        if(unitVec3i.getX() != 0){
+                            pos1 = pos1.add(0, -0.2, -0.2);
+                            pos2 = pos2.add(unitVec3i.getX()* blockEntity.getBeamLength(), 0.2, 0.2);
+                        }else if(unitVec3i.getY() != 0){
+                            pos1 = pos1.add(-0.2, 0, -0.2);
+                            pos2 = pos2.add(0.2, unitVec3i.getY() * blockEntity.getBeamLength(), 0.2);
+                        }else if(unitVec3i.getZ() != 0){
+                            pos1 = pos1.add(-0.2, -0.2, 0);
+                            pos2 = pos2.add(0.2, 0.2, unitVec3i.getZ() * blockEntity.getBeamLength());
+                        }
+                        List<LivingEntity> affectedEntity = world.getEntitiesByClass(LivingEntity.class, new Box(pos1, pos2), livingEntity -> true);
+                        for(LivingEntity livingEntity : affectedEntity){
+                            livingEntity.setOnFireFor(5);
+                        }
+                    }
+                }else{
+                    blockEntity.beamLength = 0;
+                    world.setBlockState(blockPos, blockState.with(LaserDetectorBlock.POWERED, false));
+                }
+            }
+        }
+        if(bl){
+            blockEntity.markDirty();
+        }
+        ((ServerWorld) world).getChunkManager().markForUpdate(blockEntity.getPos());
+    }
+
+    public static void clientTick(World world, BlockPos blockPos, BlockState blockState, LaserTransmitterBlockEntity blockEntity) {
+        if(blockEntity.getBeamLength() > 0){
+            ItemStack itemStack = blockEntity.getStack(0);
+            if(!itemStack.isEmpty() && blockEntity.processTime > 0){
+                Random random = world.getRandom();
+                Vec3i dir = blockState.get(LaserTransmitterBlock.FACING).getVector();
+                float x = blockEntity.targetPos.getX() + 0.4f * (1-dir.getX()) + random.nextFloat()*0.2f;
+                float y = blockEntity.targetPos.getY() + 0.4f * (1-dir.getY()) + random.nextFloat()*0.2f;
+                float z = blockEntity.targetPos.getZ() + 0.4f * (1-dir.getZ()) + random.nextFloat()*0.2f;
+                if(itemStack.getItem() == ModItems.DESTRUCTION_LASER_LENS){
+                    for(int i = 0; i < 6; i++){
+                        world.addParticle(new BlockStateParticleEffect(ParticleTypes.BLOCK, blockEntity.targetState), x, y, z, random.nextFloat()*0.2-0.1, random.nextFloat()*0.2-0.1, random.nextFloat()*0.2-0.1);
                     }
                 }
             }
-            if(bl){
-                blockEntity.markDirty();
-            }
-            ((ServerWorld) world).getChunkManager().markForUpdate(blockEntity.getPos());
         }
     }
 
-    private void consumeVux() {
-        this.vuxStored -= LaserTransmitterBlockEntity.vuxConsumePerTick;
+    private void consumeVux(float vux) {
+        this.vuxStored -= vux;
         if(this.vuxStored < 0){
             this.vuxStored = 0;
         }
     }
+
 
     public static void updateBeam(World world, BlockPos blockPos, BlockState blockState, LaserTransmitterBlockEntity blockEntity) {
 
@@ -228,18 +269,17 @@ public class LaserTransmitterBlockEntity extends BlockEntity implements BasicInv
         ItemStack itemStack = blockEntity.inventory.get(0);
         int affectDistance = 0;
         int i;
-        if(blockEntity.vuxStored >= LaserTransmitterBlockEntity.vuxConsumePerTick){
-            if(itemStack.isEmpty()){
-                affectDistance = LaserTransmitterBlockEntity.DEFAULT_BEAM_LENGTH;
-            }else if(itemStack.getItem() instanceof LaserLensItem){
-                affectDistance = ((LaserLensItem) itemStack.getItem()).getAffectDistance();
-            }
+        if(itemStack.isEmpty()){
+            affectDistance = LaserTransmitterBlockEntity.DEFAULT_BEAM_LENGTH;
+        }else if(itemStack.getItem() instanceof LaserLensItem){
+            affectDistance = ((LaserLensItem) itemStack.getItem()).getAffectDistance();
         }
+
         for(i = 0; i < affectDistance; i++){
             pos.move(dir);
             BlockState state = world.getBlockState(pos);
             if(!(state.getOpacity(world, pos) < 15) || (state.isOf(ModBlocks.LASERWORK_TABLE) && blockState.get(LaserTransmitterBlock.FACING) == Direction.DOWN)){
-                if(pos.getX() != blockEntity.targetPos.getX() || pos.getY() != blockEntity.targetPos.getY() || pos.getZ() != blockEntity.targetPos.getZ()){
+                if(pos.getX() != blockEntity.targetPos.getX() || pos.getY() != blockEntity.targetPos.getY() || pos.getZ() != blockEntity.targetPos.getZ() || state.getBlock() != blockEntity.targetState.getBlock()){
                     blockEntity.processTime = 0;
                 }
                 blockEntity.targetPos = pos;
@@ -259,24 +299,6 @@ public class LaserTransmitterBlockEntity extends BlockEntity implements BasicInv
     private void setBeamLength(int i) {
         if(this.beamLength != i){
             this.beamLength = i;
-        }
-    }
-
-    public static void clientTick(World world, BlockPos blockPos, BlockState blockState, LaserTransmitterBlockEntity blockEntity) {
-        if(blockEntity.getBeamLength() > 0){
-            ItemStack itemStack = blockEntity.getStack(0);
-            if(!itemStack.isEmpty()){
-                Random random = world.getRandom();
-                Vec3i dir = blockState.get(LaserTransmitterBlock.FACING).getVector();
-                float x = blockEntity.targetPos.getX() + 0.4f * (1-dir.getX()) + random.nextFloat()*0.2f;
-                float y = blockEntity.targetPos.getY() + 0.4f * (1-dir.getY()) + random.nextFloat()*0.2f;
-                float z = blockEntity.targetPos.getZ() + 0.4f * (1-dir.getZ()) + random.nextFloat()*0.2f;
-                if(itemStack.getItem() == ModItems.DESTRUCTION_LASER_LENS){
-                    for(int i = 0; i < 6; i++){
-                        world.addParticle(new BlockStateParticleEffect(ParticleTypes.BLOCK, blockEntity.targetState), x, y, z, random.nextFloat()*0.2-0.1, random.nextFloat()*0.2-0.1, random.nextFloat()*0.2-0.1);
-                    }
-                }
-            }
         }
     }
 
@@ -313,4 +335,5 @@ public class LaserTransmitterBlockEntity extends BlockEntity implements BasicInv
             this.vuxStored = LaserTransmitterBlockEntity.MAX_VUX_CAPACITY;
         }
     }
+
 }

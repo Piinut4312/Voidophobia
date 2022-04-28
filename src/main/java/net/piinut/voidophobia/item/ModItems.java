@@ -9,6 +9,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.piinut.voidophobia.Voidophobia;
 import net.piinut.voidophobia.block.ModBlocks;
+import net.piinut.voidophobia.block.blockEntity.ModBlockEntities;
 import net.piinut.voidophobia.entity.ModEntities;
 import net.piinut.voidophobia.item.tool.*;
 
@@ -64,6 +65,7 @@ public class ModItems {
     public static final BlockItem PRECISION_VUX_MACHINE_CORE_BLOCK_ITEM = new BlockItem(ModBlocks.PRECISION_VUX_MACHINE_CORE, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final BlockItem INVAR_BLOCK = new BlockItem(ModBlocks.INVAR_BLOCK, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final BlockItem LASERWORK_TABLE = new BlockItem(ModBlocks.LASERWORK_TABLE, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final BlockItem LASER_DETECTOR = new BlockItem(ModBlocks.LASER_DETECTOR, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item VUX_METER = new VuxMeterItem(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item GODEL_CRYSTAL_SHARD = new GodelCrystalShardItem(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item ARTIFICIAL_BEDROCK_SCRAP = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
@@ -120,9 +122,9 @@ public class ModItems {
     public static final Item NETHER_ROD = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item POTION_OF_BLINDNESS_IN_SILVER_BOTTLE = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP).maxCount(16));
     public static final Item BOTTLE_OF_SHADOW = new BottleOfShadowItem(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP).maxCount(16));
-    public static final Item ACTIVATION_LASER_LENS = new LaserLensItem(12);
-    public static final Item BURNING_LASER_LENS = new LaserLensItem(12);
-    public static final Item DESTRUCTION_LASER_LENS = new LaserLensItem(6);
+    public static final Item ACTIVATION_LASER_LENS = new LaserLensItem(12, 600);
+    public static final Item BURNING_LASER_LENS = new LaserLensItem(12, 400);
+    public static final Item DESTRUCTION_LASER_LENS = new LaserLensItem(6, 600);
     public static final Item ENHANCED_VUX_LASER_COMPONENT = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item ETHER_BOTTLE = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP).maxCount(16).recipeRemainder(Items.GLASS_BOTTLE));
     public static final Item ACTIVATED_PARADOXIUM = new ActivatedParadoxiumItem(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
@@ -143,10 +145,10 @@ public class ModItems {
         register(VUX_LAMP_ITEM, "vux_lamp");
         register(REINFORCED_PISTON_ITEM, "reinforced_piston");
         register(REINFORCED_STICKY_PISTON_ITEM, "reinforced_sticky_piston");
-        register(ETERNAL_FIRE_ITEM, "eternal_fire");
-        register(COMPACT_NETHER_PORTAL_ITEM, "compact_nether_portal");
-        register(ITEM_TDI_ITEM, "item_tdi");
-        register(COMPACT_PORTAL_LINKER, "portal_linker");
+        //register(ETERNAL_FIRE_ITEM, "eternal_fire");
+        //register(COMPACT_NETHER_PORTAL_ITEM, "compact_nether_portal");
+        //register(ITEM_TDI_ITEM, "item_tdi");
+        //register(COMPACT_PORTAL_LINKER, "portal_linker");
         register(VUX_METER, "vux_meter");
         register(PARADOXIUM, "paradoxium");
         register(LEVITATIUM, "levitatium");
@@ -229,6 +231,7 @@ public class ModItems {
         register(ACTIVATION_LASER_LENS, "activation_laser_lens");
         register(BURNING_LASER_LENS, "burning_laser_lens");
         register(DESTRUCTION_LASER_LENS, "destruction_laser_lens");
+        register(LASER_DETECTOR, "laser_detector");
         register(END_SAND, "end_sand");
         register(STARDUST, "stardust");
         register(STARDUST_BLOCK_ITEM, "block_of_stardust");

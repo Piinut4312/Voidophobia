@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "powered=false": {
+      "model": "voidophobia:block/laser_detector"
+    },
+    "powered=true": {
+      "model": "voidophobia:block/laser_detector_on"
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "#@#",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:cobblestone"
+    },
+    "@": {
+      "item": "minecraft:daylight_detector"
+    }
+  },
+  "result": {
+    "item": "voidophobia:laser_detector",
+    "count": 1
+  }
+}
