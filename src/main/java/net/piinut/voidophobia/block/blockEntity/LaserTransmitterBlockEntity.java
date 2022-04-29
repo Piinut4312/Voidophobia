@@ -226,7 +226,6 @@ public class LaserTransmitterBlockEntity extends BlockEntity implements BasicInv
                     }
                 }else{
                     blockEntity.beamLength = 0;
-                    world.setBlockState(blockPos, blockState.with(LaserDetectorBlock.POWERED, false));
                 }
             }
         }

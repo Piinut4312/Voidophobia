@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:blasting",
+  "ingredient": {
+    "item": "voidophobia:deepslate_aluminium_ore"
+  },
+  "result": "voidophobia:aluminium_ingot",
+  "experience": 0.8,
+  "cookingtime": 100
+}

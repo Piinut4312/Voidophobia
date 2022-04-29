@@ -17,7 +17,7 @@ public class SilverSwordItem extends SwordItem {
     @Override
     public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         if(target instanceof AbyssSpiderEntity || target instanceof EnsorcelledEntity){
-            target.addStatusEffect(new StatusEffectInstance(StatusEffects.WITHER, 100));
+            target.addStatusEffect(new StatusEffectInstance(StatusEffects.WITHER, 200));
             target.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 100));
         }
         return super.postHit(stack, target, attacker);

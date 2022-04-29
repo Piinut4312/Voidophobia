@@ -1,0 +1,14 @@
+{
+  "type": "voidophobia:alloy_smelting",
+  "input1":{
+    "item":"voidophobia:aluminium_ingot"
+  },
+  "count1":2,
+  "input2":{
+    "item":"voidophobia:copper_nugget"
+  },
+  "count2":1,
+  "result": "voidophobia:duralumin",
+  "experience": 1.5,
+  "cookingTime":400
+}

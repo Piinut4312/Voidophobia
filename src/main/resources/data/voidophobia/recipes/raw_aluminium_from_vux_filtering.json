@@ -1,0 +1,11 @@
+{
+  "type": "voidophobia:vux_filtering",
+  "ingredient":{
+    "tag":"c:aluminium_ores"
+  },
+  "filter": "rock",
+  "result": {
+    "item":"voidophobia:raw_aluminium"
+  },
+  "count": 4
+}

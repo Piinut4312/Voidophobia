@@ -4,7 +4,10 @@
   "package": "net.piinut.voidophobia.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "accessor.MobSpawnEntryAccessor"
+    "accessor.MobSpawnEntryAccessor",
+    "ArmorItemMixin",
+    "PlayerArmorEffectMixin",
+    "PlayerInvulnerableToMixin"
   ],
   "client": [
     "VoidophobiaMixin"

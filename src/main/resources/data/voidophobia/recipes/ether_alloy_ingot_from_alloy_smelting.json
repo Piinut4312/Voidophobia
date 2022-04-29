@@ -1,0 +1,14 @@
+{
+  "type": "voidophobia:alloy_smelting",
+  "input1":{
+    "item":"voidophobia:duralumin_ingot"
+  },
+  "count1":1,
+  "input2":{
+    "item":"voidophobia:crystallized_ether"
+  },
+  "count2":1,
+  "result": "voidophobia:ether_alloy_ingot",
+  "experience": 1.5,
+  "cookingTime":400
+}

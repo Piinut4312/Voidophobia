@@ -42,25 +42,31 @@ public class ModConfiguredFeatures {
             new OreFeatureConfig(List.of(
                     OreFeatureConfig.createTarget(OreConfiguredFeatures.STONE_ORE_REPLACEABLES, ModBlocks.CHROME_ORE.getDefaultState())
                     , OreFeatureConfig.createTarget(OreConfiguredFeatures.DEEPSLATE_ORE_REPLACEABLES, ModBlocks.DEEPSLATE_CHROME_ORE.getDefaultState()))
-                    , 9));
+                    , 8));
 
     private static ConfiguredFeature<?, ?> NICKEL_ORE_CONFIGURED_FEATURE = Feature.ORE.configure(
             new OreFeatureConfig(List.of(
                     OreFeatureConfig.createTarget(OreConfiguredFeatures.STONE_ORE_REPLACEABLES, ModBlocks.NICKEL_ORE.getDefaultState())
                     , OreFeatureConfig.createTarget(OreConfiguredFeatures.DEEPSLATE_ORE_REPLACEABLES, ModBlocks.DEEPSLATE_NICKEL_ORE.getDefaultState()))
-                    , 9));
+                    , 8));
 
     private static ConfiguredFeature<?, ?> SILVER_ORE_CONFIGURED_FEATURE = Feature.ORE.configure(
             new OreFeatureConfig(List.of(
                     OreFeatureConfig.createTarget(OreConfiguredFeatures.STONE_ORE_REPLACEABLES, ModBlocks.SILVER_ORE.getDefaultState())
                     , OreFeatureConfig.createTarget(OreConfiguredFeatures.DEEPSLATE_ORE_REPLACEABLES, ModBlocks.DEEPSLATE_SILVER_ORE.getDefaultState()))
-                    , 9));
+                    , 6));
 
     private static ConfiguredFeature<?, ?> SILVER_ORE_BURIED_CONFIGURED_FEATURE = Feature.ORE.configure(
             new OreFeatureConfig(List.of(
                     OreFeatureConfig.createTarget(OreConfiguredFeatures.STONE_ORE_REPLACEABLES, ModBlocks.SILVER_ORE.getDefaultState())
                     , OreFeatureConfig.createTarget(OreConfiguredFeatures.DEEPSLATE_ORE_REPLACEABLES, ModBlocks.DEEPSLATE_SILVER_ORE.getDefaultState()))
                     , 9, 0.5f));
+
+    private static ConfiguredFeature<?, ?> ALUMINIUM_ORE_CONFIGURED_FEATURE = Feature.ORE.configure(
+            new OreFeatureConfig(List.of(
+                    OreFeatureConfig.createTarget(OreConfiguredFeatures.STONE_ORE_REPLACEABLES, ModBlocks.ALUMINIUM_ORE.getDefaultState())
+                    , OreFeatureConfig.createTarget(OreConfiguredFeatures.DEEPSLATE_ORE_REPLACEABLES, ModBlocks.DEEPSLATE_ALUMINIUM_ORE.getDefaultState()))
+                    , 10));
 
     public static PlacedFeature SLIGHTLY_CRACKED_BEDROCK_PLACED_FEATURE = SLIGHTLY_CRACKED_BEDROCK_CONFIGURED_FEATURE.withPlacement(
             CountPlacementModifier.of(8),
@@ -102,6 +108,11 @@ public class ModConfiguredFeatures {
             SquarePlacementModifier.of(),
             HeightRangePlacementModifier.uniform(YOffset.fixed(-64), YOffset.fixed(-48)));
 
+    public static PlacedFeature ALUMINIUM_ORE_PLACED_FEATURE =ALUMINIUM_ORE_CONFIGURED_FEATURE.withPlacement(
+            CountPlacementModifier.of(12),
+            SquarePlacementModifier.of(),
+            HeightRangePlacementModifier.uniform(YOffset.fixed(-48), YOffset.fixed(96)));
+
     private static void registerConfiguredFeature(String id, ConfiguredFeature configuredFeature){
         Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(Voidophobia.MODID, id), configuredFeature);
     }
@@ -115,10 +126,11 @@ public class ModConfiguredFeatures {
         registerConfiguredFeature("nickel_ore", NICKEL_ORE_CONFIGURED_FEATURE);
         registerConfiguredFeature("silver_ore", SILVER_ORE_CONFIGURED_FEATURE);
         registerConfiguredFeature("silver_ore_buried", SILVER_ORE_BURIED_CONFIGURED_FEATURE);
-        registerConfiguredFeature("slightly_bedrock", SLIGHTLY_CRACKED_BEDROCK_CONFIGURED_FEATURE);
+        registerConfiguredFeature("slightly_cracked_bedrock", SLIGHTLY_CRACKED_BEDROCK_CONFIGURED_FEATURE);
         registerConfiguredFeature("godel_crystal_overworld", GODEL_CRYSTAL_OVERWORLD_CONFIGURED_FEATURE);
         registerConfiguredFeature("godel_crystal_nether", GODEL_CRYSTAL_NETHER_CONFIGURED_FEATURE);
         registerConfiguredFeature("cracked_bedrock", CRACKED_BEDROCK_CONFIGURED_FEATURE);
+        registerConfiguredFeature("aluminium_ore", ALUMINIUM_ORE_CONFIGURED_FEATURE);
         registerPlacedFeature("chrome_ore", CHROME_ORE_PLACED_FEATURE);
         registerPlacedFeature("nickel_ore", NICKEL_ORE_PLACED_FEATURE);
         registerPlacedFeature("silver_ore", SILVER_ORE_PLACED_FEATURE);
@@ -127,6 +139,7 @@ public class ModConfiguredFeatures {
         registerPlacedFeature("godel_crystal_overworld", GODEL_CRYSTAL_OVERWORLD_PLACED_FEATURE);
         registerPlacedFeature("godel_crystal_nether", GODEL_CRYSTAL_NETHER_PLACED_FEATURE);
         registerPlacedFeature("cracked_bedrock", CRACKED_BEDROCK_PLACED_FEATURE);
+        registerPlacedFeature("aluminium_ore", ALUMINIUM_ORE_PLACED_FEATURE);
         BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Feature.UNDERGROUND_ORES,
                 RegistryKey.of(Registry.PLACED_FEATURE_KEY, new Identifier(Voidophobia.MODID, "chrome_ore")));
         BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Feature.UNDERGROUND_ORES,
@@ -143,6 +156,8 @@ public class ModConfiguredFeatures {
                 RegistryKey.of(Registry.PLACED_FEATURE_KEY, new Identifier(Voidophobia.MODID, "godel_crystal_overworld")));
         BiomeModifications.addFeature(BiomeSelectors.foundInTheNether(), GenerationStep.Feature.UNDERGROUND_ORES,
                 RegistryKey.of(Registry.PLACED_FEATURE_KEY, new Identifier(Voidophobia.MODID, "godel_crystal_nether")));
+        BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Feature.UNDERGROUND_ORES,
+                RegistryKey.of(Registry.PLACED_FEATURE_KEY, new Identifier(Voidophobia.MODID, "aluminium_ore")));
     }
 
 }

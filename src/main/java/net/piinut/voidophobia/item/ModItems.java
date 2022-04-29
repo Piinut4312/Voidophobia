@@ -2,15 +2,17 @@ package net.piinut.voidophobia.item;
 
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.*;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Rarity;
 import net.minecraft.util.registry.Registry;
 import net.piinut.voidophobia.Voidophobia;
 import net.piinut.voidophobia.block.ModBlocks;
-import net.piinut.voidophobia.block.blockEntity.ModBlockEntities;
 import net.piinut.voidophobia.entity.ModEntities;
+import net.piinut.voidophobia.item.armor.EtherAlloyArmorMaterial;
 import net.piinut.voidophobia.item.tool.*;
 
 
@@ -66,6 +68,8 @@ public class ModItems {
     public static final BlockItem INVAR_BLOCK = new BlockItem(ModBlocks.INVAR_BLOCK, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final BlockItem LASERWORK_TABLE = new BlockItem(ModBlocks.LASERWORK_TABLE, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final BlockItem LASER_DETECTOR = new BlockItem(ModBlocks.LASER_DETECTOR, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final BlockItem ALUMINIUM_ORE = new BlockItem(ModBlocks.ALUMINIUM_ORE, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final BlockItem DEEPSLATE_ALUMINIUM_ORE = new BlockItem(ModBlocks.DEEPSLATE_ALUMINIUM_ORE, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item VUX_METER = new VuxMeterItem(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item GODEL_CRYSTAL_SHARD = new GodelCrystalShardItem(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item ARTIFICIAL_BEDROCK_SCRAP = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
@@ -74,7 +78,7 @@ public class ModItems {
     public static final Item INFERNIUM = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item LEVITATIUM = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item STARDUST = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
-    public static final Item ETHER_INGOT = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final Item ETHER_ALLOY_INGOT = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP).rarity(Rarity.RARE));
     public static final Item RAW_CHROME = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item CHROME_INGOT = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item RAW_NICKEL = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
@@ -130,7 +134,16 @@ public class ModItems {
     public static final Item ACTIVATED_PARADOXIUM = new ActivatedParadoxiumItem(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item CRYSTALLIZED_ETHER = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item ANOMALOUS_MEDIUM = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
-    public static final Item CORRUPTION_CATALYST = new CorruptionCatalystItem(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final Item CORRUPTION_CATALYST = new CorruptionCatalystItem(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP).rarity(Rarity.EPIC));
+    public static final Item RAW_ALUMINIUM = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final Item ALUMINIUM_INGOT = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final Item DURALUMIN_INGOT = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final Item ETHER_ALLOY_HELMET = new ArmorItem(EtherAlloyArmorMaterial.INSTANCE, EquipmentSlot.HEAD, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP).fireproof().rarity(Rarity.EPIC));
+    public static final Item ETHER_ALLOY_CHESTPLATE = new ArmorItem(EtherAlloyArmorMaterial.INSTANCE, EquipmentSlot.CHEST, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP).fireproof().rarity(Rarity.EPIC));
+    public static final Item ETHER_ALLOY_LEGGINGS = new ArmorItem(EtherAlloyArmorMaterial.INSTANCE, EquipmentSlot.LEGS, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP).fireproof().rarity(Rarity.EPIC));
+    public static final Item ETHER_ALLOY_BOOTS = new ArmorItem(EtherAlloyArmorMaterial.INSTANCE, EquipmentSlot.FEET, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP).fireproof().rarity(Rarity.EPIC));
+    public static final Item ETHER_ALLOY_SWORD = new SwordItem(EtherAlloyToolMaterial.INSTANCE, 3, -2.4f, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP).fireproof().rarity(Rarity.EPIC));
+
     private static void register(Item item, String id){
         Registry.register(Registry.ITEM, new Identifier(Voidophobia.MODID, id), item);
     }
@@ -153,8 +166,6 @@ public class ModItems {
         //register(COMPACT_PORTAL_LINKER, "portal_linker");
         register(VUX_METER, "vux_meter");
         register(PARADOXIUM, "paradoxium");
-        register(LEVITATIUM, "levitatium");
-        register(ETHER_INGOT, "ether_ingot");
         register(CHROME_ORE_BLOCK_ITEM, "chrome_ore");
         register(DEEPSLATE_CHROME_ORE_BLOCK_ITEM, "deepslate_chrome_ore");
         register(RAW_CHROME, "raw_chrome");
@@ -167,6 +178,20 @@ public class ModItems {
         register(RAW_NICKEL_BLOCK, "raw_nickel_block");
         register(NICKEL_INGOT, "nickel_ingot");
         register(NICKEL_BLOCK_ITEM, "nickel_block");
+        register(SILVER_ORE_BLOCK_ITEM, "silver_ore");
+        register(DEEPSLATE_SILVER_ORE_BLOCK_ITEM, "deepslate_silver_ore");
+        register(RAW_SILVER, "raw_silver");
+        register(SILVER_INGOT, "silver_ingot");
+        register(SILVER_BLOCK_ITEM, "silver_block");
+        register(SILVER_PICKAXE, "silver_pickaxe");
+        register(SILVER_AXE, "silver_axe");
+        register(SILVER_SHOVEL, "silver_shovel");
+        register(SILVER_SWORD, "silver_sword");
+        register(SILVER_HOE, "silver_hoe");
+        register(ALUMINIUM_ORE, "aluminium_ore");
+        register(DEEPSLATE_ALUMINIUM_ORE, "deepslate_aluminium_ore");
+        register(RAW_ALUMINIUM, "raw_aluminium");
+        register(ALUMINIUM_INGOT, "aluminium_ingot");
         register(RESONATING_QUARTZ, "resonating_quartz");
         register(ALLOY_FURNACE_BLOCK, "alloy_furnace");
         register(NICHROME_INGOT, "nichrome_ingot");
@@ -198,16 +223,6 @@ public class ModItems {
         register(COPPER_NUGGET, "copper_nugget");
         register(AMETHYST_LENS, "amethyst_lens");
         register(SILVER_COATED_AMETHYST_SHARD, "silver_coated_amethyst_shard");
-        register(RAW_SILVER, "raw_silver");
-        register(SILVER_INGOT, "silver_ingot");
-        register(SILVER_BLOCK_ITEM, "silver_block");
-        register(SILVER_ORE_BLOCK_ITEM, "silver_ore");
-        register(DEEPSLATE_SILVER_ORE_BLOCK_ITEM, "deepslate_silver_ore");
-        register(SILVER_PICKAXE, "silver_pickaxe");
-        register(SILVER_AXE, "silver_axe");
-        register(SILVER_SHOVEL, "silver_shovel");
-        register(SILVER_SWORD, "silver_sword");
-        register(SILVER_HOE, "silver_hoe");
         register(INVAR_INGOT, "invar_ingot");
         register(INVAR_BLOCK, "invar_block");
         register(REDSTONE_QUARTZ, "redstone_quartz");
@@ -239,6 +254,7 @@ public class ModItems {
         register(STARDUST_BLOCK_ITEM, "block_of_stardust");
         register(STARROCK_ITEM, "starrock");
         register(STARROCK_BRICKS_BLOCK_ITEM, "starrock_bricks");
+        register(LEVITATIUM, "levitatium");
         register(AZURE_SAND_ITEM, "azure_sand");
         register(AZURE_SANDSTONE_ITEM, "azure_sandstone");
         register(AZURE_SANDSTONE_BRICKS_ITEM, "azure_sandstone_bricks");
@@ -247,6 +263,13 @@ public class ModItems {
         register(CRYSTALLIZED_ETHER, "crystallized_ether");
         register(ANOMALOUS_MEDIUM, "anomalous_medium");
         register(CORRUPTION_CATALYST, "corruption_catalyst");
+        register(DURALUMIN_INGOT, "duralumin_ingot");
+        register(ETHER_ALLOY_INGOT, "ether_alloy_ingot");
+        register(ETHER_ALLOY_HELMET, "ether_alloy_helmet");
+        register(ETHER_ALLOY_CHESTPLATE, "ether_alloy_chestplate");
+        register(ETHER_ALLOY_LEGGINGS, "ether_alloy_leggings");
+        register(ETHER_ALLOY_BOOTS, "ether_alloy_boots");
+        register(ETHER_ALLOY_SWORD, "ether_alloy_sword");
     }
 
 }
