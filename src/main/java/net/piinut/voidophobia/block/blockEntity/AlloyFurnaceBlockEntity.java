@@ -179,7 +179,8 @@ public class AlloyFurnaceBlockEntity extends BlockEntity implements SidedInvento
     }
 
     public void dropExperienceForRecipesUsed(ServerPlayerEntity player) {
-        this.getRecipesUsedAndDropExperience(player.getWorld(), player.getPos());
+        List<Recipe<?>> list = this.getRecipesUsedAndDropExperience(player.getWorld(), player.getPos());
+        player.unlockRecipes(list);
         this.recipesUsed.clear();
     }
 

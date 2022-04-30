@@ -93,7 +93,6 @@ public class AlloySmeltingRecipe implements Recipe<Inventory> {
     @Override
     public ItemStack getOutput() {
         ItemStack itemStack = outputStack.copy();
-        itemStack.setCount(count1 + count2);
         return itemStack;
     }
 

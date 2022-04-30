@@ -8,6 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.RecipeSerializer;
+import net.minecraft.recipe.ShapedRecipe;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
@@ -23,12 +24,10 @@ public class AlloySmeltingRecipeSerializer implements RecipeSerializer<AlloySmel
             throw new JsonSyntaxException("A required attribute is missing!");
         }
         Ingredient input1 = Ingredient.fromJson(recipeJson.input1);
-        int count1 = recipeJson.count1;
+        int count1 = input1.getMatchingStacks()[0].getCount();
         Ingredient input2 = Ingredient.fromJson(recipeJson.input2);
-        int count2 = recipeJson.count2;
-        Item output = Registry.ITEM.getOrEmpty(new Identifier(recipeJson.result))
-                .orElseThrow(() -> new JsonSyntaxException("No such item " + recipeJson.result));
-        ItemStack outputStack = new ItemStack(output);
+        int count2 = input2.getMatchingStacks()[0].getCount();
+        ItemStack outputStack = ShapedRecipe.outputFromJson(recipeJson.result);
         float xp = recipeJson.experience;
         int cookTime = recipeJson.cookingTime;
         return new AlloySmeltingRecipe(input1, input2, count1, count2, outputStack, xp, cookTime, id);
