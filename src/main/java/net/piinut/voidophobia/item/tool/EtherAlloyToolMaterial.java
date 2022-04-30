@@ -21,7 +21,7 @@ public class EtherAlloyToolMaterial implements ToolMaterial {
 
     @Override
     public float getAttackDamage() {
-        return 7.0f;
+        return 6.5f;
     }
 
     @Override
@@ -31,7 +31,7 @@ public class EtherAlloyToolMaterial implements ToolMaterial {
 
     @Override
     public int getEnchantability() {
-        return 24;
+        return 26;
     }
 
     @Override

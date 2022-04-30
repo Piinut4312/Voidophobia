@@ -9,7 +9,6 @@ import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
-import net.piinut.voidophobia.Voidophobia;
 import net.piinut.voidophobia.block.blockEntity.AbstractVuxductBlockEntity;
 import java.util.Random;
 
@@ -31,7 +30,7 @@ public class VuxLampBlock extends Block implements VuxConsumer{
     @Override
     public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean notify) {
         super.onBlockAdded(state, world, pos, oldState, notify);
-        world.createAndScheduleBlockTick(pos, state.getBlock(), 2);
+        world.createAndScheduleBlockTick(pos, state.getBlock(), 1);
     }
 
     private boolean canLitUp(World world, BlockState state, BlockPos pos, Random random){
@@ -42,15 +41,15 @@ public class VuxLampBlock extends Block implements VuxConsumer{
     @Override
     public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         world.setBlockState(pos, state.with(LIT, canLitUp(world, state, pos, random)));
-        world.createAndScheduleBlockTick(pos, state.getBlock(), 2);
+        world.createAndScheduleBlockTick(pos, state.getBlock(), 1);
     }
 
     @Override
-    public double consumeVux(World world, BlockState state, BlockPos pos, Random random) {
+    public int consumeVux(World world, BlockState state, BlockPos pos, Random random) {
         if(world.isClient){
             return 0;
         }
-        double vuxIn = 0;
+        int vuxIn = 0;
         for(Direction direction : DIRECTIONS){
             BlockPos neighborPos = pos.offset(direction);
             BlockState neighborState = world.getBlockState(neighborPos);
@@ -59,7 +58,7 @@ public class VuxLampBlock extends Block implements VuxConsumer{
                 vuxIn += ((VuxProvider)neighborBlock).getVux(world, neighborState, neighborPos, direction.getOpposite(), random);
             }else if(neighborBlock instanceof AbstractVuxductBlock){
                 AbstractVuxductBlockEntity be = (AbstractVuxductBlockEntity) world.getBlockEntity(neighborPos);
-                double tryConsumeVux = Math.min(LIT_THRESHOLD, be.getVuxOutput());
+                int tryConsumeVux = (int) Math.min(LIT_THRESHOLD, be.getVuxOutput());
                 be.removeVux(tryConsumeVux);
                 vuxIn += tryConsumeVux;
             }

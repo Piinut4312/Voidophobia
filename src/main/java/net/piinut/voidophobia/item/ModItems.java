@@ -15,7 +15,6 @@ import net.piinut.voidophobia.entity.ModEntities;
 import net.piinut.voidophobia.item.armor.EtherAlloyArmorMaterial;
 import net.piinut.voidophobia.item.tool.*;
 
-
 public class ModItems {
 
     public static final ItemGroup VOIDOPHOBIA_DEFAULT_GROUP = FabricItemGroupBuilder.build(
@@ -70,6 +69,10 @@ public class ModItems {
     public static final BlockItem LASER_DETECTOR = new BlockItem(ModBlocks.LASER_DETECTOR, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final BlockItem ALUMINIUM_ORE = new BlockItem(ModBlocks.ALUMINIUM_ORE, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final BlockItem DEEPSLATE_ALUMINIUM_ORE = new BlockItem(ModBlocks.DEEPSLATE_ALUMINIUM_ORE, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final BlockItem LIGHTWEIGHT_VUX_MACHINE_CORE = new BlockItem(ModBlocks.LIGHTWEIGHT_VUX_MACHINE_CORE, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final BlockItem AIR_VUX_GENERATOR = new BlockItem(ModBlocks.AIR_VUX_GENERATOR, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final BlockItem ALUMINIUM_BLOCK_ITEM = new BlockItem(ModBlocks.ALUMINIUM_BLOCK, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final BlockItem TUFF_DUST = new BlockItem(ModBlocks.TUFF_DUST, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item VUX_METER = new VuxMeterItem(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item GODEL_CRYSTAL_SHARD = new GodelCrystalShardItem(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item ARTIFICIAL_BEDROCK_SCRAP = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
@@ -126,9 +129,9 @@ public class ModItems {
     public static final Item NETHER_ROD = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item POTION_OF_BLINDNESS_IN_SILVER_BOTTLE = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP).maxCount(16));
     public static final Item BOTTLE_OF_SHADOW = new BottleOfShadowItem(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP).maxCount(16));
-    public static final Item ACTIVATION_LASER_LENS = new LaserLensItem(12, 600);
-    public static final Item BURNING_LASER_LENS = new LaserLensItem(12, 400);
-    public static final Item DESTRUCTION_LASER_LENS = new LaserLensItem(6, 600);
+    public static final Item ACTIVATION_LASER_LENS = new LaserLensItem(12, 360);
+    public static final Item BURNING_LASER_LENS = new LaserLensItem(12, 240);
+    public static final Item DESTRUCTION_LASER_LENS = new LaserLensItem(6, 400);
     public static final Item ENHANCED_VUX_LASER_COMPONENT = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item ETHER_BOTTLE = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP).maxCount(16).recipeRemainder(Items.GLASS_BOTTLE));
     public static final Item ACTIVATED_PARADOXIUM = new ActivatedParadoxiumItem(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
@@ -192,6 +195,7 @@ public class ModItems {
         register(DEEPSLATE_ALUMINIUM_ORE, "deepslate_aluminium_ore");
         register(RAW_ALUMINIUM, "raw_aluminium");
         register(ALUMINIUM_INGOT, "aluminium_ingot");
+        register(ALUMINIUM_BLOCK_ITEM, "aluminium_block");
         register(RESONATING_QUARTZ, "resonating_quartz");
         register(ALLOY_FURNACE_BLOCK, "alloy_furnace");
         register(NICHROME_INGOT, "nichrome_ingot");
@@ -204,6 +208,7 @@ public class ModItems {
         register(VUX_LASER_COMPONENT, "vux_laser_component");
         register(ENHANCED_VUX_LASER_COMPONENT, "enhanced_vux_laser_component");
         register(VUX_MACHINE_CORE_BLOCK_ITEM, "vux_machine_core");
+        register(LIGHTWEIGHT_VUX_MACHINE_CORE, "lightweight_vux_machine_core");
         register(PRECISION_VUX_MACHINE_CORE_BLOCK_ITEM, "precision_vux_machine_core");
         register(VUX_FORMING_MACHINE, "vux_forming_machine");
         register(VUX_FILTER_TEMPLATE, "vux_filter_template");
@@ -270,6 +275,8 @@ public class ModItems {
         register(ETHER_ALLOY_LEGGINGS, "ether_alloy_leggings");
         register(ETHER_ALLOY_BOOTS, "ether_alloy_boots");
         register(ETHER_ALLOY_SWORD, "ether_alloy_sword");
+        register(AIR_VUX_GENERATOR, "air_vux_generator");
+        register(TUFF_DUST, "tuff_dust");
     }
 
 }

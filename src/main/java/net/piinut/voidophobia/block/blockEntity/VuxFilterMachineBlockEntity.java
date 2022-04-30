@@ -31,9 +31,9 @@ public class VuxFilterMachineBlockEntity extends BlockEntity implements BasicInv
     private DefaultedList<ItemStack> inventory = DefaultedList.ofSize(6, ItemStack.EMPTY);
     int processTime;
     public static final int TOTAL_PROCESS_TIME = 200;
-    float vuxStored;
-    public static final float MAX_VUX_CAPACITY = 60000;
-    private static final float VUX_CONSUME_PER_TICK = 120;
+    int vuxStored;
+    public static final int MAX_VUX_CAPACITY = 320000;
+    private static final int VUX_CONSUME_PER_TICK = 100;
     int vuxConsumeBias = 0;
     int processTimeBias = 0;
     int filterDamageModifier = 0;
@@ -51,7 +51,7 @@ public class VuxFilterMachineBlockEntity extends BlockEntity implements BasicInv
                     return VuxFilterMachineBlockEntity.this.processTime;
                 }
                 case 1 -> {
-                    return (int) VuxFilterMachineBlockEntity.this.vuxStored;
+                    return VuxFilterMachineBlockEntity.this.vuxStored;
                 }
                 case 2 -> {
                     return VuxFilterMachineBlockEntity.this.vuxConsumeBias;
@@ -96,7 +96,7 @@ public class VuxFilterMachineBlockEntity extends BlockEntity implements BasicInv
         super.readNbt(nbt);
         Inventories.readNbt(nbt, this.inventory);
         this.processTime = nbt.getInt("ProcessTime");
-        this.vuxStored = nbt.getFloat("VuxStored");
+        this.vuxStored = nbt.getInt("VuxStored");
         this.vuxConsumeBias = nbt.getInt("VuxConsumeBias");
         this.processTimeBias = nbt.getInt("ProcessTimeBias");
         this.filterDamageModifier = nbt.getInt("FilterDamageModifier");
@@ -108,14 +108,14 @@ public class VuxFilterMachineBlockEntity extends BlockEntity implements BasicInv
         super.writeNbt(nbt);
         Inventories.writeNbt(nbt, this.inventory);
         nbt.putInt("ProcessTime", this.processTime);
-        nbt.putFloat("VuxStored", this.vuxStored);
+        nbt.putInt("VuxStored", this.vuxStored);
         nbt.putInt("VuxConsumeBias", this.vuxConsumeBias);
         nbt.putInt("ProcessTimeBias", this.processTimeBias);
         nbt.putInt("FilterDamageModifier", this.filterDamageModifier);
         nbt.putInt("VuxCapacityModifier", this.vuxCapacityModifier);
     }
 
-    public double requestVuxConsume() {
+    public int requestVuxConsume() {
         if(this.vuxStored >= this.getMaxVuxCapacity()){
             return 0;
         }
@@ -156,8 +156,8 @@ public class VuxFilterMachineBlockEntity extends BlockEntity implements BasicInv
         this.vuxCapacityModifier = 0;
     }
 
-    private float getMaxVuxCapacity(){
-        return (float) (VuxFilterMachineBlockEntity.MAX_VUX_CAPACITY * Math.pow(1.2, vuxCapacityModifier));
+    private int getMaxVuxCapacity(){
+        return (int) (VuxFilterMachineBlockEntity.MAX_VUX_CAPACITY * Math.pow(1.2, vuxCapacityModifier));
     }
 
     private int getTotalProcessTime(){

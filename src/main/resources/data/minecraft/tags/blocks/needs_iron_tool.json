@@ -19,6 +19,9 @@
     "voidophobia:laser_transmitter",
     "voidophobia:precision_vux_machine_core",
     "voidophobia:invar_block",
-    "voidophobia:laserwork_table"
+    "voidophobia:laserwork_table",
+    "voidophobia:aluminium_block",
+    "voidophobia:lightweight_vux_machine_core",
+    "voidophobia:air_vux_generator"
   ]
 }

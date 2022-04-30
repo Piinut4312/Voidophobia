@@ -15,8 +15,8 @@ public class CrackedBedrockBlock extends AbstractCrackedBedrockBlock{
         super(settings);
     }
     @Override
-    public double getVux(World world, BlockState state, BlockPos pos, Direction direction, Random random) {
-        return 30.0;
+    public int getVux(World world, BlockState state, BlockPos pos, Direction direction, Random random) {
+        return 30;
     }
 
     @Override

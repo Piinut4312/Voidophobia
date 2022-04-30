@@ -24,9 +24,9 @@ public class AlloySmeltingRecipeSerializer implements RecipeSerializer<AlloySmel
             throw new JsonSyntaxException("A required attribute is missing!");
         }
         Ingredient input1 = Ingredient.fromJson(recipeJson.input1);
-        int count1 = input1.getMatchingStacks()[0].getCount();
+        int count1 = recipeJson.count1;
         Ingredient input2 = Ingredient.fromJson(recipeJson.input2);
-        int count2 = input2.getMatchingStacks()[0].getCount();
+        int count2 = recipeJson.count2;
         ItemStack outputStack = ShapedRecipe.outputFromJson(recipeJson.result);
         float xp = recipeJson.experience;
         int cookTime = recipeJson.cookingTime;

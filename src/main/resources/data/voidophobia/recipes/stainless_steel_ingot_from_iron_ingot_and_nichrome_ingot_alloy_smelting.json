@@ -1,17 +1,17 @@
 {
   "type": "voidophobia:alloy_smelting",
   "input1":{
-    "item":"minecraft:iron_ingot",
-    "count":2
+    "item":"minecraft:iron_ingot"
   },
+  "count1":2,
   "input2":{
-    "item":"voidophobia:chrome_nickel_blend",
-    "count":1
+    "item":"voidophobia:chrome_nickel_blend"
   },
+  "count2":1,
   "result": {
     "item":"voidophobia:stainless_steel_ingot",
     "count":3
-  }
+  },
   "experience": 1.5,
   "cookingTime":400
 }

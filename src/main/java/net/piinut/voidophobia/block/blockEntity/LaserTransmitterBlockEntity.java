@@ -38,10 +38,10 @@ public class LaserTransmitterBlockEntity extends BlockEntity implements BasicInv
 
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(1, ItemStack.EMPTY);
     private static final int DEFAULT_BEAM_LENGTH = 0;
-    private static final float MAX_VUX_CAPACITY = 60000;
+    private static final int MAX_VUX_CAPACITY = 400000;
     private int processTime;
     private int processTimeTotal;
-    private float vuxStored;
+    private int vuxStored;
     private int beamLength;
     private BlockPos targetPos;
     private BlockState targetState;
@@ -50,7 +50,7 @@ public class LaserTransmitterBlockEntity extends BlockEntity implements BasicInv
         @Override
         public int get(int index) {
             if(index == 0){
-                return (int) LaserTransmitterBlockEntity.this.vuxStored;
+                return LaserTransmitterBlockEntity.this.vuxStored;
             }else if(index == 1){
                 return LaserTransmitterBlockEntity.this.processTime;
             }else if(index == 2){
@@ -95,7 +95,7 @@ public class LaserTransmitterBlockEntity extends BlockEntity implements BasicInv
         super.readNbt(nbt);
         this.inventory.clear();
         Inventories.readNbt(nbt, this.inventory);
-        this.vuxStored = nbt.getFloat("VuxStored");
+        this.vuxStored = nbt.getInt("VuxStored");
         this.processTime = nbt.getInt("ProcessTime");
         this.processTimeTotal = nbt.getInt("ProcessTimeTotal");
         this.beamLength = nbt.getInt("BeamLength");
@@ -107,7 +107,7 @@ public class LaserTransmitterBlockEntity extends BlockEntity implements BasicInv
     protected void writeNbt(NbtCompound nbt) {
         super.writeNbt(nbt);
         Inventories.writeNbt(nbt, this.inventory);
-        nbt.putFloat("VuxStored", this.vuxStored);
+        nbt.putInt("VuxStored", this.vuxStored);
         nbt.putInt("ProcessTime", this.processTime);
         nbt.putInt("ProcessTimeTotal", this.processTimeTotal);
         nbt.putInt("BeamLength", this.beamLength);

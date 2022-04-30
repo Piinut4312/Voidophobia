@@ -1,0 +1,11 @@
+{
+  "type": "voidophobia:vux_filtering",
+  "ingredient":{
+    "item":"voidophobia:tuff_dust"
+  },
+  "filter": "rock",
+  "result": {
+    "item":"minecraft:iron_nugget"
+  },
+  "count": 3
+}

@@ -4,11 +4,8 @@ import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.block.entity.CampfireBlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.recipe.CampfireCookingRecipe;
-import net.minecraft.stat.Stats;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ItemScatterer;
@@ -21,8 +18,6 @@ import net.minecraft.world.World;
 import net.piinut.voidophobia.block.blockEntity.LaserworkTableBlockEntity;
 import net.piinut.voidophobia.block.blockEntity.ModBlockEntities;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.Optional;
 
 public class LaserworkTableBlock extends BlockWithEntity {
 

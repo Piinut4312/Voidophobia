@@ -31,9 +31,9 @@ public class VacuumCoaterBlockEntity extends BlockEntity implements SidedInvento
     private static final int[] SIDE_SLOTS = new int[]{0, 1};
     int processTime;
     int processTimeTotal;
-    float vuxStored;
-    public static final float MAX_VUX_CAPACITY = 160000;
-    private static final float VUX_CONSUME_PER_TICK = 200;
+    int vuxStored;
+    public static final int MAX_VUX_CAPACITY = 800000;
+    private static final int VUX_CONSUME_PER_TICK = 160;
     protected final PropertyDelegate propertyDelegate = new PropertyDelegate(){
 
         @Override
@@ -46,7 +46,7 @@ public class VacuumCoaterBlockEntity extends BlockEntity implements SidedInvento
                     return VacuumCoaterBlockEntity.this.processTimeTotal;
                 }
                 case 2 -> {
-                    return (int)VacuumCoaterBlockEntity.this.vuxStored;
+                    return VacuumCoaterBlockEntity.this.vuxStored;
                 }
             }
             return 0;
@@ -77,7 +77,7 @@ public class VacuumCoaterBlockEntity extends BlockEntity implements SidedInvento
         Inventories.readNbt(nbt, this.inventory);
         this.processTime = nbt.getInt("ProcessTime");
         this.processTimeTotal = nbt.getInt("ProcessTimeTotal");
-        this.vuxStored = nbt.getFloat("VuxStored");
+        this.vuxStored = nbt.getInt("VuxStored");
     }
 
     @Override
@@ -86,7 +86,7 @@ public class VacuumCoaterBlockEntity extends BlockEntity implements SidedInvento
         Inventories.writeNbt(nbt, this.inventory);
         nbt.putInt("ProcessTime", this.processTime);
         nbt.putInt("ProcessTimeTotal", this.processTimeTotal);
-        nbt.putFloat("VuxStored", this.vuxStored);
+        nbt.putInt("VuxStored", this.vuxStored);
     }
 
     @Override

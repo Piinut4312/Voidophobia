@@ -12,7 +12,7 @@ public interface VuxProvider {
     //Vux stands for "Void Flux"
     //Any block that produces vux must implement this interface
 
-    double getVux(World world, BlockState state, BlockPos pos, Direction direction, Random random);
+    int getVux(World world, BlockState state, BlockPos pos, Direction direction, Random random);
 
-    void handleVuxConsumption(World world, BlockState state, BlockPos pos, double input);
+    void handleVuxConsumption(World world, BlockState state, BlockPos pos, int output);
 }

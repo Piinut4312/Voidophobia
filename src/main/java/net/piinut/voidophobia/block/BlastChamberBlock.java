@@ -7,19 +7,13 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
-import net.minecraft.world.explosion.Explosion;
-import net.piinut.voidophobia.block.blockEntity.AlloyFurnaceBlockEntity;
 import net.piinut.voidophobia.block.blockEntity.BlastChamberBlockEntity;
-import net.piinut.voidophobia.block.blockEntity.LaserEngravingMachineBlockEntity;
 import net.piinut.voidophobia.block.blockEntity.ModBlockEntities;
 import org.jetbrains.annotations.Nullable;
-
-import java.awt.*;
 import java.util.Random;
 
 public class BlastChamberBlock extends BlockWithEntity implements VuxProvider {
@@ -48,15 +42,15 @@ public class BlastChamberBlock extends BlockWithEntity implements VuxProvider {
     }
 
     @Override
-    public double getVux(World world, BlockState state, BlockPos pos, Direction direction, Random random) {
+    public int getVux(World world, BlockState state, BlockPos pos, Direction direction, Random random) {
         BlastChamberBlockEntity blockEntity = (BlastChamberBlockEntity) world.getBlockEntity(pos);
         return blockEntity.getVuxStored();
     }
 
     @Override
-    public void handleVuxConsumption(World world, BlockState state, BlockPos pos, double input) {
+    public void handleVuxConsumption(World world, BlockState state, BlockPos pos, int output) {
         BlastChamberBlockEntity blockEntity = (BlastChamberBlockEntity) world.getBlockEntity(pos);
-        blockEntity.removeVux(input);
+        blockEntity.removeVux(output);
     }
 
     @Nullable

@@ -34,6 +34,9 @@
     "voidophobia:laserwork_table",
     "voidophobia:laser_detector",
     "voidophobia:aluminium_ore",
-    "voidophobia:deepslate_aluminium_ore"
+    "voidophobia:deepslate_aluminium_ore",
+    "voidophobia:aluminium_block",
+    "voidophobia:lightweight_vux_machine_core",
+    "voidophobia:air_vux_generator"
   ]
 }

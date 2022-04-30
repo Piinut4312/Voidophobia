@@ -113,7 +113,7 @@ public class LaserEngravingMachineBlock extends BlockWithEntity implements VuxCo
     @Override
     public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean notify) {
         super.onBlockAdded(state, world, pos, oldState, notify);
-        world.createAndScheduleBlockTick(pos, state.getBlock(), 2);
+        world.createAndScheduleBlockTick(pos, state.getBlock(), 1);
     }
 
     @Override
@@ -130,16 +130,16 @@ public class LaserEngravingMachineBlock extends BlockWithEntity implements VuxCo
     @Override
     public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         this.consumeVux(world, state, pos, random);
-        world.createAndScheduleBlockTick(pos, state.getBlock(), 2);
+        world.createAndScheduleBlockTick(pos, state.getBlock(), 1);
     }
 
     @Override
-    public double consumeVux(World world, BlockState state, BlockPos pos, Random random) {
+    public int consumeVux(World world, BlockState state, BlockPos pos, Random random) {
         if(world.isClient()){
             return 0;
         }
         LaserEngravingMachineBlockEntity blockEntity = (LaserEngravingMachineBlockEntity) world.getBlockEntity(pos);
-        double vuxIn = 0;
+        int vuxIn = 0;
         for(Direction direction : DIRECTIONS){
             BlockPos neighborPos = pos.offset(direction);
             BlockState neighborState = world.getBlockState(neighborPos);
@@ -148,7 +148,7 @@ public class LaserEngravingMachineBlock extends BlockWithEntity implements VuxCo
                 vuxIn += ((VuxProvider)neighborBlock).getVux(world, neighborState, neighborPos, direction.getOpposite(), random);
             }else if(neighborBlock instanceof AbstractVuxductBlock){
                 AbstractVuxductBlockEntity be = (AbstractVuxductBlockEntity) world.getBlockEntity(neighborPos);
-                double tryConsumeVux = Math.min(blockEntity.requestVuxConsume(), be.getVuxOutput());
+                int tryConsumeVux = (int) Math.min(blockEntity.requestVuxConsume(), be.getVuxOutput());
                 be.removeVux(tryConsumeVux);
                 vuxIn += tryConsumeVux;
             }

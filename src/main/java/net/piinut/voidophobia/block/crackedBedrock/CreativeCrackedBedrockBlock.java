@@ -15,8 +15,8 @@ public class CreativeCrackedBedrockBlock extends AbstractCrackedBedrockBlock {
     }
 
     @Override
-    public double getVux(World world, BlockState state, BlockPos pos, Direction direction, Random random) {
-        return Float.MAX_VALUE-1;
+    public int getVux(World world, BlockState state, BlockPos pos, Direction direction, Random random) {
+        return Integer.MAX_VALUE;
     }
 
     @Override

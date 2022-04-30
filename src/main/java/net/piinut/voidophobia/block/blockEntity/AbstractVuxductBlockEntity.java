@@ -16,16 +16,16 @@ import net.piinut.voidophobia.block.VuxProvider;
 
 public abstract class AbstractVuxductBlockEntity extends BlockEntity {
 
-    protected double vuxCapacity;
-    protected double vuxContaining;
-    protected double maxVuxRate;
-    protected double netVuxFlow;
+    protected int vuxCapacity;
+    protected int vuxContaining;
+    protected int maxVuxRate;
+    protected int netVuxFlow;
     private static final String VUX = "vux";
     private static final String CAP = "capacity";
     private static final String RATE = "rate";
     private static final String FLOW = "flow";
 
-    public AbstractVuxductBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, double vuxCapacity, double maxVuxRate) {
+    public AbstractVuxductBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, int vuxCapacity, int maxVuxRate) {
         super(type, pos, state);
         this.vuxCapacity = vuxCapacity;
         this.vuxContaining = 0;
@@ -35,20 +35,20 @@ public abstract class AbstractVuxductBlockEntity extends BlockEntity {
 
     @Override
     protected void writeNbt(NbtCompound nbt) {
-        nbt.putDouble(VUX, this.vuxContaining);
-        nbt.putDouble(CAP, this.vuxCapacity);
-        nbt.putDouble(RATE, this.maxVuxRate);
-        nbt.putDouble(FLOW, this.netVuxFlow);
+        nbt.putInt(VUX, this.vuxContaining);
+        nbt.putInt(CAP, this.vuxCapacity);
+        nbt.putInt(RATE, this.maxVuxRate);
+        nbt.putInt(FLOW, this.netVuxFlow);
         super.writeNbt(nbt);
     }
 
     @Override
     public void readNbt(NbtCompound nbt) {
         super.readNbt(nbt);
-        this.vuxContaining = nbt.getDouble(VUX);
-        this.vuxCapacity = nbt.getDouble(CAP);
-        this.maxVuxRate = nbt.getDouble(RATE);
-        this.netVuxFlow = nbt.getDouble(FLOW);
+        this.vuxContaining = nbt.getInt(VUX);
+        this.vuxCapacity = nbt.getInt(CAP);
+        this.maxVuxRate = nbt.getInt(RATE);
+        this.netVuxFlow = nbt.getInt(FLOW);
     }
 
     @Override
@@ -61,19 +61,19 @@ public abstract class AbstractVuxductBlockEntity extends BlockEntity {
         return createNbt();
     }
 
-    public double getVuxContaining(){
+    public int getVuxContaining(){
         return this.vuxContaining;
     }
 
-    public double getVuxOutput(){
+    public int getVuxOutput(){
         return Math.min(this.maxVuxRate, this.vuxContaining);
     }
 
-    public void addVux(double vux){
+    public void addVux(int vux){
         this.netVuxFlow += vux;
     }
 
-    public void removeVux(double vux){
+    public void removeVux(int vux){
         this.netVuxFlow -= vux;
     }
 
@@ -99,7 +99,7 @@ public abstract class AbstractVuxductBlockEntity extends BlockEntity {
             blockState = world.getBlockState(blockPos);
             block = blockState.getBlock();
             if(block instanceof VuxProvider){
-                double input = ((VuxProvider) blockState.getBlock()).getVux(world, blockState, blockPos, direction.getOpposite(), world.getRandom());
+                int input = ((VuxProvider) blockState.getBlock()).getVux(world, blockState, blockPos, direction.getOpposite(), world.getRandom());
                 input = Math.min(input, be.maxVuxRate);
                 be.addVux(input);
                 ((VuxProvider) blockState.getBlock()).handleVuxConsumption(world, blockState, blockPos, input);
@@ -107,7 +107,7 @@ public abstract class AbstractVuxductBlockEntity extends BlockEntity {
                 AbstractVuxductBlockEntity neighborBE = (AbstractVuxductBlockEntity) world.getBlockEntity(blockPos);
                 double neighborVux = neighborBE.getVuxContaining();
                 double vuxDiff = (be.vuxContaining-neighborVux)*0.125;
-                double adjustedVux = Math.min(vuxDiff, be.maxVuxRate);
+                int adjustedVux = (int) Math.min(vuxDiff, be.maxVuxRate);
                 if(adjustedVux > 0){
                     be.removeVux(adjustedVux);
                     neighborBE.addVux(adjustedVux);

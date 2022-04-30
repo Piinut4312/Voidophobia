@@ -19,7 +19,7 @@ public class VuxMeterItem extends Item {
 
     @Override
     public ActionResult useOnBlock(ItemUsageContext context) {
-        double vux = 0;
+        int vux = 0;
         World world = context.getWorld();
         if(world.isClient()){
             return ActionResult.SUCCESS;
@@ -34,7 +34,7 @@ public class VuxMeterItem extends Item {
         }
 
         if(context.getPlayer() != null){
-            context.getPlayer().sendMessage(Text.of("Vux Level: " + String.format("%.1f", vux)), false);
+            context.getPlayer().sendMessage(Text.of("Vux Level: " + vux), false);
         }
 
         return super.useOnBlock(context);

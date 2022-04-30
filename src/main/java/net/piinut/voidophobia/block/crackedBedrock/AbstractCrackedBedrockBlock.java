@@ -10,7 +10,6 @@ import net.minecraft.item.Items;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.Pair;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -78,7 +77,7 @@ public abstract class AbstractCrackedBedrockBlock extends Block implements VuxPr
     }
 
     @Override
-    public void handleVuxConsumption(World world, BlockState state, BlockPos pos, double input) {
+    public void handleVuxConsumption(World world, BlockState state, BlockPos pos, int input) {
 
     }
 }

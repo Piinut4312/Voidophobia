@@ -34,15 +34,23 @@ public class BlastChamberBlockEntity extends BlockEntity implements BasicInvento
     private static final int[] BOTTOM_SLOTS = new int[]{2};
     private static final int[] SIDE_SLOTS = new int[]{1};
     public DefaultedList<ItemStack> inventory = DefaultedList.ofSize(3, ItemStack.EMPTY);
-    float vuxStored = 0;
+    int vuxStored = 0;
     int coolDown = MAX_COOLDOWN;
     public static final int MAX_COOLDOWN = 200;
-    public static final float MAX_VUX_CAPACITY = 40000;
+    public static final int MAX_VUX_CAPACITY = 800000;
+
+    /*
+    * Vux generation rate per tick:
+    * TNT: 160 vux/t
+    * End crystal: 400 vux/t
+    * */
+
+
     protected final PropertyDelegate propertyDelegate = new PropertyDelegate() {
         @Override
         public int get(int index) {
             if(index == 0){
-                return (int) BlastChamberBlockEntity.this.vuxStored;
+                return BlastChamberBlockEntity.this.vuxStored;
             }else if(index == 1){
                 return BlastChamberBlockEntity.this.coolDown;
             }
@@ -84,7 +92,7 @@ public class BlastChamberBlockEntity extends BlockEntity implements BasicInvento
         super.readNbt(nbt);
         this.inventory.clear();
         Inventories.readNbt(nbt, this.inventory);
-        this.vuxStored = nbt.getFloat("VuxStored");
+        this.vuxStored = nbt.getInt("VuxStored");
         this.coolDown = nbt.getInt("CoolDown");
     }
 
@@ -92,7 +100,7 @@ public class BlastChamberBlockEntity extends BlockEntity implements BasicInvento
     protected void writeNbt(NbtCompound nbt) {
         super.writeNbt(nbt);
         Inventories.writeNbt(nbt, this.inventory);
-        nbt.putFloat("VuxStored", this.vuxStored);
+        nbt.putInt("VuxStored", this.vuxStored);
         nbt.putInt("CoolDown", this.coolDown);
     }
 
@@ -115,7 +123,7 @@ public class BlastChamberBlockEntity extends BlockEntity implements BasicInvento
         return this.inventory;
     }
 
-    public float getVuxStored(){
+    public int getVuxStored(){
         return this.vuxStored;
     }
 
@@ -147,7 +155,7 @@ public class BlastChamberBlockEntity extends BlockEntity implements BasicInvento
         ItemStack itemStack = slots.get(0);
         ItemStack itemStack2 = recipe.getOutput();
         int count = BlastChamberBlockEntity.getMaxBatch(itemStack1.getItem());
-        while(count > 0 && slots.get(2).getCount() < recipe.getOutput().getMaxCount()){
+        while(count > 0 && slots.get(2).getCount() < recipe.getOutput().getMaxCount() && slots.get(0).getCount() >= recipe.getInputCount()){
             for(int i = 0; i < recipe.getOutputCount(); i++){
                 ItemStack itemStack3 = slots.get(2);
                 if(random.nextFloat() < recipe.getChance()){
@@ -202,7 +210,7 @@ public class BlastChamberBlockEntity extends BlockEntity implements BasicInvento
                         blockEntity.coolDown = BlastChamberBlockEntity.getCooldown(blockEntity.inventory.get(1));
                         BlastChamberBlockEntity.craftRecipe(world.getRandom(), recipe, blockEntity.inventory);
                         world.playSound(null, blockPos, SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.BLOCKS, 0.5f, 1f);
-                        blockEntity.vuxStored = MathHelper.clamp(blockEntity.vuxStored + 1000, 0, BlastChamberBlockEntity.MAX_VUX_CAPACITY);
+                        blockEntity.vuxStored = MathHelper.clamp(blockEntity.vuxStored + 32000, 0, BlastChamberBlockEntity.MAX_VUX_CAPACITY);
                     }
                     if (blockEntity.coolDown > 0 && blockEntity.getStack(2).getCount() < blockEntity.getStack(2).getMaxCount()) {
                         blockEntity.coolDown = MathHelper.clamp(blockEntity.coolDown - 2, 0, BlastChamberBlockEntity.MAX_COOLDOWN);

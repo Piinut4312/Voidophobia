@@ -23,6 +23,7 @@ public class ModBlockEntities {
     public static BlockEntityType<BlastChamberBlockEntity> BLAST_CHAMBER;
     public static BlockEntityType<LaserTransmitterBlockEntity> LASER_TRANSMITTER;
     public static BlockEntityType<LaserworkTableBlockEntity> LASERWORK_TABLE;
+    public static BlockEntityType<AirVuxGeneratorBlockEntity> AIR_VUX_GENERATOR;
     public static void registerAll(){
         BASIC_VUXDUCT = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(Voidophobia.MODID, "basic_vuxduct")
                 , FabricBlockEntityTypeBuilder.create(BasicVuxductBlockEntity::new, ModBlocks.BASIC_VUXDUCT).build(null));
@@ -48,6 +49,8 @@ public class ModBlockEntities {
                 , FabricBlockEntityTypeBuilder.create(LaserTransmitterBlockEntity::new, ModBlocks.LASER_TRANSMITTER).build(null));
         LASERWORK_TABLE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(Voidophobia.MODID, "laserwork_table")
                 , FabricBlockEntityTypeBuilder.create(LaserworkTableBlockEntity::new, ModBlocks.LASERWORK_TABLE).build(null));
+        AIR_VUX_GENERATOR = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(Voidophobia.MODID, "air_vux_generator")
+                , FabricBlockEntityTypeBuilder.create(AirVuxGeneratorBlockEntity::new, ModBlocks.AIR_VUX_GENERATOR).build(null));
     }
 
 }

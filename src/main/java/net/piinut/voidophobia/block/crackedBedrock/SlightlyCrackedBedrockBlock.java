@@ -1,12 +1,7 @@
 package net.piinut.voidophobia.block.crackedBedrock;
 
 import net.minecraft.block.BlockState;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
@@ -21,11 +16,11 @@ public class SlightlyCrackedBedrockBlock extends AbstractCrackedBedrockBlock {
     }
 
     @Override
-    public double getVux(World world, BlockState state, BlockPos pos, Direction direction, Random random) {
+    public int getVux(World world, BlockState state, BlockPos pos, Direction direction, Random random) {
 
         int bottomY = world.getBottomY();
         if(pos.getY()-bottomY <= 4){
-            return 5.0;
+            return 5;
         }
 
         return 0;

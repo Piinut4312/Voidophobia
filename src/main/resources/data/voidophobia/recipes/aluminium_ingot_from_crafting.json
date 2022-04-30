@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "voidophobia:aluminium_block"
+    }
+  ],
+  "result": {
+    "item": "voidophobia:aluminium_ingot",
+    "count": 9
+  }
+}
