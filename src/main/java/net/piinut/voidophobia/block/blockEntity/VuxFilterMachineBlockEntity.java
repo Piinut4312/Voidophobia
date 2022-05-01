@@ -38,9 +38,9 @@ public class VuxFilterMachineBlockEntity extends BlockEntity implements BasicInv
     int processTimeBias = 0;
     int filterDamageModifier = 0;
     int vuxCapacityModifier = 0;
-    private static final int[] TOP_SLOTS = new int[]{0};
+    private static final int[] TOP_SLOTS = new int[]{0, 1};
     private static final int[] BOTTOM_SLOTS = new int[]{2};
-    private static final int[] SIDE_SLOTS = new int[]{1};
+    private static final int[] SIDE_SLOTS = new int[]{0, 1};
 
     protected final PropertyDelegate propertyDelegate = new PropertyDelegate() {
 

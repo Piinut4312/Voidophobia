@@ -30,9 +30,9 @@ import java.util.Random;
 
 public class BlastChamberBlockEntity extends BlockEntity implements BasicInventory, SidedInventory {
 
-    private static final int[] TOP_SLOTS = new int[]{0};
+    private static final int[] TOP_SLOTS = new int[]{0, 1};
     private static final int[] BOTTOM_SLOTS = new int[]{2};
-    private static final int[] SIDE_SLOTS = new int[]{1};
+    private static final int[] SIDE_SLOTS = new int[]{0, 1};
     public DefaultedList<ItemStack> inventory = DefaultedList.ofSize(3, ItemStack.EMPTY);
     int vuxStored = 0;
     int coolDown = MAX_COOLDOWN;
@@ -104,11 +104,15 @@ public class BlastChamberBlockEntity extends BlockEntity implements BasicInvento
         nbt.putInt("CoolDown", this.coolDown);
     }
 
+    private static boolean isExplosive(ItemStack itemStack){
+        return itemStack.isOf(Items.TNT) || itemStack.isOf(Items.END_CRYSTAL);
+    }
+
     @Override
     public boolean canInsert(int slot, ItemStack stack, @Nullable Direction dir) {
         return switch (slot) {
-            case 0 -> dir == Direction.UP;
-            case 1 -> dir != Direction.DOWN && dir != Direction.UP;
+            case 0 -> !isExplosive(stack) && dir != Direction.DOWN;
+            case 1 -> isExplosive(stack) && dir != Direction.DOWN;
             default -> false;
         };
     }
