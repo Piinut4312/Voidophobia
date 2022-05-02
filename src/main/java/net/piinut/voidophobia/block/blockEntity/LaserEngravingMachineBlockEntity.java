@@ -106,7 +106,7 @@ public class LaserEngravingMachineBlockEntity extends BlockEntity implements Bas
         return this.inventory;
     }
 
-    public double requestVuxConsume() {
+    public int requestVuxConsume() {
         if(this.vuxStored >= LaserEngravingMachineBlockEntity.MAX_VUX_CAPACITY){
             return 0;
         }

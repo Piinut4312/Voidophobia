@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "voidophobia:ether_alloy_ingot"
+    }
+  },
+  "result": {
+    "item": "voidophobia:ether_alloy_block",
+    "count": 1
+  }
+}

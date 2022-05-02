@@ -73,6 +73,7 @@ public class ModItems {
     public static final BlockItem AIR_VUX_GENERATOR = new BlockItem(ModBlocks.AIR_VUX_GENERATOR, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final BlockItem ALUMINIUM_BLOCK_ITEM = new BlockItem(ModBlocks.ALUMINIUM_BLOCK, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final BlockItem TUFF_DUST = new BlockItem(ModBlocks.TUFF_DUST, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final BlockItem ETHER_ALLOY_BLOCK_ITEM = new BlockItem(ModBlocks.ETHER_ALLOY_BLOCK, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item VUX_METER = new VuxMeterItem(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item GODEL_CRYSTAL_SHARD = new GodelCrystalShardItem(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item ARTIFICIAL_BEDROCK_SCRAP = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
@@ -270,6 +271,7 @@ public class ModItems {
         register(CORRUPTION_CATALYST, "corruption_catalyst");
         register(DURALUMIN_INGOT, "duralumin_ingot");
         register(ETHER_ALLOY_INGOT, "ether_alloy_ingot");
+        register(ETHER_ALLOY_BLOCK_ITEM, "ether_alloy_block");
         register(ETHER_ALLOY_HELMET, "ether_alloy_helmet");
         register(ETHER_ALLOY_CHESTPLATE, "ether_alloy_chestplate");
         register(ETHER_ALLOY_LEGGINGS, "ether_alloy_leggings");

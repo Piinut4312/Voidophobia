@@ -2,13 +2,13 @@
   "parent": "voidophobia:voidophobia/obtain_bottle_of_shadow",
   "display": {
     "icon": {
-      "item": "voidophobia:ether_bottle"
+      "item": "voidophobia:ether_alloy_ingot"
     },
     "title": {
-      "translate": "advancements.voidophobia.obtain_ether_bottle.title"
+      "translate": "advancements.voidophobia.obtain_ether_alloy_ingot.title"
     },
     "description": {
-      "translate": "advancements.voidophobia.obtain_ether_bottle.description"
+      "translate": "advancements.voidophobia.obtain_ether_alloy_ingot.description"
     },
     "frame": "task",
     "show_toast": true,
@@ -16,13 +16,13 @@
     "hidden": false
   },
   "criteria": {
-    "ether_bottle": {
+    "ether_alloy_ingot": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
             "items": [
-              "voidophobia:ether_bottle"
+              "voidophobia:ether_alloy_ingot"
             ]
           }
         ]
@@ -31,7 +31,7 @@
   },
   "requirements": [
     [
-      "ether_bottle"
+      "ether_alloy_ingot"
     ]
   ]
 }

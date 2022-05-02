@@ -146,10 +146,10 @@ public class LaserEngravingMachineBlock extends BlockWithEntity implements VuxCo
             Block neighborBlock = neighborState.getBlock();
             if(neighborBlock instanceof VuxProvider){
                 vuxIn += ((VuxProvider)neighborBlock).getVux(world, neighborState, neighborPos, direction.getOpposite(), random);
-                ((VuxProvider)neighborBlock).handleVuxConsumption(world, state, pos, vuxIn);
+                ((VuxProvider)neighborBlock).handleVuxConsumption(world, neighborState, neighborPos, vuxIn);
             }else if(neighborBlock instanceof AbstractVuxductBlock){
                 AbstractVuxductBlockEntity be = (AbstractVuxductBlockEntity) world.getBlockEntity(neighborPos);
-                int tryConsumeVux = (int) Math.min(blockEntity.requestVuxConsume(), be.getVuxOutput());
+                int tryConsumeVux = Math.min(blockEntity.requestVuxConsume(), be.getVuxOutput());
                 be.removeVux(tryConsumeVux);
                 vuxIn += tryConsumeVux;
             }
