@@ -25,22 +25,25 @@ public class VuxFormingRecipeSerializer implements RecipeSerializer<VuxFormingRe
         Item output = Registry.ITEM.getOrEmpty(new Identifier(recipeJson.output))
                 .orElseThrow(() -> new JsonSyntaxException("No such item " + recipeJson.output));
         ItemStack outputStack = new ItemStack(output);
-        int count = recipeJson.count;
-        return new VuxFormingRecipe(input, outputStack, count, id);
+        int inputCount = recipeJson.inputCount;
+        int outputCount = recipeJson.outputCount;
+        return new VuxFormingRecipe(input, outputStack, inputCount, outputCount, id);
     }
 
     @Override
     public VuxFormingRecipe read(Identifier id, PacketByteBuf buf) {
         Ingredient input = Ingredient.fromPacket(buf);
         ItemStack output = buf.readItemStack();
-        int count = buf.readVarInt();
-        return new VuxFormingRecipe(input, output, count, id);
+        int inputCount = buf.readVarInt();
+        int outputCount = buf.readVarInt();
+        return new VuxFormingRecipe(input, output, inputCount, outputCount, id);
     }
 
     @Override
     public void write(PacketByteBuf buf, VuxFormingRecipe recipe) {
         recipe.getInput().write(buf);
         buf.writeItemStack(recipe.getOutput());
-        buf.writeVarInt(recipe.getCount());
+        buf.writeVarInt(recipe.getInputCount());
+        buf.writeVarInt(recipe.getOutputCount());
     }
 }

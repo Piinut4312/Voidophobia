@@ -4,5 +4,6 @@
     "item":"minecraft:amethyst_shard"
   },
   "output": "voidophobia:amethyst_lens",
-  "count": 2
+  "inputCount": 1,
+  "outputCount": 2
 }

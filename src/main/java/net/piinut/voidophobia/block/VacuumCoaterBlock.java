@@ -172,7 +172,7 @@ public class VacuumCoaterBlock extends BlockWithEntity implements VuxConsumer {
                 ((VuxProvider)neighborBlock).handleVuxConsumption(world, neighborState, neighborPos, vuxIn);
             }else if(neighborBlock instanceof AbstractVuxductBlock){
                 AbstractVuxductBlockEntity be = (AbstractVuxductBlockEntity) world.getBlockEntity(neighborPos);
-                int tryConsumeVux = (int) Math.min(blockEntity.requestVuxConsume(), be.getVuxOutput());
+                int tryConsumeVux = Math.min(blockEntity.requestVuxConsume(), be.getVuxOutput());
                 be.removeVux(tryConsumeVux);
                 vuxIn += tryConsumeVux;
             }

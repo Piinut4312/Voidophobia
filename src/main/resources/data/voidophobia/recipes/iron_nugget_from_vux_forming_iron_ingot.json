@@ -4,5 +4,6 @@
     "item":"minecraft:iron_ingot"
   },
   "output": "minecraft:iron_nugget",
-  "count": 9
+  "inputCount": 1,
+  "outputCount": 9
 }

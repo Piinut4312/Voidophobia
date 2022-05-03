@@ -3,7 +3,7 @@
   "input":{
     "item":"minecraft:iron_ingot"
   },
-  "output": "minecraft:minecart",
-  "inputCount": 5,
+  "output": "minecraft:bucket",
+  "inputCount": 3,
   "outputCount": 1
 }

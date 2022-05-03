@@ -121,7 +121,7 @@ public class VacuumCoaterBlockEntity extends BlockEntity implements SidedInvento
         return inventory;
     }
 
-    public double requestVuxConsume() {
+    public int requestVuxConsume() {
         if(this.vuxStored >= VacuumCoaterBlockEntity.MAX_VUX_CAPACITY){
             return 0;
         }

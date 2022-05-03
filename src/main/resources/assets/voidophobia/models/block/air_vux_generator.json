@@ -3,6 +3,6 @@
   "textures": {
     "top": "voidophobia:block/lightweight_vux_machine_core_bottom",
     "front": "voidophobia:block/air_vux_generator_front",
-    "side": "voidophobia:block/lightweight_vux_machine_core"
+    "side": "voidophobia:block/lightweight_vux_machine_core_side"
   }
 }

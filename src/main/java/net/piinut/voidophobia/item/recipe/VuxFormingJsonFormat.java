@@ -6,6 +6,7 @@ public class VuxFormingJsonFormat {
 
     JsonObject input;
     String output;
-    int count;
+    int inputCount;
+    int outputCount;
 
 }

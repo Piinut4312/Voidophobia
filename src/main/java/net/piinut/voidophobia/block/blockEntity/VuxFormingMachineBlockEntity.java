@@ -130,17 +130,17 @@ public class VuxFormingMachineBlockEntity extends BlockEntity implements NamedSc
             List<VuxFormingRecipe> recipeList = world.getRecipeManager().getAllMatches(ModRecipeTypes.VUX_FORMING, blockEntity, world);
             VuxFormingRecipe recipe = recipeList.isEmpty() || blockEntity.recipeSelected >= recipeList.size() || blockEntity.recipeSelected < 0? null : recipeList.get(blockEntity.recipeSelected);
             int i = blockEntity.getMaxCountPerStack();
-            if (!blockEntity.isProcessing() && VuxFormingMachineBlockEntity.canAcceptRecipeOutput(recipe, blockEntity.inventory, i)) {
+            if (!blockEntity.isProcessing() && VuxFormingMachineBlockEntity.canAcceptRecipeOutput(recipe, blockEntity.inventory)) {
                 if (blockEntity.isProcessing()) {
                     bl2 = true;
                 }
             }
-            if (blockEntity.isProcessing() && VuxFormingMachineBlockEntity.canAcceptRecipeOutput(recipe, blockEntity.inventory, i) && blockEntity.vuxStored >= VuxFormingMachineBlockEntity.VUX_CONSUME_PER_TICK) {
+            if (blockEntity.isProcessing() && VuxFormingMachineBlockEntity.canAcceptRecipeOutput(recipe, blockEntity.inventory) && blockEntity.vuxStored >= VuxFormingMachineBlockEntity.VUX_CONSUME_PER_TICK) {
                 ++blockEntity.processTime;
                 blockEntity.vuxStored -= VuxFormingMachineBlockEntity.VUX_CONSUME_PER_TICK;
                 if (blockEntity.processTime == VuxFormingMachineBlockEntity.TOTAL_PROCESS_TIME) {
                     blockEntity.processTime = 0;
-                    VuxFormingMachineBlockEntity.craftRecipe(recipe, blockEntity.inventory, i);
+                    VuxFormingMachineBlockEntity.craftRecipe(recipe, blockEntity.inventory);
                     bl2 = true;
                 }
             } else {
@@ -158,8 +158,8 @@ public class VuxFormingMachineBlockEntity extends BlockEntity implements NamedSc
         }
     }
 
-    private static void craftRecipe(VuxFormingRecipe recipe, DefaultedList<ItemStack> slots, int count) {
-        if (recipe == null || !VuxFormingMachineBlockEntity.canAcceptRecipeOutput(recipe, slots, count)) {
+    private static void craftRecipe(VuxFormingRecipe recipe, DefaultedList<ItemStack> slots) {
+        if (recipe == null || !VuxFormingMachineBlockEntity.canAcceptRecipeOutput(recipe, slots)) {
             return;
         }
         ItemStack itemStack = slots.get(0);
@@ -168,13 +168,13 @@ public class VuxFormingMachineBlockEntity extends BlockEntity implements NamedSc
         if (itemStack2.isEmpty()) {
             slots.set(1, itemStack1.copy());
         } else if (itemStack2.isOf(itemStack1.getItem())) {
-            itemStack2.increment(recipe.getCount());
+            itemStack2.increment(recipe.getOutputCount());
         }
-        itemStack.decrement(1);
+        itemStack.decrement(recipe.getInputCount());
     }
 
-    private static boolean canAcceptRecipeOutput(VuxFormingRecipe recipe, DefaultedList<ItemStack> slots, int count) {
-        if (slots.get(0).isEmpty() || recipe == null) {
+    private static boolean canAcceptRecipeOutput(VuxFormingRecipe recipe, DefaultedList<ItemStack> slots) {
+        if (slots.get(0).isEmpty() || recipe == null || slots.get(0).getCount() < recipe.getInputCount()) {
             return false;
         }
         ItemStack itemStack = recipe.getOutput();
@@ -188,10 +188,7 @@ public class VuxFormingMachineBlockEntity extends BlockEntity implements NamedSc
         if (!itemStack2.isItemEqualIgnoreDamage(itemStack)) {
             return false;
         }
-        if (itemStack2.getCount() < count && itemStack2.getCount() < itemStack2.getMaxCount()) {
-            return true;
-        }
-        return itemStack2.getCount() < itemStack.getMaxCount();
+        return itemStack2.getCount() + recipe.getOutputCount() <= itemStack2.getMaxCount();
     }
 
     public double requestVuxConsume() {

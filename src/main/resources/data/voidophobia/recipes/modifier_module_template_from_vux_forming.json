@@ -4,5 +4,6 @@
     "item":"voidophobia:artificial_bedrock_scrap"
   },
   "output": "voidophobia:modifier_module_template",
-  "count": 1
+  "inputCount":1,
+  "outputCount": 1
 }

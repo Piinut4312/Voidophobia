@@ -4,5 +4,6 @@
     "item":"voidophobia:nichrome_ingot"
   },
   "output": "voidophobia:nichrome_wire",
-  "count": 3
+  "inputCount": 1,
+  "outputCount": 3
 }

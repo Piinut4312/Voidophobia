@@ -15,26 +15,33 @@ public class VuxFormingRecipe implements Recipe<Inventory> {
         return input;
     }
 
-    public int getCount() {
-        return count;
+    public int getOutputCount() {
+        return outputCount;
     }
 
     private final Ingredient input;
     private final ItemStack output;
-    private final int count;
+
+    public int getInputCount() {
+        return inputCount;
+    }
+
+    private final int inputCount;
+    private final int outputCount;
     private final Identifier id;
 
-    public VuxFormingRecipe(Ingredient input, ItemStack output, int count, Identifier id) {
+    public VuxFormingRecipe(Ingredient input, ItemStack output, int inputCount, int outputCount, Identifier id) {
         this.input = input;
         this.output = output;
-        this.count = count;
+        this.inputCount = inputCount;
+        this.outputCount = outputCount;
         this.id = id;
     }
 
     @Override
     public boolean matches(Inventory inventory, World world) {
         ItemStack itemStack = inventory.getStack(0);
-        return input.test(itemStack);
+        return input.test(itemStack) && itemStack.getCount() >= inputCount;
     }
 
     @Override
@@ -50,7 +57,7 @@ public class VuxFormingRecipe implements Recipe<Inventory> {
     @Override
     public ItemStack getOutput() {
         ItemStack itemStack = output.copy();
-        itemStack.setCount(count);
+        itemStack.setCount(outputCount);
         return itemStack;
     }
 

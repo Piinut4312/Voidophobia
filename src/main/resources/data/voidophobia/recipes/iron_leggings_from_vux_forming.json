@@ -1,8 +1,9 @@
 {
   "type": "voidophobia:vux_forming",
   "input":{
-    "item":"minecraft:iron_block"
+    "item":"minecraft:iron_ingot"
   },
   "output": "minecraft:iron_leggings",
-  "count": 1
+  "inputCount": 7,
+  "outputCount": 1
 }
