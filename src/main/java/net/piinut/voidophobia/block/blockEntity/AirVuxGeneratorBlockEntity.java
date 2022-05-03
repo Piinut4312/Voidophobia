@@ -13,9 +13,9 @@ import static net.minecraft.client.render.WorldRenderer.DIRECTIONS;
 
 public class AirVuxGeneratorBlockEntity extends AbstractVuxGeneratorBlockEntity {
 
-    public static final int DEFAULT_VUX_CAPACITY = 4800;
+    public static final int DEFAULT_VUX_CAPACITY = 2000;
     public static final int DEFAULT_VUX_GEN_RATE = 12;
-    public static final int DEFAULT_VUX_OUTPUT_RATE = 120;
+    public static final int DEFAULT_VUX_OUTPUT_RATE = 100;
 
     private final PropertyDelegate propertyDelegate = new PropertyDelegate() {
         @Override

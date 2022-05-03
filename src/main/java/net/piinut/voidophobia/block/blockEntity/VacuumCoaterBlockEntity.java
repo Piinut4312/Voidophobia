@@ -32,8 +32,8 @@ public class VacuumCoaterBlockEntity extends BlockEntity implements SidedInvento
     int processTime;
     int processTimeTotal;
     int vuxStored;
-    public static final int MAX_VUX_CAPACITY = 800000;
-    private static final int VUX_CONSUME_PER_TICK = 160;
+    public static final int MAX_VUX_CAPACITY = 160000;
+    private static final int VUX_CONSUME_PER_TICK = 200;
     protected final PropertyDelegate propertyDelegate = new PropertyDelegate(){
 
         @Override

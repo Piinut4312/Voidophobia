@@ -50,13 +50,13 @@ public class VuxFilterMachineBlock extends BlockWithEntity implements VuxConsume
     @Override
     public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean notify) {
         super.onBlockAdded(state, world, pos, oldState, notify);
-        world.createAndScheduleBlockTick(pos, state.getBlock(), 1);
+        world.createAndScheduleBlockTick(pos, state.getBlock(), 2);
     }
 
     @Override
     public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         this.consumeVux(world, state, pos, random);
-        world.createAndScheduleBlockTick(pos, state.getBlock(), 1);
+        world.createAndScheduleBlockTick(pos, state.getBlock(), 2);
     }
 
     @Override
@@ -72,7 +72,6 @@ public class VuxFilterMachineBlock extends BlockWithEntity implements VuxConsume
             Block neighborBlock = neighborState.getBlock();
             if(neighborBlock instanceof VuxProvider){
                 vuxIn += ((VuxProvider)neighborBlock).getVux(world, neighborState, neighborPos, direction.getOpposite(), random);
-                ((VuxProvider)neighborBlock).handleVuxConsumption(world, neighborState, neighborPos, vuxIn);
             }else if(neighborBlock instanceof AbstractVuxductBlock){
                 AbstractVuxductBlockEntity be = (AbstractVuxductBlockEntity) world.getBlockEntity(neighborPos);
                 int tryConsumeVux = Math.min(blockEntity.requestVuxConsume(), be.getVuxOutput());

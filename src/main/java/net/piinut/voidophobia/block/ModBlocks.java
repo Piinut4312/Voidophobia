@@ -74,8 +74,6 @@ public class ModBlocks {
     public static final Block AIR_VUX_GENERATOR = new AirVuxGeneratorBlock(FabricBlockSettings.of(Material.METAL).strength(12.0f, 12.0f).sounds(BlockSoundGroup.METAL).requiresTool());
     public static final Block LIGHTWEIGHT_VUX_MACHINE_CORE = new Block(FabricBlockSettings.of(Material.METAL).strength(10.0f, 10.0f).sounds(BlockSoundGroup.METAL).requiresTool());
     public static final Block ALUMINIUM_BLOCK = new Block(FabricBlockSettings.of(Material.METAL).strength(5.0f, 5.0f).sounds(BlockSoundGroup.METAL).requiresTool());
-    public static final Block TUFF_DUST = new FallingBlock(FabricBlockSettings.of(Material.AGGREGATE).strength(0.8f, 0.8f).sounds(BlockSoundGroup.GRAVEL));
-    public static final Block ETHER_ALLOY_BLOCK = new Block(FabricBlockSettings.of(Material.METAL).strength(60.0f, 1200.0f));
 
     private static Block createReinforcedPistonBlock(boolean sticky) {
         AbstractBlock.ContextPredicate contextPredicate = (state, world, pos) -> !state.get(ReinforcedPistonBlock.EXTENDED);
@@ -148,8 +146,6 @@ public class ModBlocks {
         register(AIR_VUX_GENERATOR, "air_vux_generator");
         register(LIGHTWEIGHT_VUX_MACHINE_CORE, "lightweight_vux_machine_core");
         register(ALUMINIUM_BLOCK, "aluminium_block");
-        register(TUFF_DUST, "tuff_dust");
-        register(ETHER_ALLOY_BLOCK, "ether_alloy_block");
     }
 
 }
