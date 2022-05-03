@@ -122,7 +122,6 @@ public class VuxFormingMachineBlockEntity extends BlockEntity implements NamedSc
         if (blockEntity.isProcessing() && !blockEntity.inventory.get(0).isEmpty() && blockEntity.recipeSelected >= 0) {
             List<VuxFormingRecipe> recipeList = world.getRecipeManager().getAllMatches(ModRecipeTypes.VUX_FORMING, blockEntity, world);
             VuxFormingRecipe recipe = recipeList.isEmpty() || blockEntity.recipeSelected >= recipeList.size() || blockEntity.recipeSelected < 0? null : recipeList.get(blockEntity.recipeSelected);
-            int i = blockEntity.getMaxCountPerStack();
             if (!blockEntity.isProcessing() && VuxFormingMachineBlockEntity.canAcceptRecipeOutput(recipe, blockEntity.inventory)) {
                 if (blockEntity.isProcessing()) {
                     bl2 = true;
@@ -188,11 +187,11 @@ public class VuxFormingMachineBlockEntity extends BlockEntity implements NamedSc
         if(this.vuxStored >= VuxFormingMachineBlockEntity.MAX_VUX_CAPACITY){
             return 0;
         }
-        return Math.min(VuxFormingMachineBlockEntity.MAX_VUX_CAPACITY - this.vuxStored, 200);
+        return Math.min(VuxFormingMachineBlockEntity.MAX_VUX_CAPACITY - this.vuxStored, 500);
     }
 
     public void addVux(double vuxIn) {
-        this.vuxStored += Math.min(vuxIn, 200);
+        this.vuxStored += Math.min(vuxIn, 500);
         if(this.vuxStored > VuxFormingMachineBlockEntity.MAX_VUX_CAPACITY){
             this.vuxStored = VuxFormingMachineBlockEntity.MAX_VUX_CAPACITY;
         }

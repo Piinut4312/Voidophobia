@@ -69,7 +69,6 @@ public class VuxFormingMachineScreenHandler extends ScreenHandler {
             }
             this.propertyDelegate.set(0, newId);
         }
-        Voidophobia.LOGGER.info(String.valueOf(newId));
         return true;
     }
 
