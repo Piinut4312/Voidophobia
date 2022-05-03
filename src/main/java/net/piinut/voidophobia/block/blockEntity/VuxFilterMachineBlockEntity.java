@@ -32,15 +32,15 @@ public class VuxFilterMachineBlockEntity extends BlockEntity implements BasicInv
     int processTime;
     public static final int TOTAL_PROCESS_TIME = 200;
     int vuxStored;
-    public static final int MAX_VUX_CAPACITY = 320000;
-    private static final int VUX_CONSUME_PER_TICK = 100;
+    public static final int MAX_VUX_CAPACITY = 60000;
+    private static final int VUX_CONSUME_PER_TICK = 120;
     int vuxConsumeBias = 0;
     int processTimeBias = 0;
     int filterDamageModifier = 0;
     int vuxCapacityModifier = 0;
-    private static final int[] TOP_SLOTS = new int[]{0, 1};
+    private static final int[] TOP_SLOTS = new int[]{0};
     private static final int[] BOTTOM_SLOTS = new int[]{2};
-    private static final int[] SIDE_SLOTS = new int[]{0, 1};
+    private static final int[] SIDE_SLOTS = new int[]{1};
 
     protected final PropertyDelegate propertyDelegate = new PropertyDelegate() {
 

@@ -7,7 +7,7 @@
   "input2":{
     "item":"voidophobia:chrome_nickel_blend"
   },
-  "count2":1,
+  "count":1,
   "result": {
     "item":"voidophobia:stainless_steel_ingot",
     "count":3

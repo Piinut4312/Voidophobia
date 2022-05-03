@@ -86,7 +86,7 @@ public class VacuumCoaterScreenHandler extends ScreenHandler {
                     return ItemStack.EMPTY;
                 }
                 slot.onQuickTransfer(itemStack2, itemStack);
-            } else if (index == 0 || index == 1 ? !this.insertItem(itemStack2, 3, 39, false) : index >= 3 && index < 39 && !this.insertItem(itemStack2, 0, 2, false)) {
+            } else if (index == 0 || index == 1 ? !this.insertItem(itemStack2, 2, 38, false) : (this.world.getRecipeManager().getFirstMatch(ModRecipeTypes.VACUUM_COATING, new SimpleInventory(itemStack2), this.world).isPresent() ? !this.insertItem(itemStack2, 0, 1, false) : (index >= 2 && index < 29 ? !this.insertItem(itemStack2, 29, 38, false) : index >= 29 && index < 38 && !this.insertItem(itemStack2, 2, 29, false)))) {
                 return ItemStack.EMPTY;
             }
             if (itemStack2.isEmpty()) {

@@ -20,6 +20,7 @@ public class VuxFilterMachineScreenHandler extends ScreenHandler {
 
     private final Inventory inventory;
     private final PropertyDelegate propertyDelegate;
+    private final World world;
 
     public VuxFilterMachineScreenHandler(int syncId, PlayerInventory playerInventory){
         this(syncId, playerInventory, new SimpleInventory(6), new ArrayPropertyDelegate(6));
@@ -29,7 +30,7 @@ public class VuxFilterMachineScreenHandler extends ScreenHandler {
         super(ModScreenHandlers.VUX_FILTER_MACHINE, syncId);
         this.inventory = inventory;
         this.propertyDelegate = propertyDelegate;
-        World world = playerInventory.player.getWorld();
+        this.world = playerInventory.player.getWorld();
         inventory.onOpen(playerInventory.player);
 
         this.addSlot(new Slot(inventory, 0, 27, 38));
@@ -101,7 +102,7 @@ public class VuxFilterMachineScreenHandler extends ScreenHandler {
                     return ItemStack.EMPTY;
                 }
                 slot.onQuickTransfer(itemStack2, itemStack);
-            } else if (index <= 1 ? !this.insertItem(itemStack2, 3, 39, false) : item == ModItems.VUX_FILTER ? !this.insertItem(itemStack2, 1, 2, false) : this.canInsertIntoSlot(itemStack2, this.getSlot(0)) ? !this.insertItem(itemStack2, 0, 1, false) : index < 30 ? !this.insertItem(itemStack2, 30, 39, false) : index < 39 && !this.insertItem(itemStack2, 3, 30, false)) {
+            } else if (index <= 1 ? !this.insertItem(itemStack2, 3, 39, false) : item == ModItems.VUX_FILTER ? !this.insertItem(itemStack2, 1, 1, false) : this.canInsertIntoSlot(itemStack2, this.getSlot(0)) ? !this.insertItem(itemStack2, 0, 0, false) : index < 30 ? !this.insertItem(itemStack2, 30, 39, false) : index < 39 && !this.insertItem(itemStack2, 3, 30, false)) {
                 return ItemStack.EMPTY;
             }
             if (itemStack2.isEmpty()) {

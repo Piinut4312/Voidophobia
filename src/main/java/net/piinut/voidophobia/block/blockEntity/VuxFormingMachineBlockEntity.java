@@ -30,21 +30,14 @@ public class VuxFormingMachineBlockEntity extends BlockEntity implements NamedSc
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(2, ItemStack.EMPTY);
     int processTime;
     int recipeSelected;
-    int vuxStored;
+    float vuxStored;
     public static final int TOTAL_PROCESS_TIME = 100;
-    public static final int VUX_CONSUME_PER_TICK = 40;
-    public static final int MAX_VUX_CAPACITY = 32000;
+    public static final float VUX_CONSUME_PER_TICK = 40;
+    public static final float MAX_VUX_CAPACITY = 10000.0f;
 
     private static final int[] TOP_SLOTS = new int[]{0};
     private static final int[] BOTTOM_SLOTS = new int[]{1};
     private static final int[] SIDE_SLOTS = new int[]{0};
-
-    /*
-    * Vux consumption per tick: 40
-    * Vux consumption per operation: 4000
-    * Total operating ticks before run out of vux when machine is full: 400
-    * Total operations before run out of vux when machine is full: 8
-    * */
 
     protected final PropertyDelegate propertyDelegate = new PropertyDelegate(){
 
@@ -58,7 +51,7 @@ public class VuxFormingMachineBlockEntity extends BlockEntity implements NamedSc
                     return VuxFormingMachineBlockEntity.this.processTime;
                 }
                 case 2 -> {
-                    return VuxFormingMachineBlockEntity.this.vuxStored;
+                    return (int) (VuxFormingMachineBlockEntity.this.vuxStored);
                 }
             }
             return 0;
@@ -89,7 +82,7 @@ public class VuxFormingMachineBlockEntity extends BlockEntity implements NamedSc
     public void readNbt(NbtCompound nbt) {
         super.readNbt(nbt);
         Inventories.readNbt(nbt, this.inventory);
-        this.vuxStored = nbt.getInt("VuxStored");
+        this.vuxStored = nbt.getFloat("VuxStored");
         this.processTime = nbt.getInt("ProcessTime");
         this.recipeSelected = nbt.getInt("RecipeSelected");
     }
@@ -98,7 +91,7 @@ public class VuxFormingMachineBlockEntity extends BlockEntity implements NamedSc
     protected void writeNbt(NbtCompound nbt) {
         super.writeNbt(nbt);
         Inventories.writeNbt(nbt, this.inventory);
-        nbt.putInt("VuxStored", this.vuxStored);
+        nbt.putFloat("VuxStored", this.vuxStored);
         nbt.putInt("ProcessTime", this.processTime);
         nbt.putInt("RecipeSelected", this.recipeSelected);
     }

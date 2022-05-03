@@ -38,7 +38,7 @@ public class LaserTransmitterBlockEntity extends BlockEntity implements BasicInv
 
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(1, ItemStack.EMPTY);
     private static final int DEFAULT_BEAM_LENGTH = 0;
-    private static final int MAX_VUX_CAPACITY = 400000;
+    private static final int MAX_VUX_CAPACITY = 60000;
     private int processTime;
     private int processTimeTotal;
     private int vuxStored;
@@ -50,7 +50,7 @@ public class LaserTransmitterBlockEntity extends BlockEntity implements BasicInv
         @Override
         public int get(int index) {
             if(index == 0){
-                return LaserTransmitterBlockEntity.this.vuxStored;
+                return (int) LaserTransmitterBlockEntity.this.vuxStored;
             }else if(index == 1){
                 return LaserTransmitterBlockEntity.this.processTime;
             }else if(index == 2){

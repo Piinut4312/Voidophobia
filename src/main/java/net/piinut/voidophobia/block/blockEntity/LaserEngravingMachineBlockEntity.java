@@ -41,15 +41,8 @@ public class LaserEngravingMachineBlockEntity extends BlockEntity implements Bas
     int processTime;
     public static final int TOTAL_PROCESS_TIME = 100;
     int vuxStored;
-    public static final int MAX_VUX_CAPACITY = 24000;
+    public static final int MAX_VUX_CAPACITY = 16000;
     private static final int VUX_CONSUME_PER_TICK = 60;
-
-    /*
-     * Vux consumption per tick: 80
-     * Vux consumption per operation: 8000
-     * Total operating ticks before run out of vux when machine is full: 400
-     * Total operations before run out of vux when machine is full: 4
-     * */
 
     protected final PropertyDelegate propertyDelegate = new PropertyDelegate() {
 
@@ -106,7 +99,7 @@ public class LaserEngravingMachineBlockEntity extends BlockEntity implements Bas
         return this.inventory;
     }
 
-    public int requestVuxConsume() {
+    public double requestVuxConsume() {
         if(this.vuxStored >= LaserEngravingMachineBlockEntity.MAX_VUX_CAPACITY){
             return 0;
         }

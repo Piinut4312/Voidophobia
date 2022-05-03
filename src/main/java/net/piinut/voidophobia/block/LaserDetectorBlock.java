@@ -65,7 +65,7 @@ public class LaserDetectorBlock extends Block {
                 BlockState blockState = world.getBlockState(testPos);
                 if(blockState.isOf(ModBlocks.LASER_TRANSMITTER)){
                     LaserTransmitterBlockEntity blockEntity = (LaserTransmitterBlockEntity) world.getBlockEntity(testPos);
-                    if(blockEntity.getBeamLength() > 0 && blockEntity.getBeamLength() >= i && blockState.get(LaserTransmitterBlock.FACING) == dir.getOpposite()){
+                    if(blockEntity.getBeamLength() >= i && blockState.get(LaserTransmitterBlock.FACING) == dir.getOpposite()){
                         shouldPower = true;
                     }
                     break;
