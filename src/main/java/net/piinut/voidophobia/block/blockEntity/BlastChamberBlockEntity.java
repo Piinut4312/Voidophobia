@@ -2,7 +2,6 @@ package net.piinut.voidophobia.block.blockEntity;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.SidedInventory;
 import net.minecraft.item.Item;
@@ -28,44 +27,56 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Random;
 
-public class BlastChamberBlockEntity extends BlockEntity implements BasicInventory, SidedInventory {
+public class BlastChamberBlockEntity extends AbstractVuxContainerBlockEntity implements BasicInventory, SidedInventory {
 
     private static final int[] TOP_SLOTS = new int[]{0};
     private static final int[] BOTTOM_SLOTS = new int[]{2};
     private static final int[] SIDE_SLOTS = new int[]{1};
     public DefaultedList<ItemStack> inventory = DefaultedList.ofSize(3, ItemStack.EMPTY);
-    int vuxStored = 0;
-    int coolDown = MAX_COOLDOWN;
+    private int coolDown = MAX_COOLDOWN;
     public static final int MAX_COOLDOWN = 200;
-    public static final int MAX_VUX_CAPACITY = 40000;
+    public static final int DEFAULT_VUX_CAPACITY = 40000;
+    public static final int DEFAULT_VUX_TRANSFER_RATE = 4000;
     protected final PropertyDelegate propertyDelegate = new PropertyDelegate() {
         @Override
         public int get(int index) {
-            if(index == 0){
-                return BlastChamberBlockEntity.this.vuxStored;
-            }else if(index == 1){
-                return BlastChamberBlockEntity.this.coolDown;
+            switch(index){
+                case 0 -> {
+                    return BlastChamberBlockEntity.this.getVuxStored();
+                }
+                case 1 -> {
+                    return BlastChamberBlockEntity.this.getVuxCapacity();
+                }
+                case 2 -> {
+                    return BlastChamberBlockEntity.this.getVuxTransferRate();
+                }
+                case 3 -> {
+                    return BlastChamberBlockEntity.this.coolDown;
+                }
+                default -> {
+                    return 0;
+                }
             }
-            return 0;
         }
 
         @Override
         public void set(int index, int value) {
-            if(index == 0){
-                BlastChamberBlockEntity.this.vuxStored = value;
-            }else if(index == 1){
-                BlastChamberBlockEntity.this.coolDown = value;
+            switch (index){
+                case 0 -> BlastChamberBlockEntity.this.setVuxStored(value);
+                case 1 -> BlastChamberBlockEntity.this.setVuxCapacity(value);
+                case 2 -> BlastChamberBlockEntity.this.setVuxTransferRate(value);
+                case 3 -> BlastChamberBlockEntity.this.coolDown = value;
             }
         }
 
         @Override
         public int size() {
-            return 2;
+            return 4;
         }
     };
 
     public BlastChamberBlockEntity(BlockPos pos, BlockState state) {
-        super(ModBlockEntities.BLAST_CHAMBER, pos, state);
+        super(ModBlockEntities.BLAST_CHAMBER, pos, state, DEFAULT_VUX_CAPACITY, DEFAULT_VUX_TRANSFER_RATE);
     }
 
     @Override
@@ -84,7 +95,6 @@ public class BlastChamberBlockEntity extends BlockEntity implements BasicInvento
         super.readNbt(nbt);
         this.inventory.clear();
         Inventories.readNbt(nbt, this.inventory);
-        this.vuxStored = nbt.getInt("VuxStored");
         this.coolDown = nbt.getInt("CoolDown");
     }
 
@@ -92,7 +102,6 @@ public class BlastChamberBlockEntity extends BlockEntity implements BasicInvento
     protected void writeNbt(NbtCompound nbt) {
         super.writeNbt(nbt);
         Inventories.writeNbt(nbt, this.inventory);
-        nbt.putInt("VuxStored", this.vuxStored);
         nbt.putInt("CoolDown", this.coolDown);
     }
 
@@ -113,10 +122,6 @@ public class BlastChamberBlockEntity extends BlockEntity implements BasicInvento
     @Override
     public DefaultedList<ItemStack> getItems() {
         return this.inventory;
-    }
-
-    public int getVuxStored(){
-        return this.vuxStored;
     }
 
     private static boolean canAcceptRecipeOutput(ExplosiveBlastingRecipe recipe, DefaultedList<ItemStack> slots) {
@@ -160,9 +165,9 @@ public class BlastChamberBlockEntity extends BlockEntity implements BasicInvento
                 }
             }
             itemStack.decrement(recipe.getInputCount());
-            itemStack1.decrement(1);
             count--;
         }
+        itemStack1.decrement(1);
     }
 
     private static int getMaxBatch(Item item) {
@@ -202,7 +207,7 @@ public class BlastChamberBlockEntity extends BlockEntity implements BasicInvento
                         blockEntity.coolDown = BlastChamberBlockEntity.getCooldown(blockEntity.inventory.get(1));
                         BlastChamberBlockEntity.craftRecipe(world.getRandom(), recipe, blockEntity.inventory);
                         world.playSound(null, blockPos, SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.BLOCKS, 0.5f, 1f);
-                        blockEntity.vuxStored = MathHelper.clamp(blockEntity.vuxStored + 1000, 0, BlastChamberBlockEntity.MAX_VUX_CAPACITY);
+                        blockEntity.addVux(1000);
                     }
                     if (blockEntity.coolDown > 0 && blockEntity.getStack(2).getCount() < blockEntity.getStack(2).getMaxCount()) {
                         blockEntity.coolDown = MathHelper.clamp(blockEntity.coolDown - 2, 0, BlastChamberBlockEntity.MAX_COOLDOWN);
@@ -236,13 +241,6 @@ public class BlastChamberBlockEntity extends BlockEntity implements BasicInvento
     @Override
     public NbtCompound toInitialChunkDataNbt() {
         return createNbt();
-    }
-
-    public void removeVux(double input) {
-        this.vuxStored -= input;
-        if(this.vuxStored < 0){
-            this.vuxStored = 0;
-        }
     }
 
     public PropertyDelegate getPropertyDelegate() {

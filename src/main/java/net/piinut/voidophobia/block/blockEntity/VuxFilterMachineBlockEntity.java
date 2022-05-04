@@ -2,7 +2,6 @@ package net.piinut.voidophobia.block.blockEntity;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
@@ -26,18 +25,16 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Random;
 
-public class VuxFilterMachineBlockEntity extends BlockEntity implements BasicInventory, NamedScreenHandlerFactory, SidedInventory {
+public class VuxFilterMachineBlockEntity extends AbstractVuxContainerBlockEntity implements BasicInventory, NamedScreenHandlerFactory, SidedInventory {
 
     private DefaultedList<ItemStack> inventory = DefaultedList.ofSize(6, ItemStack.EMPTY);
-    int processTime;
-    public static final int TOTAL_PROCESS_TIME = 200;
-    int vuxStored;
-    public static final int MAX_VUX_CAPACITY = 60000;
-    private static final int VUX_CONSUME_PER_TICK = 120;
-    int vuxConsumeBias = 0;
-    int processTimeBias = 0;
-    int filterDamageModifier = 0;
-    int vuxCapacityModifier = 0;
+    private int processTime;
+    private int totalProcessTime;
+    private int vuxConsumptionRate;
+    public static final int DEFAULT_TOTAL_PROCESS_TIME = 200;
+    public static final int DEFAULT_VUX_CAPACITY = 60000;
+    public static final int DEFAULT_VUX_TRANSFER_RATE = 600;
+    private static final int DEFAULT_VUX_CONSUMPTION_RATE = 120;
     private static final int[] TOP_SLOTS = new int[]{0};
     private static final int[] BOTTOM_SLOTS = new int[]{2};
     private static final int[] SIDE_SLOTS = new int[]{1};
@@ -51,19 +48,19 @@ public class VuxFilterMachineBlockEntity extends BlockEntity implements BasicInv
                     return VuxFilterMachineBlockEntity.this.processTime;
                 }
                 case 1 -> {
-                    return VuxFilterMachineBlockEntity.this.vuxStored;
+                    return VuxFilterMachineBlockEntity.this.totalProcessTime;
                 }
                 case 2 -> {
-                    return VuxFilterMachineBlockEntity.this.vuxConsumeBias;
+                    return VuxFilterMachineBlockEntity.this.getVuxStored();
                 }
                 case 3 -> {
-                    return VuxFilterMachineBlockEntity.this.processTimeBias;
+                    return VuxFilterMachineBlockEntity.this.getVuxCapacity();
                 }
                 case 4 -> {
-                    return VuxFilterMachineBlockEntity.this.filterDamageModifier;
+                    return VuxFilterMachineBlockEntity.this.getVuxTransferRate();
                 }
                 case 5 -> {
-                    return VuxFilterMachineBlockEntity.this.vuxCapacityModifier;
+                    return VuxFilterMachineBlockEntity.this.vuxConsumptionRate;
                 }
             }
             return 0;
@@ -73,11 +70,11 @@ public class VuxFilterMachineBlockEntity extends BlockEntity implements BasicInv
         public void set(int index, int value) {
             switch (index) {
                 case 0 -> VuxFilterMachineBlockEntity.this.processTime = value;
-                case 1 -> VuxFilterMachineBlockEntity.this.vuxStored = value;
-                case 2 -> VuxFilterMachineBlockEntity.this.vuxConsumeBias = value;
-                case 3 -> VuxFilterMachineBlockEntity.this.processTimeBias = value;
-                case 4 -> VuxFilterMachineBlockEntity.this.filterDamageModifier = value;
-                case 5 -> VuxFilterMachineBlockEntity.this.vuxCapacityModifier = value;
+                case 1 -> VuxFilterMachineBlockEntity.this.totalProcessTime = value;
+                case 2 -> VuxFilterMachineBlockEntity.this.setVuxStored(value);
+                case 3 -> VuxFilterMachineBlockEntity.this.setVuxCapacity(value);
+                case 4 -> VuxFilterMachineBlockEntity.this.setVuxTransferRate(value);
+                case 5 -> VuxFilterMachineBlockEntity.this.vuxConsumptionRate = value;
             }
         }
 
@@ -88,7 +85,7 @@ public class VuxFilterMachineBlockEntity extends BlockEntity implements BasicInv
     };
 
     public VuxFilterMachineBlockEntity(BlockPos pos, BlockState state) {
-        super(ModBlockEntities.VUX_FILTER_MACHINE, pos, state);
+        super(ModBlockEntities.VUX_FILTER_MACHINE, pos, state, DEFAULT_VUX_CAPACITY, DEFAULT_VUX_TRANSFER_RATE);
     }
 
     @Override
@@ -96,11 +93,8 @@ public class VuxFilterMachineBlockEntity extends BlockEntity implements BasicInv
         super.readNbt(nbt);
         Inventories.readNbt(nbt, this.inventory);
         this.processTime = nbt.getInt("ProcessTime");
-        this.vuxStored = nbt.getInt("VuxStored");
-        this.vuxConsumeBias = nbt.getInt("VuxConsumeBias");
-        this.processTimeBias = nbt.getInt("ProcessTimeBias");
-        this.filterDamageModifier = nbt.getInt("FilterDamageModifier");
-        this.vuxCapacityModifier = nbt.getInt("VuxCapacityModifier");
+        this.totalProcessTime = nbt.getInt("TotalProcessTime");
+        this.vuxConsumptionRate = nbt.getInt("VuxConsumptionRate");
     }
 
     @Override
@@ -108,25 +102,15 @@ public class VuxFilterMachineBlockEntity extends BlockEntity implements BasicInv
         super.writeNbt(nbt);
         Inventories.writeNbt(nbt, this.inventory);
         nbt.putInt("ProcessTime", this.processTime);
-        nbt.putInt("VuxStored", this.vuxStored);
-        nbt.putInt("VuxConsumeBias", this.vuxConsumeBias);
-        nbt.putInt("ProcessTimeBias", this.processTimeBias);
-        nbt.putInt("FilterDamageModifier", this.filterDamageModifier);
-        nbt.putInt("VuxCapacityModifier", this.vuxCapacityModifier);
+        nbt.putInt("TotalProcessTime", this.totalProcessTime);
+        nbt.putInt("VuxConsumptionRate", this.vuxConsumptionRate);
     }
 
     public int requestVuxConsume() {
-        if(this.vuxStored >= this.getMaxVuxCapacity()){
+        if(this.getVuxStored() >= this.getVuxCapacity()){
             return 0;
         }
-        return Math.min(this.getMaxVuxCapacity() - this.vuxStored, 800);
-    }
-
-    public void addVux(double vuxIn) {
-        this.vuxStored += Math.min(vuxIn, 800);
-        if(this.vuxStored > this.getMaxVuxCapacity()){
-            this.vuxStored = this.getMaxVuxCapacity();
-        }
+        return Math.min(this.getVuxCapacity() - this.getVuxStored(), this.getVuxTransferRate());
     }
 
     @Override
@@ -149,45 +133,44 @@ public class VuxFilterMachineBlockEntity extends BlockEntity implements BasicInv
         return Math.max(1.0f - 0.2f*modifier, 0);
     }
 
-    private void resetModifiers(){
-        this.vuxConsumeBias = 0;
-        this.processTimeBias = 0;
-        this.filterDamageModifier = 0;
-        this.vuxCapacityModifier = 0;
+    private void updateVuxCapacity(int modifiers){
+        this.setVuxCapacity((int) (VuxFilterMachineBlockEntity.DEFAULT_VUX_CAPACITY * Math.pow(1.2, modifiers)));
     }
 
-    private int getMaxVuxCapacity(){
-        return (int) (VuxFilterMachineBlockEntity.MAX_VUX_CAPACITY * Math.pow(1.2, vuxCapacityModifier));
+    private void updateTotalProcessTime(int bias){
+        this.totalProcessTime = Math.max(0, VuxFilterMachineBlockEntity.DEFAULT_TOTAL_PROCESS_TIME + bias);
     }
 
-    private int getTotalProcessTime(){
-        return VuxFilterMachineBlockEntity.TOTAL_PROCESS_TIME + this.processTimeBias;
-    }
-
-    private float getVuxConsume(){
-        return VuxFilterMachineBlockEntity.VUX_CONSUME_PER_TICK + this.vuxConsumeBias;
+    private void updateVuxConsumptionRate(int bias){
+        this.vuxConsumptionRate = Math.max(0, VuxFilterMachineBlockEntity.DEFAULT_VUX_CONSUMPTION_RATE + bias);
     }
 
     public static void tick(World world, BlockPos pos, BlockState state, VuxFilterMachineBlockEntity blockEntity){
         if(!world.isClient){
             boolean bl = blockEntity.isProcessing();
             boolean bl2 = false;
-            blockEntity.resetModifiers();
+            int filterDamageModifier = 0;
+            int processTimeBias = 0;
+            int vuxConsumeBias = 0;
+            int vuxCapacityModifier = 0;
             for(int i = 3; i < 6; i++){
                 ItemStack itemStack = blockEntity.getStack(i);
                 if(itemStack.isOf(ModItems.DELICATE_FILTERING_MODIFIER_MODULE)){
-                    blockEntity.filterDamageModifier += 1;
-                    blockEntity.processTimeBias += 60;
-                    blockEntity.vuxConsumeBias -= 20;
+                    filterDamageModifier += 1;
+                    processTimeBias += 60;
+                    vuxConsumeBias -= 20;
                 }
                 if(itemStack.isOf(ModItems.PROCESSING_SPEED_BOOST_MODIFIER_MODULE)){
-                    blockEntity.processTimeBias -= 40;
-                    blockEntity.vuxConsumeBias += 60;
+                    processTimeBias -= 40;
+                    vuxConsumeBias += 60;
                 }
                 if(itemStack.isOf(ModItems.VUX_CAPACITY_UPGRADE_MODIFIER_MODULE)){
-                    blockEntity.vuxCapacityModifier += 1;
+                    vuxCapacityModifier += 1;
                 }
             }
+            blockEntity.updateVuxCapacity(vuxCapacityModifier);
+            blockEntity.updateTotalProcessTime(processTimeBias);
+            blockEntity.updateVuxConsumptionRate(vuxConsumeBias);
             if (blockEntity.isProcessing() && !blockEntity.inventory.get(0).isEmpty() && !blockEntity.inventory.get(1).isEmpty()) {
                 VuxFilteringRecipe recipe = world.getRecipeManager().getFirstMatch(ModRecipeTypes.VUX_FILTERING, blockEntity, world).orElse(null);
                 int i = blockEntity.getMaxCountPerStack();
@@ -196,19 +179,19 @@ public class VuxFilterMachineBlockEntity extends BlockEntity implements BasicInv
                         bl2 = true;
                     }
                 }
-                if (blockEntity.isProcessing() && VuxFilterMachineBlockEntity.canAcceptRecipeOutput(recipe, blockEntity.inventory, i) && blockEntity.vuxStored >= blockEntity.getVuxConsume()) {
+                if (blockEntity.isProcessing() && VuxFilterMachineBlockEntity.canAcceptRecipeOutput(recipe, blockEntity.inventory, i) && blockEntity.getVuxStored() >= blockEntity.vuxConsumptionRate) {
                     ++blockEntity.processTime;
-                    blockEntity.vuxStored -= blockEntity.getVuxConsume();
-                    if (blockEntity.processTime >= blockEntity.getTotalProcessTime()) {
+                    blockEntity.removeVux(blockEntity.vuxConsumptionRate);
+                    if (blockEntity.processTime >= blockEntity.totalProcessTime) {
                         blockEntity.processTime = 0;
-                        VuxFilterMachineBlockEntity.craftRecipe(recipe, blockEntity.inventory, i, blockEntity.filterDamageModifier);
+                        VuxFilterMachineBlockEntity.craftRecipe(recipe, blockEntity.inventory, i, filterDamageModifier);
                         bl2 = true;
                     }
                 } else {
                     blockEntity.processTime = 0;
                 }
             } else if (blockEntity.processTime > 0) {
-                blockEntity.processTime = MathHelper.clamp(blockEntity.processTime - 2, 0, blockEntity.getTotalProcessTime());
+                blockEntity.processTime = MathHelper.clamp(blockEntity.processTime - 2, 0, blockEntity.totalProcessTime);
             }
             if (bl != blockEntity.isProcessing()) {
                 bl2 = true;
@@ -264,7 +247,7 @@ public class VuxFilterMachineBlockEntity extends BlockEntity implements BasicInv
     }
 
     private boolean isProcessing() {
-        return this.processTime < this.getTotalProcessTime();
+        return this.processTime < this.totalProcessTime;
     }
 
     @Override

@@ -21,7 +21,7 @@ public class VacuumCoaterScreenHandler extends ScreenHandler {
     private final World world;
 
     public VacuumCoaterScreenHandler(int syncId, PlayerInventory playerInventory){
-        this(syncId, playerInventory, new SimpleInventory(3), new ArrayPropertyDelegate(3));
+        this(syncId, playerInventory, new SimpleInventory(3), new ArrayPropertyDelegate(5));
     }
 
     public VacuumCoaterScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inventory, PropertyDelegate propertyDelegate) {
@@ -69,7 +69,7 @@ public class VacuumCoaterScreenHandler extends ScreenHandler {
         if (i == 0) {
             return 0;
         }
-        return (int) (i * 56 / VacuumCoaterBlockEntity.MAX_VUX_CAPACITY);
+        return (int) (i * 56 / VacuumCoaterBlockEntity.DEFAULT_VUX_CAPACITY);
     }
 
     @Override
@@ -82,11 +82,11 @@ public class VacuumCoaterScreenHandler extends ScreenHandler {
             itemStack = itemStack2.copy();
             if (index == 2) {
                 item.onCraft(itemStack2, player.world, player);
-                if (!this.insertItem(itemStack2, 2, 38, true)) {
+                if (!this.insertItem(itemStack2, 3, 39, true)) {
                     return ItemStack.EMPTY;
                 }
                 slot.onQuickTransfer(itemStack2, itemStack);
-            } else if (index == 0 || index == 1 ? !this.insertItem(itemStack2, 2, 38, false) : (this.world.getRecipeManager().getFirstMatch(ModRecipeTypes.VACUUM_COATING, new SimpleInventory(itemStack2), this.world).isPresent() ? !this.insertItem(itemStack2, 0, 1, false) : (index >= 2 && index < 29 ? !this.insertItem(itemStack2, 29, 38, false) : index >= 29 && index < 38 && !this.insertItem(itemStack2, 2, 29, false)))) {
+            } else if (index == 0 || index == 1 ? !this.insertItem(itemStack2, 3, 39, false) : index >= 3 && index < 39 && !this.insertItem(itemStack2, 0, 2, false)) {
                 return ItemStack.EMPTY;
             }
             if (itemStack2.isEmpty()) {

@@ -13,7 +13,6 @@ import net.minecraft.screen.slot.Slot;
 import net.minecraft.world.World;
 import net.piinut.voidophobia.block.blockEntity.VuxFilterMachineBlockEntity;
 import net.piinut.voidophobia.item.ModItems;
-import net.piinut.voidophobia.item.recipe.ModRecipeTypes;
 import net.piinut.voidophobia.util.tags.ModItemTags;
 
 public class VuxFilterMachineScreenHandler extends ScreenHandler {
@@ -72,7 +71,7 @@ public class VuxFilterMachineScreenHandler extends ScreenHandler {
         if (i == 0) {
             return 0;
         }
-        return i * 60 / (VuxFilterMachineBlockEntity.TOTAL_PROCESS_TIME + this.propertyDelegate.get(3));
+        return i * 60 / this.propertyDelegate.get(1);
     }
 
     @Override
@@ -81,11 +80,11 @@ public class VuxFilterMachineScreenHandler extends ScreenHandler {
     }
 
     public int getVuxStorage() {
-        float i = this.propertyDelegate.get(1);
+        int i = this.propertyDelegate.get(2);
         if (i == 0) {
             return 0;
         }
-        return (int) (i * 56 / (VuxFilterMachineBlockEntity.MAX_VUX_CAPACITY * Math.pow(1.2, this.propertyDelegate.get(5))));
+        return i * 56 / this.propertyDelegate.get(3);
     }
 
     @Override
@@ -98,11 +97,11 @@ public class VuxFilterMachineScreenHandler extends ScreenHandler {
             itemStack = itemStack2.copy();
             if (index == 2) {
                 item.onCraft(itemStack2, player.world, player);
-                if (!this.insertItem(itemStack2, 3, 39, true)) {
+                if (!this.insertItem(itemStack2, 6, 42, true)) {
                     return ItemStack.EMPTY;
                 }
                 slot.onQuickTransfer(itemStack2, itemStack);
-            } else if (index <= 1 ? !this.insertItem(itemStack2, 3, 39, false) : item == ModItems.VUX_FILTER ? !this.insertItem(itemStack2, 1, 1, false) : this.canInsertIntoSlot(itemStack2, this.getSlot(0)) ? !this.insertItem(itemStack2, 0, 0, false) : index < 30 ? !this.insertItem(itemStack2, 30, 39, false) : index < 39 && !this.insertItem(itemStack2, 3, 30, false)) {
+            } else if (index <= 1 ? !this.insertItem(itemStack2, 6, 42, false) : item == ModItems.VUX_FILTER ? !this.insertItem(itemStack2, 1, 2, false) : this.canInsertIntoSlot(itemStack2, this.getSlot(0)) ? !this.insertItem(itemStack2, 0, 1, false) : index < 33 ? !this.insertItem(itemStack2, 33, 42, false) : index < 42 && !this.insertItem(itemStack2, 6, 33, false)) {
                 return ItemStack.EMPTY;
             }
             if (itemStack2.isEmpty()) {

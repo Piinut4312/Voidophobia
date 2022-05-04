@@ -10,7 +10,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.screen.*;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.world.World;
-import net.piinut.voidophobia.Voidophobia;
 import net.piinut.voidophobia.block.blockEntity.VuxFormingMachineBlockEntity;
 import net.piinut.voidophobia.item.recipe.ModRecipeTypes;
 import net.piinut.voidophobia.item.recipe.VuxFormingRecipe;
@@ -27,7 +26,7 @@ public class VuxFormingMachineScreenHandler extends ScreenHandler {
     Runnable contentsChangedListener = () -> {};
 
     public VuxFormingMachineScreenHandler(int syncId, PlayerInventory playerInventory){
-        this(syncId, playerInventory, new SimpleInventory(2), new ArrayPropertyDelegate(3));
+        this(syncId, playerInventory, new SimpleInventory(2), new ArrayPropertyDelegate(5));
     }
 
     public VuxFormingMachineScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inventory, PropertyDelegate propertyDelegate) {
@@ -146,7 +145,7 @@ public class VuxFormingMachineScreenHandler extends ScreenHandler {
         if(i == 0){
             return 0;
         }
-        return (int) (i * 56 / VuxFormingMachineBlockEntity.MAX_VUX_CAPACITY);
+        return (int) (i * 56 / VuxFormingMachineBlockEntity.DEFAULT_VUX_CAPACITY);
     }
 
     public List<VuxFormingRecipe> getAvailableRecipes() {

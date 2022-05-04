@@ -2,7 +2,6 @@ package net.piinut.voidophobia.block.blockEntity;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
@@ -35,14 +34,16 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Objects;
 import java.util.Random;
 
-public class LaserEngravingMachineBlockEntity extends BlockEntity implements BasicInventory, NamedScreenHandlerFactory {
+public class LaserEngravingMachineBlockEntity extends AbstractVuxContainerBlockEntity implements BasicInventory, NamedScreenHandlerFactory {
 
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(2, ItemStack.EMPTY);
-    int processTime;
-    public static final int TOTAL_PROCESS_TIME = 100;
-    int vuxStored;
-    public static final int MAX_VUX_CAPACITY = 16000;
-    private static final int VUX_CONSUME_PER_TICK = 60;
+    private int processTime;
+    private int processTimeTotal;
+    private int vuxConsumptionRate;
+    public static final int DEFAULT_TOTAL_PROCESS_TIME = 100;
+    public static final int DEFAULT_VUX_CAPACITY = 16000;
+    public static final int DEFAULT_VUX_TRANSFER_RATE = 300;
+    private static final int DEFAULT_VUX_CONSUMPTION_RATE = 60;
 
     protected final PropertyDelegate propertyDelegate = new PropertyDelegate() {
 
@@ -53,28 +54,44 @@ public class LaserEngravingMachineBlockEntity extends BlockEntity implements Bas
                     return LaserEngravingMachineBlockEntity.this.processTime;
                 }
                 case 1 -> {
-                    return LaserEngravingMachineBlockEntity.this.vuxStored;
+                    return LaserEngravingMachineBlockEntity.this.processTimeTotal;
+                }
+                case 2 -> {
+                    return LaserEngravingMachineBlockEntity.this.getVuxStored();
+                }
+                case 3 -> {
+                    return LaserEngravingMachineBlockEntity.this.getVuxCapacity();
+                }
+                case 4 -> {
+                    return LaserEngravingMachineBlockEntity.this.getVuxTransferRate();
+                }
+                default -> {
+                    return 0;
                 }
             }
-            return 0;
         }
 
         @Override
         public void set(int index, int value) {
             switch (index) {
                 case 0 -> LaserEngravingMachineBlockEntity.this.processTime = value;
-                case 1 -> LaserEngravingMachineBlockEntity.this.vuxStored = value;
+                case 1 -> LaserEngravingMachineBlockEntity.this.processTimeTotal = value;
+                case 2 -> LaserEngravingMachineBlockEntity.this.setVuxStored(value);
+                case 3 -> LaserEngravingMachineBlockEntity.this.setVuxCapacity(value);
+                case 4 -> LaserEngravingMachineBlockEntity.this.setVuxTransferRate(value);
             }
         }
 
         @Override
         public int size() {
-            return 2;
+            return 5;
         }
     };
 
     public LaserEngravingMachineBlockEntity(BlockPos pos, BlockState state) {
-        super(ModBlockEntities.LASER_ENGRAVING_MACHINE, pos, state);
+        super(ModBlockEntities.LASER_ENGRAVING_MACHINE, pos, state, DEFAULT_VUX_CAPACITY, DEFAULT_VUX_TRANSFER_RATE);
+        this.vuxConsumptionRate = DEFAULT_VUX_CONSUMPTION_RATE;
+        this.processTimeTotal = DEFAULT_TOTAL_PROCESS_TIME;
     }
 
     @Override
@@ -83,7 +100,8 @@ public class LaserEngravingMachineBlockEntity extends BlockEntity implements Bas
         this.inventory.clear();
         Inventories.readNbt(nbt, this.inventory);
         this.processTime = nbt.getInt("ProcessTime");
-        this.vuxStored = nbt.getInt("VuxStored");
+        this.processTimeTotal = nbt.getInt("ProcessTimeTotal");
+        this.vuxConsumptionRate = nbt.getInt("VuxConsumptionRate");
     }
 
     @Override
@@ -91,7 +109,8 @@ public class LaserEngravingMachineBlockEntity extends BlockEntity implements Bas
         super.writeNbt(nbt);
         Inventories.writeNbt(nbt, this.inventory);
         nbt.putInt("ProcessTime", this.processTime);
-        nbt.putInt("VuxStored", this.vuxStored);
+        nbt.putInt("ProcessTimeTotal", this.processTimeTotal);
+        nbt.putInt("VuxConsumptionRate", this.vuxConsumptionRate);
     }
 
     @Override
@@ -100,17 +119,10 @@ public class LaserEngravingMachineBlockEntity extends BlockEntity implements Bas
     }
 
     public double requestVuxConsume() {
-        if(this.vuxStored >= LaserEngravingMachineBlockEntity.MAX_VUX_CAPACITY){
+        if(this.getVuxStored() >= this.getVuxCapacity()){
             return 0;
         }
-        return Math.min(LaserEngravingMachineBlockEntity.MAX_VUX_CAPACITY - this.vuxStored, 500);
-    }
-
-    public void addVux(double vuxIn) {
-        this.vuxStored += Math.min(vuxIn, 500);
-        if(this.vuxStored > LaserEngravingMachineBlockEntity.MAX_VUX_CAPACITY){
-            this.vuxStored = LaserEngravingMachineBlockEntity.MAX_VUX_CAPACITY;
-        }
+        return Math.min(this.getVuxCapacity() - this.getVuxStored(), this.getVuxTransferRate());
     }
 
     @Override
@@ -136,17 +148,17 @@ public class LaserEngravingMachineBlockEntity extends BlockEntity implements Bas
                         bl2 = true;
                     }
                 }
-                if (blockEntity.isProcessing() && blockEntity.canAcceptRecipeOutput(recipe) && blockEntity.vuxStored >= LaserEngravingMachineBlockEntity.VUX_CONSUME_PER_TICK) {
-                    if(blockEntity.processTime < LaserEngravingMachineBlockEntity.TOTAL_PROCESS_TIME - 40 && blockEntity.processTime%40 == 0){
+                if (blockEntity.isProcessing() && blockEntity.canAcceptRecipeOutput(recipe) && blockEntity.getVuxStored() >= blockEntity.vuxConsumptionRate) {
+                    if(blockEntity.processTime < blockEntity.processTimeTotal - 40 && blockEntity.processTime%40 == 0){
                         world.playSound(null, pos, ModSounds.BLOCK_LASER_ENGRAVING_MACHINE_PROCESSING, SoundCategory.BLOCKS, 0.2f, 1f);
                     }
-                    if(blockEntity.processTime == LaserEngravingMachineBlockEntity.TOTAL_PROCESS_TIME - 40){
+                    if(blockEntity.processTime == blockEntity.processTimeTotal - 40){
                         world.playSound(null, pos, ModSounds.BLOCK_LASER_ENGRAVING_MACHINE_FINISH, SoundCategory.BLOCKS, 0.2f, 1f);
                     }
                     world.setBlockState(pos, state.with(LaserEngravingMachineBlock.LIT, true));
                     ++blockEntity.processTime;
-                    blockEntity.vuxStored -= LaserEngravingMachineBlockEntity.VUX_CONSUME_PER_TICK;
-                    if (blockEntity.processTime == LaserEngravingMachineBlockEntity.TOTAL_PROCESS_TIME) {
+                    blockEntity.removeVux(blockEntity.vuxConsumptionRate);
+                    if (blockEntity.processTime >= blockEntity.processTimeTotal) {
                         blockEntity.processTime = 0;
                         blockEntity.craftRecipe(recipe);
                         world.setBlockState(pos, state.with(LaserEngravingMachineBlock.LIT, false));
@@ -157,7 +169,7 @@ public class LaserEngravingMachineBlockEntity extends BlockEntity implements Bas
                     blockEntity.processTime = 0;
                 }
             } else if (blockEntity.processTime > 0) {
-                blockEntity.processTime = MathHelper.clamp(blockEntity.processTime - 2, 0, LaserEngravingMachineBlockEntity.TOTAL_PROCESS_TIME);
+                blockEntity.processTime = MathHelper.clamp(blockEntity.processTime - 2, 0, blockEntity.processTimeTotal);
             }
             if (bl != blockEntity.isProcessing()) {
                 bl2 = true;
@@ -215,7 +227,7 @@ public class LaserEngravingMachineBlockEntity extends BlockEntity implements Bas
     }
 
     private boolean isProcessing() {
-        return this.processTime < TOTAL_PROCESS_TIME;
+        return this.processTime < this.processTimeTotal;
     }
 
     public boolean hasLaserBeam(){
@@ -230,10 +242,7 @@ public class LaserEngravingMachineBlockEntity extends BlockEntity implements Bas
 
     @Override
     public NbtCompound toInitialChunkDataNbt() {
-        NbtCompound nbtCompound = new NbtCompound();
-        Inventories.writeNbt(nbtCompound, inventory);
-        nbtCompound.putInt("ProcessTime", processTime);
-        return nbtCompound;
+        return createNbt();
     }
 
 }

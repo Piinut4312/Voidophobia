@@ -3,7 +3,6 @@ package net.piinut.voidophobia.block.blockEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.Inventory;
@@ -22,7 +21,6 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.*;
 import net.minecraft.world.World;
-import net.piinut.voidophobia.block.LaserDetectorBlock;
 import net.piinut.voidophobia.block.LaserTransmitterBlock;
 import net.piinut.voidophobia.block.ModBlocks;
 import net.piinut.voidophobia.item.LaserLensItem;
@@ -34,14 +32,14 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.Random;
 
-public class LaserTransmitterBlockEntity extends BlockEntity implements BasicInventory {
+public class LaserTransmitterBlockEntity extends AbstractVuxContainerBlockEntity implements BasicInventory {
 
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(1, ItemStack.EMPTY);
     private static final int DEFAULT_BEAM_LENGTH = 0;
-    private static final int MAX_VUX_CAPACITY = 60000;
+    private static final int DEFAULT_VUX_CAPACITY = 60000;
+    private static final int DEFAULT_VUX_TRANSFER_RATE = 1600;
     private int processTime;
     private int processTimeTotal;
-    private int vuxStored;
     private int beamLength;
     private BlockPos targetPos;
     private BlockState targetState;
@@ -49,43 +47,54 @@ public class LaserTransmitterBlockEntity extends BlockEntity implements BasicInv
     protected final PropertyDelegate propertyDelegate = new PropertyDelegate() {
         @Override
         public int get(int index) {
-            if(index == 0){
-                return (int) LaserTransmitterBlockEntity.this.vuxStored;
-            }else if(index == 1){
-                return LaserTransmitterBlockEntity.this.processTime;
-            }else if(index == 2){
-                return LaserTransmitterBlockEntity.this.processTimeTotal;
-            }else if(index == 3){
-                return LaserTransmitterBlockEntity.this.beamLength;
+            switch(index){
+                case 0 -> {
+                    return LaserTransmitterBlockEntity.this.getVuxStored();
+                }
+                case 1 -> {
+                    return LaserTransmitterBlockEntity.this.getVuxCapacity();
+                }
+                case 2 -> {
+                    return LaserTransmitterBlockEntity.this.getVuxTransferRate();
+                }
+                case 3 -> {
+                    return LaserTransmitterBlockEntity.this.processTime;
+                }
+                case 4 -> {
+                    return LaserTransmitterBlockEntity.this.processTimeTotal;
+                }
+                case 5 -> {
+                    return LaserTransmitterBlockEntity.this.beamLength;
+                }
+                default -> {
+                    return 0;
+                }
             }
-            return 0;
         }
 
         @Override
         public void set(int index, int value) {
-            if(index == 0){
-                LaserTransmitterBlockEntity.this.vuxStored = value;
-            }else if(index == 1){
-                LaserTransmitterBlockEntity.this.processTime = value;
-            }else if(index == 2){
-                LaserTransmitterBlockEntity.this.processTimeTotal = value;
-            }else if(index == 3){
-                LaserTransmitterBlockEntity.this.beamLength = value;
+            switch(index){
+                case 0 -> LaserTransmitterBlockEntity.this.setVuxStored(value);
+                case 1 -> LaserTransmitterBlockEntity.this.setVuxCapacity(value);
+                case 2 -> LaserTransmitterBlockEntity.this.setVuxTransferRate(value);
+                case 3 -> LaserTransmitterBlockEntity.this.processTime = value;
+                case 4 -> LaserTransmitterBlockEntity.this.processTimeTotal = value;
+                case 5 -> LaserTransmitterBlockEntity.this.beamLength = value;
             }
         }
 
         @Override
         public int size() {
-            return 4;
+            return 6;
         }
     };
 
     public LaserTransmitterBlockEntity(BlockPos pos, BlockState state) {
-        super(ModBlockEntities.LASER_TRANSMITTER, pos, state);
+        super(ModBlockEntities.LASER_TRANSMITTER, pos, state, DEFAULT_VUX_CAPACITY, DEFAULT_VUX_TRANSFER_RATE);
         this.beamLength = 0;
         this.processTime = 0;
         this.processTimeTotal = 0;
-        this.vuxStored = 0;
         this.targetPos = BlockPos.ORIGIN;
         this.targetState = Blocks.AIR.getDefaultState();
     }
@@ -95,7 +104,6 @@ public class LaserTransmitterBlockEntity extends BlockEntity implements BasicInv
         super.readNbt(nbt);
         this.inventory.clear();
         Inventories.readNbt(nbt, this.inventory);
-        this.vuxStored = nbt.getInt("VuxStored");
         this.processTime = nbt.getInt("ProcessTime");
         this.processTimeTotal = nbt.getInt("ProcessTimeTotal");
         this.beamLength = nbt.getInt("BeamLength");
@@ -107,7 +115,6 @@ public class LaserTransmitterBlockEntity extends BlockEntity implements BasicInv
     protected void writeNbt(NbtCompound nbt) {
         super.writeNbt(nbt);
         Inventories.writeNbt(nbt, this.inventory);
-        nbt.putInt("VuxStored", this.vuxStored);
         nbt.putInt("ProcessTime", this.processTime);
         nbt.putInt("ProcessTimeTotal", this.processTimeTotal);
         nbt.putInt("BeamLength", this.beamLength);
@@ -160,8 +167,8 @@ public class LaserTransmitterBlockEntity extends BlockEntity implements BasicInv
         if(blockEntity.getBeamLength() > 0 && !blockEntity.getStack(0).isEmpty()){
             if(blockEntity.getStack(0).getItem() instanceof LaserLensItem laserLensItem){
                 bl = true;
-                if(blockEntity.vuxStored >= laserLensItem.getVuxConsumption()){
-                    blockEntity.consumeVux(laserLensItem.getVuxConsumption());
+                if(blockEntity.getVuxStored() >= laserLensItem.getVuxConsumption()){
+                    blockEntity.removeVux(laserLensItem.getVuxConsumption());
                     if(laserLensItem == ModItems.DESTRUCTION_LASER_LENS){
                         blockEntity.processTimeTotal = (int) (20*world.getBlockState(blockEntity.targetPos).getHardness(world, blockEntity.targetPos));
                         if(blockEntity.processTimeTotal > 0){
@@ -253,14 +260,6 @@ public class LaserTransmitterBlockEntity extends BlockEntity implements BasicInv
         }
     }
 
-    private void consumeVux(float vux) {
-        this.vuxStored -= vux;
-        if(this.vuxStored < 0){
-            this.vuxStored = 0;
-        }
-    }
-
-
     public static void updateBeam(World world, BlockPos blockPos, BlockState blockState, LaserTransmitterBlockEntity blockEntity) {
 
         BlockPos.Mutable pos = blockPos.mutableCopy();
@@ -322,17 +321,10 @@ public class LaserTransmitterBlockEntity extends BlockEntity implements BasicInv
     }
 
     public double requestVuxConsume() {
-        if(this.vuxStored >= LaserTransmitterBlockEntity.MAX_VUX_CAPACITY){
+        if(this.getVuxStored() >= this.getVuxCapacity()){
             return 0;
         }
-        return Math.min(LaserTransmitterBlockEntity.MAX_VUX_CAPACITY - this.vuxStored, 1250);
-    }
-
-    public void addVux(double vuxIn) {
-        this.vuxStored += Math.min(vuxIn, 1250);
-        if(this.vuxStored > LaserTransmitterBlockEntity.MAX_VUX_CAPACITY){
-            this.vuxStored = LaserTransmitterBlockEntity.MAX_VUX_CAPACITY;
-        }
+        return Math.min(this.getVuxCapacity() - this.getVuxStored(), this.getVuxTransferRate());
     }
 
 }

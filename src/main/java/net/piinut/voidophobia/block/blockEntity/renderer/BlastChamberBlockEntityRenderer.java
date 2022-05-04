@@ -32,7 +32,7 @@ public class BlastChamberBlockEntityRenderer implements BlockEntityRenderer<Blas
     public void render(BlastChamberBlockEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
         ItemStack itemStack = entity.getStack(0);
         ItemStack itemStack1 = entity.getStack(1);
-        int coolDown = entity.getPropertyDelegate().get(1);
+        int coolDown = entity.getPropertyDelegate().get(3);
         final float exp = 80f ;
         final float startSize = 0.3f;
         final float endSize = 0.7f;

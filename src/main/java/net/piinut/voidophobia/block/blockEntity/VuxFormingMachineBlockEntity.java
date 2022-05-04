@@ -2,7 +2,6 @@ package net.piinut.voidophobia.block.blockEntity;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
@@ -25,15 +24,15 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class VuxFormingMachineBlockEntity extends BlockEntity implements NamedScreenHandlerFactory, BasicInventory, SidedInventory {
+public class VuxFormingMachineBlockEntity extends AbstractVuxContainerBlockEntity implements NamedScreenHandlerFactory, BasicInventory, SidedInventory {
 
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(2, ItemStack.EMPTY);
-    int processTime;
-    int recipeSelected;
-    float vuxStored;
+    private int processTime;
+    private int recipeSelected;
     public static final int TOTAL_PROCESS_TIME = 100;
-    public static final float VUX_CONSUME_PER_TICK = 40;
-    public static final float MAX_VUX_CAPACITY = 10000.0f;
+    public static final int VUX_CONSUME_PER_TICK = 40;
+    public static final int DEFAULT_VUX_CAPACITY = 10000;
+    public static final int DEFAULT_VUX_TRANSFER_RATE = 200;
 
     private static final int[] TOP_SLOTS = new int[]{0};
     private static final int[] BOTTOM_SLOTS = new int[]{1};
@@ -51,7 +50,13 @@ public class VuxFormingMachineBlockEntity extends BlockEntity implements NamedSc
                     return VuxFormingMachineBlockEntity.this.processTime;
                 }
                 case 2 -> {
-                    return (int) (VuxFormingMachineBlockEntity.this.vuxStored);
+                    return VuxFormingMachineBlockEntity.this.getVuxStored();
+                }
+                case 3 -> {
+                    return VuxFormingMachineBlockEntity.this.getVuxCapacity();
+                }
+                case 4 -> {
+                    return VuxFormingMachineBlockEntity.this.getVuxTransferRate();
                 }
             }
             return 0;
@@ -62,27 +67,27 @@ public class VuxFormingMachineBlockEntity extends BlockEntity implements NamedSc
             switch (index) {
                 case 0 -> VuxFormingMachineBlockEntity.this.recipeSelected = value;
                 case 1 -> VuxFormingMachineBlockEntity.this.processTime = value;
-                case 2 -> VuxFormingMachineBlockEntity.this.vuxStored = value;
+                case 2 -> VuxFormingMachineBlockEntity.this.setVuxStored(value);
+                case 3 -> VuxFormingMachineBlockEntity.this.setVuxCapacity(value);
+                case 4 -> VuxFormingMachineBlockEntity.this.setVuxTransferRate(value);
             }
         }
 
         @Override
         public int size() {
-            return 3;
+            return 5;
         }
     };
 
     public VuxFormingMachineBlockEntity(BlockPos pos, BlockState state) {
-        super(ModBlockEntities.VUX_FORMING_MACHINE, pos, state);
+        super(ModBlockEntities.VUX_FORMING_MACHINE, pos, state, DEFAULT_VUX_CAPACITY, DEFAULT_VUX_TRANSFER_RATE);
         this.recipeSelected = -1;
-        this.vuxStored = 0;
     }
 
     @Override
     public void readNbt(NbtCompound nbt) {
         super.readNbt(nbt);
         Inventories.readNbt(nbt, this.inventory);
-        this.vuxStored = nbt.getFloat("VuxStored");
         this.processTime = nbt.getInt("ProcessTime");
         this.recipeSelected = nbt.getInt("RecipeSelected");
     }
@@ -91,7 +96,6 @@ public class VuxFormingMachineBlockEntity extends BlockEntity implements NamedSc
     protected void writeNbt(NbtCompound nbt) {
         super.writeNbt(nbt);
         Inventories.writeNbt(nbt, this.inventory);
-        nbt.putFloat("VuxStored", this.vuxStored);
         nbt.putInt("ProcessTime", this.processTime);
         nbt.putInt("RecipeSelected", this.recipeSelected);
     }
@@ -127,9 +131,9 @@ public class VuxFormingMachineBlockEntity extends BlockEntity implements NamedSc
                     bl2 = true;
                 }
             }
-            if (blockEntity.isProcessing() && VuxFormingMachineBlockEntity.canAcceptRecipeOutput(recipe, blockEntity.inventory) && blockEntity.vuxStored >= VuxFormingMachineBlockEntity.VUX_CONSUME_PER_TICK) {
+            if (blockEntity.isProcessing() && VuxFormingMachineBlockEntity.canAcceptRecipeOutput(recipe, blockEntity.inventory) && blockEntity.getVuxStored() >= VuxFormingMachineBlockEntity.VUX_CONSUME_PER_TICK) {
                 ++blockEntity.processTime;
-                blockEntity.vuxStored -= VuxFormingMachineBlockEntity.VUX_CONSUME_PER_TICK;
+                blockEntity.removeVux(VuxFormingMachineBlockEntity.VUX_CONSUME_PER_TICK);
                 if (blockEntity.processTime == VuxFormingMachineBlockEntity.TOTAL_PROCESS_TIME) {
                     blockEntity.processTime = 0;
                     VuxFormingMachineBlockEntity.craftRecipe(recipe, blockEntity.inventory);
@@ -184,17 +188,10 @@ public class VuxFormingMachineBlockEntity extends BlockEntity implements NamedSc
     }
 
     public double requestVuxConsume() {
-        if(this.vuxStored >= VuxFormingMachineBlockEntity.MAX_VUX_CAPACITY){
+        if(this.getVuxStored() >= this.getVuxCapacity()){
             return 0;
         }
-        return Math.min(VuxFormingMachineBlockEntity.MAX_VUX_CAPACITY - this.vuxStored, 500);
-    }
-
-    public void addVux(double vuxIn) {
-        this.vuxStored += Math.min(vuxIn, 500);
-        if(this.vuxStored > VuxFormingMachineBlockEntity.MAX_VUX_CAPACITY){
-            this.vuxStored = VuxFormingMachineBlockEntity.MAX_VUX_CAPACITY;
-        }
+        return Math.min(this.getVuxCapacity()- this.getVuxStored(), this.getVuxTransferRate());
     }
 
     @Override

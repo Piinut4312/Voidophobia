@@ -22,7 +22,7 @@ public class LaserEngravingMachineScreenHandler extends ScreenHandler {
     private final World world;
 
     public LaserEngravingMachineScreenHandler(int syncId, PlayerInventory playerInventory){
-        this(syncId, playerInventory, new SimpleInventory(2), new ArrayPropertyDelegate(2));
+        this(syncId, playerInventory, new SimpleInventory(2), new ArrayPropertyDelegate(5));
     }
 
     public LaserEngravingMachineScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inventory, PropertyDelegate propertyDelegate) {
@@ -65,7 +65,7 @@ public class LaserEngravingMachineScreenHandler extends ScreenHandler {
         if (i == 0) {
             return 0;
         }
-        return i * 16 / LaserEngravingMachineBlockEntity.TOTAL_PROCESS_TIME;
+        return i * 16 / this.propertyDelegate.get(1);
     }
 
     @Override
@@ -74,11 +74,11 @@ public class LaserEngravingMachineScreenHandler extends ScreenHandler {
     }
 
     public int getVuxStorage() {
-        float i = this.propertyDelegate.get(1);
+        float i = this.propertyDelegate.get(2);
         if (i == 0) {
             return 0;
         }
-        return (int) (i * 56 / LaserEngravingMachineBlockEntity.MAX_VUX_CAPACITY);
+        return (int) (i * 56 / this.propertyDelegate.get(3));
     }
 
     @Override

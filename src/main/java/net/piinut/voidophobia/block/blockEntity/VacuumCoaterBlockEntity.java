@@ -2,7 +2,6 @@ package net.piinut.voidophobia.block.blockEntity;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
@@ -23,16 +22,16 @@ import net.piinut.voidophobia.item.recipe.ModRecipeTypes;
 import net.piinut.voidophobia.item.recipe.VacuumCoatingRecipe;
 import org.jetbrains.annotations.Nullable;
 
-public class VacuumCoaterBlockEntity extends BlockEntity implements SidedInventory, BasicInventory, NamedScreenHandlerFactory {
+public class VacuumCoaterBlockEntity extends AbstractVuxContainerBlockEntity implements SidedInventory, BasicInventory, NamedScreenHandlerFactory {
 
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(3, ItemStack.EMPTY);
     private static final int[] TOP_SLOTS = new int[]{0, 1};
     private static final int[] BOTTOM_SLOTS = new int[]{2};
     private static final int[] SIDE_SLOTS = new int[]{0, 1};
-    int processTime;
-    int processTimeTotal;
-    int vuxStored;
-    public static final int MAX_VUX_CAPACITY = 160000;
+    private int processTime;
+    private int processTimeTotal;
+    public static final int DEFAULT_VUX_CAPACITY = 160000;
+    public static final int DEFAULT_VUX_TRANSFER_RATE = 1000;
     private static final int VUX_CONSUME_PER_TICK = 200;
     protected final PropertyDelegate propertyDelegate = new PropertyDelegate(){
 
@@ -46,7 +45,13 @@ public class VacuumCoaterBlockEntity extends BlockEntity implements SidedInvento
                     return VacuumCoaterBlockEntity.this.processTimeTotal;
                 }
                 case 2 -> {
-                    return VacuumCoaterBlockEntity.this.vuxStored;
+                    return VacuumCoaterBlockEntity.this.getVuxStored();
+                }
+                case 3 -> {
+                    return VacuumCoaterBlockEntity.this.getVuxCapacity();
+                }
+                case 4 -> {
+                    return VacuumCoaterBlockEntity.this.getVuxTransferRate();
                 }
             }
             return 0;
@@ -57,18 +62,20 @@ public class VacuumCoaterBlockEntity extends BlockEntity implements SidedInvento
             switch (index) {
                 case 0 -> VacuumCoaterBlockEntity.this.processTime = value;
                 case 1 -> VacuumCoaterBlockEntity.this.processTimeTotal = value;
-                case 2 -> VacuumCoaterBlockEntity.this.vuxStored = value;
+                case 2 -> VacuumCoaterBlockEntity.this.setVuxStored(value);
+                case 3 -> VacuumCoaterBlockEntity.this.setVuxCapacity(value);
+                case 4 -> VacuumCoaterBlockEntity.this.setVuxTransferRate(value);
             }
         }
 
         @Override
         public int size() {
-            return 3;
+            return 5;
         }
     };
     
     public VacuumCoaterBlockEntity(BlockPos pos, BlockState state) {
-        super(ModBlockEntities.VACUUM_COATER, pos, state);
+        super(ModBlockEntities.VACUUM_COATER, pos, state, DEFAULT_VUX_CAPACITY, DEFAULT_VUX_TRANSFER_RATE);
     }
 
     @Override
@@ -77,7 +84,6 @@ public class VacuumCoaterBlockEntity extends BlockEntity implements SidedInvento
         Inventories.readNbt(nbt, this.inventory);
         this.processTime = nbt.getInt("ProcessTime");
         this.processTimeTotal = nbt.getInt("ProcessTimeTotal");
-        this.vuxStored = nbt.getInt("VuxStored");
     }
 
     @Override
@@ -86,7 +92,6 @@ public class VacuumCoaterBlockEntity extends BlockEntity implements SidedInvento
         Inventories.writeNbt(nbt, this.inventory);
         nbt.putInt("ProcessTime", this.processTime);
         nbt.putInt("ProcessTimeTotal", this.processTimeTotal);
-        nbt.putInt("VuxStored", this.vuxStored);
     }
 
     @Override
@@ -122,17 +127,10 @@ public class VacuumCoaterBlockEntity extends BlockEntity implements SidedInvento
     }
 
     public int requestVuxConsume() {
-        if(this.vuxStored >= VacuumCoaterBlockEntity.MAX_VUX_CAPACITY){
+        if(this.getVuxStored() >= this.getVuxCapacity()){
             return 0;
         }
-        return Math.min(VacuumCoaterBlockEntity.MAX_VUX_CAPACITY - this.vuxStored, 2000);
-    }
-
-    public void addVux(double vuxIn) {
-        this.vuxStored += Math.min(vuxIn, 2000);
-        if(this.vuxStored > VacuumCoaterBlockEntity.MAX_VUX_CAPACITY){
-            this.vuxStored = VacuumCoaterBlockEntity.MAX_VUX_CAPACITY;
-        }
+        return Math.min(this.getVuxCapacity() - this.getVuxStored(), this.getVuxTransferRate());
     }
 
     @Override
@@ -197,9 +195,9 @@ public class VacuumCoaterBlockEntity extends BlockEntity implements SidedInvento
                     bl2 = true;
                 }
             }
-            if (VacuumCoaterBlockEntity.canAcceptRecipeOutput(recipe, blockEntity.inventory) && blockEntity.vuxStored >= VacuumCoaterBlockEntity.VUX_CONSUME_PER_TICK) {
+            if (VacuumCoaterBlockEntity.canAcceptRecipeOutput(recipe, blockEntity.inventory) && blockEntity.getVuxStored() >= VacuumCoaterBlockEntity.VUX_CONSUME_PER_TICK) {
                 ++blockEntity.processTime;
-                blockEntity.vuxStored -= VacuumCoaterBlockEntity.VUX_CONSUME_PER_TICK;
+                blockEntity.removeVux(VacuumCoaterBlockEntity.VUX_CONSUME_PER_TICK);
                 if (blockEntity.processTime == blockEntity.processTimeTotal) {
                     blockEntity.processTime = 0;
                     blockEntity.processTimeTotal = VacuumCoaterBlockEntity.getProcessTime(world, blockEntity);
