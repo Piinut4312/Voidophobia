@@ -1,0 +1,9 @@
+{
+  "type": "voidophobia:vux_forming",
+  "input":{
+    "item":"minecraft:hopper"
+  },
+  "output": "voidophobia:extraction_socket",
+  "inputCount": 1,
+  "outputCount": 1
+}

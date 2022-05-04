@@ -1,6 +1,7 @@
 package net.piinut.voidophobia.block.blockEntity;
 
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
+import net.fabricmc.fabric.api.transfer.v1.item.ItemStorage;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
@@ -24,6 +25,8 @@ public class ModBlockEntities {
     public static BlockEntityType<LaserTransmitterBlockEntity> LASER_TRANSMITTER;
     public static BlockEntityType<LaserworkTableBlockEntity> LASERWORK_TABLE;
     public static BlockEntityType<AirVuxGeneratorBlockEntity> AIR_VUX_GENERATOR;
+    public static BlockEntityType<BasicItemPipeBlockEntity> BASIC_ITEM_PIPE;
+
     public static void registerAll(){
         BASIC_VUXDUCT = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(Voidophobia.MODID, "basic_vuxduct")
                 , FabricBlockEntityTypeBuilder.create(BasicVuxductBlockEntity::new, ModBlocks.BASIC_VUXDUCT).build(null));
@@ -51,6 +54,10 @@ public class ModBlockEntities {
                 , FabricBlockEntityTypeBuilder.create(LaserworkTableBlockEntity::new, ModBlocks.LASERWORK_TABLE).build(null));
         AIR_VUX_GENERATOR = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(Voidophobia.MODID, "air_vux_generator")
                 , FabricBlockEntityTypeBuilder.create(AirVuxGeneratorBlockEntity::new, ModBlocks.AIR_VUX_GENERATOR).build(null));
+        BASIC_ITEM_PIPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(Voidophobia.MODID, "basic_item_pipe")
+                , FabricBlockEntityTypeBuilder.create(BasicItemPipeBlockEntity::new, ModBlocks.BASIC_ITEM_PIPE).build(null));
+
+        ItemStorage.SIDED.registerForBlockEntity(((blockEntity, direction) -> blockEntity.inventoryStorage), BASIC_ITEM_PIPE);
     }
 
 }

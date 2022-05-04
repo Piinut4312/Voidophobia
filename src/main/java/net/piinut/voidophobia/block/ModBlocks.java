@@ -75,6 +75,7 @@ public class ModBlocks {
     public static final Block LIGHTWEIGHT_VUX_MACHINE_CORE = new Block(FabricBlockSettings.of(Material.METAL).strength(10.0f, 10.0f).sounds(BlockSoundGroup.METAL).requiresTool());
     public static final Block ALUMINIUM_BLOCK = new Block(FabricBlockSettings.of(Material.METAL).strength(5.0f, 5.0f).sounds(BlockSoundGroup.METAL).requiresTool());
     public static final Block ETHER_ALLOY_BLOCK = new Block(FabricBlockSettings.of(Material.METAL).strength(60.0f, 1200.0f));
+    public static final Block BASIC_ITEM_PIPE = new BasicItemPipeBlock(FabricBlockSettings.of(Material.METAL).strength(5.0f, 5.0f).sounds(BlockSoundGroup.METAL).requiresTool());
 
     private static Block createReinforcedPistonBlock(boolean sticky) {
         AbstractBlock.ContextPredicate contextPredicate = (state, world, pos) -> !state.get(ReinforcedPistonBlock.EXTENDED);
@@ -148,6 +149,7 @@ public class ModBlocks {
         register(LIGHTWEIGHT_VUX_MACHINE_CORE, "lightweight_vux_machine_core");
         register(ALUMINIUM_BLOCK, "aluminium_block");
         register(ETHER_ALLOY_BLOCK, "ether_alloy_block");
+        register(BASIC_ITEM_PIPE, "basic_item_pipe");
     }
 
 }

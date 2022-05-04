@@ -73,6 +73,7 @@ public class ModItems {
     public static final BlockItem AIR_VUX_GENERATOR = new BlockItem(ModBlocks.AIR_VUX_GENERATOR, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final BlockItem ALUMINIUM_BLOCK_ITEM = new BlockItem(ModBlocks.ALUMINIUM_BLOCK, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final BlockItem ETHER_ALLOY_BLOCK_ITEM = new BlockItem(ModBlocks.ETHER_ALLOY_BLOCK, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final BlockItem BASIC_ITEM_PIPE_ITEM = new BlockItem(ModBlocks.BASIC_ITEM_PIPE, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item VUX_METER = new VuxMeterItem(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item GODEL_CRYSTAL_SHARD = new GodelCrystalShardItem(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item ARTIFICIAL_BEDROCK_SCRAP = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
@@ -146,6 +147,9 @@ public class ModItems {
     public static final Item ETHER_ALLOY_LEGGINGS = new ArmorItem(EtherAlloyArmorMaterial.INSTANCE, EquipmentSlot.LEGS, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP).fireproof().rarity(Rarity.EPIC));
     public static final Item ETHER_ALLOY_BOOTS = new ArmorItem(EtherAlloyArmorMaterial.INSTANCE, EquipmentSlot.FEET, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP).fireproof().rarity(Rarity.EPIC));
     public static final Item ETHER_ALLOY_SWORD = new SwordItem(EtherAlloyToolMaterial.INSTANCE, 3, -2.4f, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP).fireproof().rarity(Rarity.EPIC));
+    public static final Item PIEZOELECTRIC_ELEMENT = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final Item EXTRACTION_SOCKET = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final Item INSERTION_SOCKET = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
 
     private static void register(Item item, String id){
         Registry.register(Registry.ITEM, new Identifier(Voidophobia.MODID, id), item);
@@ -277,6 +281,10 @@ public class ModItems {
         register(ETHER_ALLOY_BOOTS, "ether_alloy_boots");
         register(ETHER_ALLOY_SWORD, "ether_alloy_sword");
         register(AIR_VUX_GENERATOR, "air_vux_generator");
+        register(PIEZOELECTRIC_ELEMENT, "piezoelectric_element");
+        register(BASIC_ITEM_PIPE_ITEM, "basic_item_pipe");
+        register(EXTRACTION_SOCKET, "extraction_socket");
+        register(INSERTION_SOCKET, "insertion_socket");
     }
 
 }
