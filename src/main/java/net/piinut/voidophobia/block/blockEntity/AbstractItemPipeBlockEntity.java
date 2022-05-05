@@ -1,6 +1,5 @@
 package net.piinut.voidophobia.block.blockEntity;
 
-import it.unimi.dsi.fastutil.objects.Object2BooleanOpenHashMap;
 import net.fabricmc.fabric.api.transfer.v1.item.InventoryStorage;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemStorage;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
@@ -11,204 +10,199 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.inventory.SimpleInventory;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.screen.PropertyDelegate;
+import net.minecraft.nbt.NbtHelper;
+import net.minecraft.nbt.NbtList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
+import net.piinut.voidophobia.Voidophobia;
 import net.piinut.voidophobia.block.AbstractItemPipeBlock;
 import net.piinut.voidophobia.block.ItemPipeNodeType;
+import net.piinut.voidophobia.block.blockEntity.itemPipe.ItemPackage;
+import net.piinut.voidophobia.block.blockEntity.itemPipe.ItemPipeNetwork;
 
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class AbstractItemPipeBlockEntity extends BlockEntity{
 
-    private int cooldown;
     private final int maxCooldown;  //How long a pipe has to wait before transfer items
-    private final int bufferSize;   //Size of inventory
     private final int batchSize;    //How many items can a pipe transfer each time
-    private Map<Direction, Boolean> lastInsertion = new Object2BooleanOpenHashMap<>();
-    private final SimpleInventory inventory;
+    private final int bufferSize;
+    public final SimpleInventory inventory;
     public final InventoryStorage inventoryStorage;
+    public ItemPipeNetwork network;
+    public final List<ItemPackage> itemPackages;
 
-    protected final PropertyDelegate propertyDelegate = new PropertyDelegate() {
-        @Override
-        public int get(int index) {
-           if(index == 0){
-               return AbstractItemPipeBlockEntity.this.cooldown;
-           }else{
-               return 0;
-           }
-        }
-
-        @Override
-        public void set(int index, int value) {
-            if(index == 0){
-                AbstractItemPipeBlockEntity.this.cooldown = value;
-            }
-        }
-
-        @Override
-        public int size() {
-            return 1;
-        }
-    };
 
     public AbstractItemPipeBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, int maxCooldown, int bufferSize, int batchSize) {
         super(type, pos, state);
-        this.cooldown = 0;
         this.maxCooldown = maxCooldown;
-        this.bufferSize = bufferSize;
+        //Size of inventory
         this.batchSize = batchSize;
-        for(Direction direction : Direction.values()){
-            lastInsertion.put(direction, false);
-        }
+        this.bufferSize = bufferSize;
         this.inventory = new SimpleInventory(bufferSize){
+
+            @Override
+            public int getMaxCountPerStack() {
+                return AbstractItemPipeBlockEntity.this.batchSize;
+            }
+
             @Override
             public void markDirty() {
                 AbstractItemPipeBlockEntity.this.markDirty();
             }
         };
         this.inventoryStorage = InventoryStorage.of(inventory, null);
-    }
-
-    private String getInsertionNbtKey(Direction direction){
-        switch(direction){
-            case UP -> {
-                return "LastInsertionFromUp";
-            }
-            case DOWN -> {
-                return "LastInsertionFromDown";
-            }
-            case NORTH -> {
-                return "LastInsertionFromNorth";
-            }
-            case EAST -> {
-                return "LastInsertionFromEast";
-            }
-            case SOUTH -> {
-                return "LastInsertionFromSouth";
-            }
-            case WEST -> {
-                return "LastInsertionFromWest";
-            }
-        }
-        return "";
+        this.network = new ItemPipeNetwork(pos);
+        this.itemPackages = new ArrayList<>();
     }
 
     @Override
     public void readNbt(NbtCompound nbt) {
         super.readNbt(nbt);
-        this.cooldown = nbt.getInt("Cooldown");
-        for(Direction direction : Direction.values()){
-            this.lastInsertion.put(direction, nbt.getBoolean(getInsertionNbtKey(direction)));
-        }
         this.inventory.readNbtList(nbt.getList("Inventory", NbtCompound.LIST_TYPE));
+        this.readItemPackages(nbt.getList("ItemPackages", NbtCompound.LIST_TYPE));
+    }
+
+    private void readItemPackages(NbtList nbtList) {
+        this.itemPackages.clear();
+        for(int i = 0; i < nbtList.size(); i++){
+            NbtCompound compound = nbtList.getCompound(i);
+            int cooldown = compound.getInt("Cooldown");
+            ItemStack itemStack = ItemStack.fromNbt(compound);
+            NbtCompound posCompound = compound.getCompound("DestinationPos");
+            BlockPos destinationPos = NbtHelper.toBlockPos(posCompound);
+            this.itemPackages.add(new ItemPackage(itemStack, destinationPos, cooldown));
+        }
     }
 
     @Override
     protected void writeNbt(NbtCompound nbt) {
         super.writeNbt(nbt);
-        nbt.putInt("Cooldown", this.cooldown);
-        for(Direction direction : Direction.values()){
-            nbt.putBoolean(getInsertionNbtKey(direction), this.lastInsertion.get(direction));
-        }
         nbt.put("Inventory", this.inventory.toNbtList());
+        nbt.put("ItemPackages", this.getItemPackagesAsNbtList());
+    }
+
+    private NbtList getItemPackagesAsNbtList() {
+        NbtList nbtList = new NbtList();
+        for (ItemPackage itemPackage : this.itemPackages) {
+            NbtCompound nbtCompound = itemPackage.getItemStack().writeNbt(new NbtCompound());
+            nbtCompound.putInt("Cooldown", itemPackage.getCooldown());
+            NbtCompound posCompound = NbtHelper.fromBlockPos(itemPackage.getDestinationPos());
+            nbtCompound.put("DestinationPos", posCompound);
+            nbtList.add(nbtCompound);
+        }
+        return nbtList;
     }
 
     protected void serverTick(World world, BlockPos blockPos, BlockState blockState) {
-        this.cooldown--;
-        if(this.cooldown <= 0){
-            try(Transaction transaction = Transaction.openOuter()){
-                for(Direction direction : Direction.values()){
-                    Storage<ItemVariant> targetStorage = ItemStorage.SIDED.find(world, blockPos.offset(direction), direction.getOpposite());
-                    for(StorageView<ItemVariant> view : this.inventoryStorage.iterable(transaction)){
-                        if(view.isResourceBlank()){
-                            continue;
-                        }
-                        ItemVariant resource = view.getResource();
-                        try(Transaction nestedTransaction = Transaction.openNested(transaction)){
-
-                            ItemPipeNodeType itemPipeNodeType = blockState.get(AbstractItemPipeBlock.DIRECTION_ENUM_PROPERTY_MAP.get(direction));
-                            if(itemPipeNodeType == ItemPipeNodeType.NONE){
-                                continue;
-                            }
-                            if(targetStorage == null){
-                                continue;
-                            }
-
-                            boolean isTargetItemPipe = (world.getBlockState(pos.offset(direction)).getBlock() instanceof AbstractItemPipeBlock);
-
-                            if(itemPipeNodeType == ItemPipeNodeType.INSERT && !isTargetItemPipe){
-                                long extractionAmount = this.inventoryStorage.simulateExtract(resource, this.batchSize, nestedTransaction);
-                                if(extractionAmount > 0){
-                                    long insertionAmount = targetStorage.simulateInsert(resource, extractionAmount, nestedTransaction);
-                                    if(insertionAmount > 0){
-                                        long actualTransferAmount = Math.min(insertionAmount, extractionAmount);
-                                        this.inventoryStorage.extract(resource, actualTransferAmount, nestedTransaction);
-                                        targetStorage.insert(resource, actualTransferAmount, nestedTransaction);
-                                        nestedTransaction.commit();
+        this.network.updateNetwork(world);
+        this.tickingItemPackages();
+        List<ItemPackage> readyPackages = this.getReadyPackages();
+        if(!readyPackages.isEmpty()){
+            for(ItemPackage readyPackage : readyPackages){
+                if(readyPackage.getDestinationPos().equals(blockPos) && this.network.isValidInsertionNode(world, blockPos)){
+                    //Item package has arrived to its desired destination. Try to insert it to nearby inventories
+                    for(Direction direction : Direction.values()){
+                        if(AbstractItemPipeBlock.getNodeTypeForDirection(blockState, direction) == ItemPipeNodeType.INSERT){
+                            Storage<ItemVariant> externalStorage = ItemStorage.SIDED.find(world, blockPos.offset(direction), direction.getOpposite());
+                            if(externalStorage != null){
+                                ItemVariant resource = ItemVariant.of(readyPackage.getItemStack());
+                                try(Transaction transaction = Transaction.openOuter()){
+                                    long extractionAmount = readyPackage.getItemStack().getCount();
+                                    long insertAmount = externalStorage.insert(resource, extractionAmount, transaction);
+                                    this.inventoryStorage.extract(resource, insertAmount, transaction);
+                                    if(insertAmount == extractionAmount){
+                                        this.itemPackages.remove(readyPackage);
                                     }
-                                }
-                            }
-
-                            if(itemPipeNodeType == ItemPipeNodeType.TRANSFER && isTargetItemPipe){
-                                AbstractItemPipeBlockEntity targetBlockEntity = (AbstractItemPipeBlockEntity) world.getBlockEntity(blockPos.offset(direction));
-                                if(!this.lastInsertion.get(direction)){
-                                    long extractionAmount = this.inventoryStorage.simulateExtract(resource, this.batchSize, nestedTransaction);
-                                    if(extractionAmount > 0){
-                                        long insertionAmount = targetStorage.simulateInsert(resource, extractionAmount, nestedTransaction);
-                                        if(insertionAmount > 0){
-                                            long actualTransferAmount = Math.min(insertionAmount, extractionAmount);
-                                            this.inventoryStorage.extract(resource, actualTransferAmount, nestedTransaction);
-                                            targetStorage.insert(resource, actualTransferAmount, nestedTransaction);
-                                            targetBlockEntity.lastInsertion.put(direction.getOpposite(), true);
-                                            nestedTransaction.commit();
-                                        }else{
-                                            targetBlockEntity.lastInsertion.put(direction.getOpposite(), false);
-                                        }
+                                    if(insertAmount < extractionAmount){
+                                        readyPackage.getItemStack().decrement((int) insertAmount);
                                     }
-                                }else{
-                                    targetBlockEntity.lastInsertion.put(direction.getOpposite(), false);
+                                    transaction.commit();
+                                    break;
                                 }
                             }
                         }
                     }
+                }else{
+                    //Item Package hasn't reached its final destination. Try to transfer it to neighbor pipe.
+                    Direction direction = this.network.getDirectionForPackage(readyPackage.getDestinationPos());
+                    if(direction != null){
+                        if(AbstractItemPipeBlock.getNodeTypeForDirection(blockState, direction) == ItemPipeNodeType.TRANSFER){
+                            Storage<ItemVariant> nextPipe = ItemStorage.SIDED.find(world, blockPos.offset(direction), direction.getOpposite());
+                            if(nextPipe != null){
+                                AbstractItemPipeBlockEntity nextBlockEntity = (AbstractItemPipeBlockEntity) world.getBlockEntity(blockPos.offset(direction));
+                                ItemVariant resource = ItemVariant.of(readyPackage.getItemStack());
+                                try(Transaction transaction = Transaction.openOuter()){
+                                    long extractionAmount = readyPackage.getItemStack().getCount();
+                                    long insertAmount = nextPipe.insert(resource, extractionAmount, transaction);
+                                    this.inventoryStorage.extract(resource, insertAmount, transaction);
+                                    if(insertAmount > 0){
+                                        nextBlockEntity.itemPackages.add(new ItemPackage(resource.toStack((int) insertAmount), readyPackage.getDestinationPos(), this.maxCooldown));
+                                    }
+                                    if(insertAmount == extractionAmount){
+                                        this.itemPackages.remove(readyPackage);
+                                    }
+                                    if(insertAmount < extractionAmount){
+                                        readyPackage.getItemStack().decrement((int) insertAmount);
+                                    }
 
-                    if(targetStorage != null){
-                        for(StorageView<ItemVariant> view : targetStorage.iterable(transaction)){
-                            if(view.isResourceBlank()){
-                                continue;
+                                    transaction.commit();
+                                }
                             }
-                            ItemVariant resource = view.getResource();
-                            try(Transaction nestedTransaction = Transaction.openNested(transaction)){
+                        }
+                    }
+                }
+            }
+        }
 
-                                ItemPipeNodeType itemPipeNodeType = blockState.get(AbstractItemPipeBlock.DIRECTION_ENUM_PROPERTY_MAP.get(direction));
-                                if(itemPipeNodeType == ItemPipeNodeType.NONE){
+
+        if(this.network.isValidExtractionNode(world, blockPos)){
+            for(Direction direction : Direction.values()){
+                if(AbstractItemPipeBlock.getNodeTypeForDirection(blockState, direction) == ItemPipeNodeType.EXTRACT){
+                    try(Transaction transaction = Transaction.openOuter()){
+                        Storage<ItemVariant> externalStorage = ItemStorage.SIDED.find(world, blockPos.offset(direction), direction.getOpposite());
+                        if(externalStorage != null){
+                            for(StorageView<ItemVariant> storageView : externalStorage.iterable(transaction)){
+                                if(storageView.isResourceBlank()){
                                     continue;
                                 }
-
-                                boolean isTargetItemPipe = (world.getBlockState(pos.offset(direction)).getBlock() instanceof AbstractItemPipeBlock);
-
-                                if(itemPipeNodeType == ItemPipeNodeType.EXTRACT && !isTargetItemPipe){
-                                    long extractionAmount = targetStorage.simulateExtract(resource, this.batchSize, nestedTransaction);
-                                    if(extractionAmount > 0){
-                                        long insertionAmount = this.inventoryStorage.simulateInsert(resource, extractionAmount, nestedTransaction);
-                                        if(insertionAmount > 0){
-                                            long actualTransferAmount = Math.min(insertionAmount, extractionAmount);
-                                            targetStorage.extract(resource, actualTransferAmount, nestedTransaction);
-                                            this.inventoryStorage.insert(resource, actualTransferAmount, nestedTransaction);
-                                            nestedTransaction.commit();
-                                        }
+                                ItemVariant resource = storageView.getResource();
+                                long extractionAmount = externalStorage.simulateExtract(resource, this.batchSize, transaction);
+                                long insertionAmount = this.inventoryStorage.insert(resource, extractionAmount, transaction);
+                                if(insertionAmount > 0){
+                                    externalStorage.extract(resource, insertionAmount, transaction);
+                                    BlockPos destPos = this.network.getDestinationPos(world, resource, insertionAmount);
+                                    if(destPos != null){
+                                        ItemPackage itemPackage = new ItemPackage(resource.toStack((int) insertionAmount), destPos, this.maxCooldown);
+                                        this.itemPackages.add(itemPackage);
+                                        transaction.commit();
                                     }
                                 }
                             }
                         }
                     }
                 }
-                transaction.commit();
             }
-            this.cooldown = maxCooldown;
+        }
+    }
+
+    private List<ItemPackage> getReadyPackages() {
+        List<ItemPackage> packages = new ArrayList<>();
+        for(ItemPackage itemPackage : this.itemPackages){
+            if(itemPackage.getCooldown() <= 0){
+                packages.add(itemPackage);
+            }
+        }
+        return packages;
+    }
+
+    private void tickingItemPackages() {
+        for(ItemPackage itemPackage : this.itemPackages){
+            itemPackage.updateCooldown();
         }
     }
 }

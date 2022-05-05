@@ -6,7 +6,7 @@ import net.minecraft.world.World;
 
 public class BasicItemPipeBlockEntity extends AbstractItemPipeBlockEntity{
 
-    public static final int MAX_COOLDOWN = 2;
+    public static final int MAX_COOLDOWN = 10;
     public static final int BUFFER_SIZE = 5;
     public static final int BATCH_SIZE = 1;
 

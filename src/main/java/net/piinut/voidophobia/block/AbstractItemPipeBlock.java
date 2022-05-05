@@ -3,9 +3,11 @@ package net.piinut.voidophobia.block;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import net.minecraft.block.*;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.EnumProperty;
+import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
@@ -13,6 +15,8 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
+import net.piinut.voidophobia.block.blockEntity.AbstractItemPipeBlockEntity;
+import net.piinut.voidophobia.block.blockEntity.VuxFormingMachineBlockEntity;
 import net.piinut.voidophobia.util.VoxelShapeHelper;
 import org.jetbrains.annotations.Nullable;
 
@@ -97,6 +101,42 @@ public abstract class AbstractItemPipeBlock extends BlockWithEntity {
         return state.with(DIRECTION_ENUM_PROPERTY_MAP.get(direction), getConnectionType(neighborState));
     }
 
+    protected void updateNeighbors(World world, BlockPos pos) {
+        world.updateNeighborsAlways(pos, this);
+    }
+
+    @Override
+    public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean notify) {
+        super.onBlockAdded(state, world, pos, oldState, notify);
+        updateNeighbors(world, pos);
+        AbstractItemPipeBlockEntity blockEntity = (AbstractItemPipeBlockEntity) world.getBlockEntity(pos);
+        if(blockEntity != null && !world.isClient()){
+            blockEntity.network.updateNetwork(world);
+        }
+    }
+
+    @Override
+    public void neighborUpdate(BlockState state, World world, BlockPos pos, Block block, BlockPos fromPos, boolean notify) {
+        super.neighborUpdate(state, world, pos, block, fromPos, notify);
+        AbstractItemPipeBlockEntity blockEntity = (AbstractItemPipeBlockEntity) world.getBlockEntity(pos);
+        if(blockEntity != null && !world.isClient()){
+            blockEntity.network.updateNetwork(world);
+        }
+    }
+
+    @Override
+    public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
+        if (state.getBlock() != newState.getBlock()) {
+            BlockEntity blockEntity = world.getBlockEntity(pos);
+            if (blockEntity instanceof AbstractItemPipeBlockEntity) {
+                ItemScatterer.spawn(world, pos, ((AbstractItemPipeBlockEntity)blockEntity).inventory);
+                world.updateComparators(pos,this);
+            }
+            updateNeighbors(world, pos);
+            super.onStateReplaced(state, world, pos, newState, moved);
+        }
+    }
+
     private ItemPipeNodeType getConnectionType(BlockState state) {
         if(state.getBlock() instanceof AbstractItemPipeBlock){
             return ItemPipeNodeType.TRANSFER;
@@ -104,4 +144,9 @@ public abstract class AbstractItemPipeBlock extends BlockWithEntity {
             return ItemPipeNodeType.NONE;
         }
     }
+
+    public static ItemPipeNodeType getNodeTypeForDirection(BlockState state, Direction direction){
+        return state.get(DIRECTION_ENUM_PROPERTY_MAP.get(direction));
+    }
+
 }
