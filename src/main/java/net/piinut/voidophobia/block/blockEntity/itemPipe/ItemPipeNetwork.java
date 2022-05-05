@@ -98,7 +98,7 @@ public class ItemPipeNetwork {
         return false;
     }
 
-    public boolean isValidInsertionNodeAsDestination(World world, BlockPos pos, ItemVariant resource, long amount){
+    public boolean isValidInsertionNodeAsDestination(World world, BlockPos pos, ItemVariant resource, long amount, Transaction transaction){
         if(!isValidInsertionNode(world, pos)){
             return false;
         }
@@ -107,8 +107,8 @@ public class ItemPipeNetwork {
             for(Direction direction : Direction.values()){
                 if(blockState.get(AbstractItemPipeBlock.DIRECTION_ENUM_PROPERTY_MAP.get(direction)) == ItemPipeNodeType.INSERT){
                     Storage<ItemVariant> itemStorage = ItemStorage.SIDED.find(world, pos, direction.getOpposite());
-                    try(Transaction transaction = Transaction.openOuter()){
-                        long insertionAmount = itemStorage.simulateInsert(resource, amount, transaction);
+                    try(Transaction nestedTransaction = Transaction.openNested(transaction)){
+                        long insertionAmount = itemStorage.simulateInsert(resource, amount, nestedTransaction);
                         if(insertionAmount > 0){
                             return true;
                         }
@@ -122,6 +122,9 @@ public class ItemPipeNetwork {
 
     public Direction getDirectionForPackage(BlockPos targetPos) {
         ItemPipeNode targetNode = this.findNodeFromPos(targetPos);
+        if(targetNode == null){
+            return null;
+        }
         Direction lastDirection = null;
         int count = this.nodes.size();
         while(!ItemPipeNode.matches(targetNode, localNode.pos) && !targetNode.isRoot && count > 0){
@@ -133,7 +136,7 @@ public class ItemPipeNetwork {
             }
             count--;
         }
-        if(targetNode == null || !ItemPipeNode.matches(targetNode, localNode.pos) || lastDirection == null){
+        if(!ItemPipeNode.matches(targetNode, localNode.pos) || lastDirection == null){
             return null;
         }
         return lastDirection.getOpposite();
@@ -151,9 +154,9 @@ public class ItemPipeNetwork {
 
 
 
-    public BlockPos getDestinationPos(World world, ItemVariant resource, long amount) {
+    public BlockPos getDestinationPos(World world, ItemVariant resource, long amount, Transaction transaction) {
         for(ItemPipeNode node : nodes){
-            if(isValidInsertionNodeAsDestination(world, node.pos, resource, amount)){
+            if(isValidInsertionNodeAsDestination(world, node.pos, resource, amount, transaction)){
                 return node.pos;
             }
         }

@@ -27,6 +27,10 @@ public class ItemPackage {
         return destinationPos;
     }
 
+    public void setDestinationPos(BlockPos pos){
+        this.destinationPos = pos;
+    }
+
     public void updateCooldown(){
         --this.cooldown;
         if(this.cooldown < 0){

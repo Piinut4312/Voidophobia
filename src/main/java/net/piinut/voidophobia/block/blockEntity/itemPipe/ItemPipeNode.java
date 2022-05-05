@@ -21,6 +21,9 @@ public class ItemPipeNode {
     }
 
     public static boolean matches(ItemPipeNode node, BlockPos pos){
+        if(node == null){
+            return false;
+        }
         return node.pos.getX() == pos.getX() && node.pos.getY() == pos.getY() && node.pos.getZ() == pos.getZ();
     }
 

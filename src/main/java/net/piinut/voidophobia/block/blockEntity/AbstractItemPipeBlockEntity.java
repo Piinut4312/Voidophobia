@@ -104,7 +104,7 @@ public abstract class AbstractItemPipeBlockEntity extends BlockEntity{
         List<ItemPackage> readyPackages = this.getReadyPackages();
         if(!readyPackages.isEmpty()){
             for(ItemPackage readyPackage : readyPackages){
-                if(readyPackage.getDestinationPos().equals(blockPos) && this.network.isValidInsertionNode(world, blockPos)){
+                if(readyPackage.getDestinationPos() != null && readyPackage.getDestinationPos().equals(blockPos) && this.network.isValidInsertionNode(world, blockPos)){
                     //Item package has arrived to its desired destination. Try to insert it to nearby inventories
                     for(Direction direction : Direction.values()){
                         if(AbstractItemPipeBlock.getNodeTypeForDirection(blockState, direction) == ItemPipeNodeType.INSERT){
@@ -141,7 +141,7 @@ public abstract class AbstractItemPipeBlockEntity extends BlockEntity{
                                     long insertAmount = nextPipe.insert(resource, extractionAmount, transaction);
                                     this.inventoryStorage.extract(resource, insertAmount, transaction);
                                     if(insertAmount > 0){
-                                        nextBlockEntity.itemPackages.add(new ItemPackage(resource.toStack((int) insertAmount), readyPackage.getDestinationPos(), this.maxCooldown));
+                                        nextBlockEntity.itemPackages.add(this.createItemPackage(resource, insertAmount, readyPackage.getDestinationPos()));
                                     }
                                     if(insertAmount == extractionAmount){
                                         this.itemPackages.remove(readyPackage);
@@ -153,6 +153,10 @@ public abstract class AbstractItemPipeBlockEntity extends BlockEntity{
                                     transaction.commit();
                                 }
                             }
+                        }
+                    }else{
+                        try(Transaction transaction = Transaction.openOuter()){
+                            readyPackage.setDestinationPos(this.network.getDestinationPos(world, ItemVariant.of(readyPackage.getItemStack()),readyPackage.getItemStack().getCount(),  transaction));
                         }
                     }
                 }
@@ -175,9 +179,9 @@ public abstract class AbstractItemPipeBlockEntity extends BlockEntity{
                                 long insertionAmount = this.inventoryStorage.insert(resource, extractionAmount, transaction);
                                 if(insertionAmount > 0){
                                     externalStorage.extract(resource, insertionAmount, transaction);
-                                    BlockPos destPos = this.network.getDestinationPos(world, resource, insertionAmount);
+                                    BlockPos destPos = this.network.getDestinationPos(world, resource, insertionAmount, transaction);
                                     if(destPos != null){
-                                        ItemPackage itemPackage = new ItemPackage(resource.toStack((int) insertionAmount), destPos, this.maxCooldown);
+                                        ItemPackage itemPackage = this.createItemPackage(resource, insertionAmount, destPos);
                                         this.itemPackages.add(itemPackage);
                                         transaction.commit();
                                     }
@@ -188,6 +192,10 @@ public abstract class AbstractItemPipeBlockEntity extends BlockEntity{
                 }
             }
         }
+    }
+
+    private ItemPackage createItemPackage(ItemVariant resource, long amount, BlockPos destPos){
+        return new ItemPackage(resource.toStack((int) amount), destPos, this.maxCooldown);
     }
 
     private List<ItemPackage> getReadyPackages() {
