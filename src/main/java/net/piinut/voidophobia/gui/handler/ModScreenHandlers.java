@@ -1,6 +1,7 @@
 package net.piinut.voidophobia.gui.handler;
 
 import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
+import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
 import net.piinut.voidophobia.Voidophobia;
@@ -12,6 +13,7 @@ public class ModScreenHandlers {
     public static ScreenHandlerType<LaserEngravingMachineScreenHandler> LASER_ENGRAVING_MACHINE;
     public static ScreenHandlerType<VuxFilterMachineScreenHandler> VUX_FILTER_MACHINE;
     public static ScreenHandlerType<VacuumCoaterScreenHandler> VACUUM_COATER;
+    public static ScreenHandlerType<BasicItemPipeScreenHandler> BASIC_ITEM_PIPE;
 
     private static Identifier getId(String id){
         return new Identifier(Voidophobia.MODID, id);
@@ -23,6 +25,7 @@ public class ModScreenHandlers {
         LASER_ENGRAVING_MACHINE = ScreenHandlerRegistry.registerSimple(getId("laser_engraving_machine"), LaserEngravingMachineScreenHandler::new);
         VUX_FILTER_MACHINE = ScreenHandlerRegistry.registerSimple(getId("vux_filter_machine"), VuxFilterMachineScreenHandler::new);
         VACUUM_COATER = ScreenHandlerRegistry.registerSimple(getId("vacuum_coater"), VacuumCoaterScreenHandler::new);
+        BASIC_ITEM_PIPE = ScreenHandlerRegistry.registerSimple(getId("basic_item_pipe"), BasicItemPipeScreenHandler::new);
     }
 
 }

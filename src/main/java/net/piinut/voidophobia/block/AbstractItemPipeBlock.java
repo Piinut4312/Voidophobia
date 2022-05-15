@@ -16,7 +16,6 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.piinut.voidophobia.block.blockEntity.AbstractItemPipeBlockEntity;
-import net.piinut.voidophobia.block.blockEntity.VuxFormingMachineBlockEntity;
 import net.piinut.voidophobia.util.VoxelShapeHelper;
 import org.jetbrains.annotations.Nullable;
 
@@ -130,6 +129,7 @@ public abstract class AbstractItemPipeBlock extends BlockWithEntity {
             BlockEntity blockEntity = world.getBlockEntity(pos);
             if (blockEntity instanceof AbstractItemPipeBlockEntity) {
                 ItemScatterer.spawn(world, pos, ((AbstractItemPipeBlockEntity)blockEntity).inventory);
+                ItemScatterer.spawn(world, pos, ((AbstractItemPipeBlockEntity)blockEntity).pluginInventory);
                 world.updateComparators(pos,this);
             }
             updateNeighbors(world, pos);
@@ -137,8 +137,8 @@ public abstract class AbstractItemPipeBlock extends BlockWithEntity {
         }
     }
 
-    private ItemPipeNodeType getConnectionType(BlockState state) {
-        if(state.getBlock() instanceof AbstractItemPipeBlock){
+    public static ItemPipeNodeType getConnectionType(BlockState neighbor) {
+        if(neighbor.getBlock() instanceof AbstractItemPipeBlock){
             return ItemPipeNodeType.TRANSFER;
         }else{
             return ItemPipeNodeType.NONE;

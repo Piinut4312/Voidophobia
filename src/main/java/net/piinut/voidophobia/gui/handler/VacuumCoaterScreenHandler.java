@@ -18,7 +18,6 @@ public class VacuumCoaterScreenHandler extends ScreenHandler {
 
     private final Inventory inventory;
     private final PropertyDelegate propertyDelegate;
-    private final World world;
 
     public VacuumCoaterScreenHandler(int syncId, PlayerInventory playerInventory){
         this(syncId, playerInventory, new SimpleInventory(3), new ArrayPropertyDelegate(5));
@@ -28,7 +27,6 @@ public class VacuumCoaterScreenHandler extends ScreenHandler {
         super(ModScreenHandlers.VACUUM_COATER, syncId);
         this.inventory = inventory;
         this.propertyDelegate = propertyDelegate;
-        this.world = playerInventory.player.getWorld();
         inventory.onOpen(playerInventory.player);
 
         this.addSlot(new Slot(inventory, 0, 66, 57));

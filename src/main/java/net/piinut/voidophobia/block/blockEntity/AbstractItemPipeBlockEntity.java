@@ -14,6 +14,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtHelper;
 import net.minecraft.nbt.NbtList;
+import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
@@ -22,32 +23,45 @@ import net.piinut.voidophobia.block.AbstractItemPipeBlock;
 import net.piinut.voidophobia.block.ItemPipeNodeType;
 import net.piinut.voidophobia.block.blockEntity.itemPipe.ItemPackage;
 import net.piinut.voidophobia.block.blockEntity.itemPipe.ItemPipeNetwork;
+import net.piinut.voidophobia.item.ModItems;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class AbstractItemPipeBlockEntity extends BlockEntity{
+
+public abstract class AbstractItemPipeBlockEntity extends BlockEntity implements NamedScreenHandlerFactory {
 
     private final int maxCooldown;  //How long a pipe has to wait before transfer items
     private final int batchSize;    //How many items can a pipe transfer each time
-    private final int bufferSize;
     public final SimpleInventory inventory;
+    public final SimpleInventory pluginInventory;
     public final InventoryStorage inventoryStorage;
     public ItemPipeNetwork network;
     public final List<ItemPackage> itemPackages;
-
+    private Direction[] pluginDirs = {Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST, Direction.UP, Direction.DOWN};
 
     public AbstractItemPipeBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, int maxCooldown, int bufferSize, int batchSize) {
         super(type, pos, state);
         this.maxCooldown = maxCooldown;
         //Size of inventory
         this.batchSize = batchSize;
-        this.bufferSize = bufferSize;
         this.inventory = new SimpleInventory(bufferSize){
 
             @Override
             public int getMaxCountPerStack() {
                 return AbstractItemPipeBlockEntity.this.batchSize;
+            }
+
+            @Override
+            public void markDirty() {
+                AbstractItemPipeBlockEntity.this.markDirty();
+            }
+        };
+        this.pluginInventory = new SimpleInventory(6){
+
+            @Override
+            public int getMaxCountPerStack() {
+                return 1;
             }
 
             @Override
@@ -64,6 +78,7 @@ public abstract class AbstractItemPipeBlockEntity extends BlockEntity{
     public void readNbt(NbtCompound nbt) {
         super.readNbt(nbt);
         this.inventory.readNbtList(nbt.getList("Inventory", NbtCompound.LIST_TYPE));
+        this.pluginInventory.readNbtList(nbt.getList("PluginInventory", NbtCompound.LIST_TYPE));
         this.readItemPackages(nbt.getList("ItemPackages", NbtCompound.LIST_TYPE));
     }
 
@@ -83,6 +98,7 @@ public abstract class AbstractItemPipeBlockEntity extends BlockEntity{
     protected void writeNbt(NbtCompound nbt) {
         super.writeNbt(nbt);
         nbt.put("Inventory", this.inventory.toNbtList());
+        nbt.put("PluginInventory", this.pluginInventory.toNbtList());
         nbt.put("ItemPackages", this.getItemPackagesAsNbtList());
     }
 
@@ -99,6 +115,21 @@ public abstract class AbstractItemPipeBlockEntity extends BlockEntity{
     }
 
     protected void serverTick(World world, BlockPos blockPos, BlockState blockState) {
+
+        BlockState state = blockState;
+
+        for(int i = 0; i < 6; i++){
+            if(this.pluginInventory.getStack(i).getItem() == ModItems.EXTRACTION_SOCKET){
+                state = state.with(AbstractItemPipeBlock.DIRECTION_ENUM_PROPERTY_MAP.get(pluginDirs[i]), ItemPipeNodeType.EXTRACT);
+            }else if(this.pluginInventory.getStack(i).getItem() == ModItems.INSERTION_SOCKET){
+                state = state.with(AbstractItemPipeBlock.DIRECTION_ENUM_PROPERTY_MAP.get(pluginDirs[i]), ItemPipeNodeType.INSERT);
+            }else if(this.pluginInventory.getStack(i).isEmpty() && AbstractItemPipeBlock.getNodeTypeForDirection(blockState, pluginDirs[i]) != ItemPipeNodeType.TRANSFER){
+                state = state.with(AbstractItemPipeBlock.DIRECTION_ENUM_PROPERTY_MAP.get(pluginDirs[i]), AbstractItemPipeBlock.getConnectionType(world.getBlockState(blockPos.offset(pluginDirs[i]))));
+            }
+        }
+
+        world.setBlockState(blockPos, state);
+
         this.network.updateNetwork(world);
         this.tickingItemPackages();
         List<ItemPackage> readyPackages = this.getReadyPackages();
@@ -163,7 +194,6 @@ public abstract class AbstractItemPipeBlockEntity extends BlockEntity{
             }
         }
 
-
         if(this.network.isValidExtractionNode(world, blockPos)){
             for(Direction direction : Direction.values()){
                 if(AbstractItemPipeBlock.getNodeTypeForDirection(blockState, direction) == ItemPipeNodeType.EXTRACT){
@@ -193,6 +223,8 @@ public abstract class AbstractItemPipeBlockEntity extends BlockEntity{
             }
         }
     }
+
+
 
     private ItemPackage createItemPackage(ItemVariant resource, long amount, BlockPos destPos){
         return new ItemPackage(resource.toStack((int) amount), destPos, this.maxCooldown);

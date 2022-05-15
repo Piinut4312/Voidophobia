@@ -11,6 +11,7 @@ public class ModScreens {
         ScreenRegistry.register(ModScreenHandlers.LASER_ENGRAVING_MACHINE, LaserEngravingMachineScreen::new);
         ScreenRegistry.register(ModScreenHandlers.VUX_FILTER_MACHINE, VuxFilterMachineScreen::new);
         ScreenRegistry.register(ModScreenHandlers.VACUUM_COATER, VacuumCoaterScreen::new);
+        ScreenRegistry.register(ModScreenHandlers.BASIC_ITEM_PIPE, BasicItemPipeScreen::new);
     }
 
 }
