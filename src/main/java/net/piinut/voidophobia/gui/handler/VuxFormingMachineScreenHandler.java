@@ -168,4 +168,7 @@ public class VuxFormingMachineScreenHandler extends ScreenHandler {
         this.contentsChangedListener = contentsChangedListener;
     }
 
+    public int getVuxStored() {
+        return this.propertyDelegate.get(2);
+    }
 }

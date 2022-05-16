@@ -45,10 +45,8 @@ public class AlloyFurnaceOutputSlot extends Slot {
 
     @Override
     protected void onCrafted(ItemStack stack) {
-        Voidophobia.LOGGER.info("onCrafted");
         stack.onCraft(this.player.world, this.player, this.amount);
         if (this.player instanceof ServerPlayerEntity && this.inventory instanceof AlloyFurnaceBlockEntity) {
-            Voidophobia.LOGGER.info("tryDropXp");
             ((AlloyFurnaceBlockEntity)this.inventory).dropExperienceForRecipesUsed((ServerPlayerEntity)this.player);
         }
         this.amount = 0;

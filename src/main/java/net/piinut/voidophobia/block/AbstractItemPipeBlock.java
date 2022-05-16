@@ -129,7 +129,7 @@ public abstract class AbstractItemPipeBlock extends BlockWithEntity {
             BlockEntity blockEntity = world.getBlockEntity(pos);
             if (blockEntity instanceof AbstractItemPipeBlockEntity) {
                 ItemScatterer.spawn(world, pos, ((AbstractItemPipeBlockEntity)blockEntity).inventory);
-                ItemScatterer.spawn(world, pos, ((AbstractItemPipeBlockEntity)blockEntity).pluginInventory);
+                ItemScatterer.spawn(world, pos, ((AbstractItemPipeBlockEntity)blockEntity).socketInventory);
                 world.updateComparators(pos,this);
             }
             updateNeighbors(world, pos);

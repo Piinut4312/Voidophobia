@@ -18,7 +18,6 @@ import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
-import net.piinut.voidophobia.Voidophobia;
 import net.piinut.voidophobia.block.AbstractItemPipeBlock;
 import net.piinut.voidophobia.block.ItemPipeNodeType;
 import net.piinut.voidophobia.block.blockEntity.itemPipe.ItemPackage;
@@ -34,7 +33,7 @@ public abstract class AbstractItemPipeBlockEntity extends BlockEntity implements
     private final int maxCooldown;  //How long a pipe has to wait before transfer items
     private final int batchSize;    //How many items can a pipe transfer each time
     public final SimpleInventory inventory;
-    public final SimpleInventory pluginInventory;
+    public final SimpleInventory socketInventory;
     public final InventoryStorage inventoryStorage;
     public ItemPipeNetwork network;
     public final List<ItemPackage> itemPackages;
@@ -57,7 +56,7 @@ public abstract class AbstractItemPipeBlockEntity extends BlockEntity implements
                 AbstractItemPipeBlockEntity.this.markDirty();
             }
         };
-        this.pluginInventory = new SimpleInventory(6){
+        this.socketInventory = new SimpleInventory(6){
 
             @Override
             public int getMaxCountPerStack() {
@@ -77,8 +76,14 @@ public abstract class AbstractItemPipeBlockEntity extends BlockEntity implements
     @Override
     public void readNbt(NbtCompound nbt) {
         super.readNbt(nbt);
-        this.inventory.readNbtList(nbt.getList("Inventory", NbtCompound.LIST_TYPE));
-        this.pluginInventory.readNbtList(nbt.getList("PluginInventory", NbtCompound.LIST_TYPE));
+        this.inventory.readNbtList(nbt.getList("Inventory", NbtCompound.COMPOUND_TYPE));
+
+        NbtList nbtList = nbt.getList("SocketInventory", NbtCompound.COMPOUND_TYPE);
+        for (int slot = 0; slot < nbtList.size(); ++slot) {
+            ItemStack stack = ItemStack.fromNbt(nbtList.getCompound(slot));
+            this.socketInventory.setStack(slot, stack);
+        }
+
         this.readItemPackages(nbt.getList("ItemPackages", NbtCompound.LIST_TYPE));
     }
 
@@ -98,7 +103,12 @@ public abstract class AbstractItemPipeBlockEntity extends BlockEntity implements
     protected void writeNbt(NbtCompound nbt) {
         super.writeNbt(nbt);
         nbt.put("Inventory", this.inventory.toNbtList());
-        nbt.put("PluginInventory", this.pluginInventory.toNbtList());
+        NbtList nbtList = new NbtList();
+        for (int slot = 0; slot < this.socketInventory.size(); ++slot) {
+            ItemStack stack = this.socketInventory.getStack(slot);
+            nbtList.add(stack.writeNbt(new NbtCompound()));
+        }
+        nbt.put("SocketInventory", nbtList);
         nbt.put("ItemPackages", this.getItemPackagesAsNbtList());
     }
 
@@ -119,11 +129,11 @@ public abstract class AbstractItemPipeBlockEntity extends BlockEntity implements
         BlockState state = blockState;
 
         for(int i = 0; i < 6; i++){
-            if(this.pluginInventory.getStack(i).getItem() == ModItems.EXTRACTION_SOCKET){
+            if(this.socketInventory.getStack(i).getItem() == ModItems.EXTRACTION_SOCKET){
                 state = state.with(AbstractItemPipeBlock.DIRECTION_ENUM_PROPERTY_MAP.get(pluginDirs[i]), ItemPipeNodeType.EXTRACT);
-            }else if(this.pluginInventory.getStack(i).getItem() == ModItems.INSERTION_SOCKET){
+            }else if(this.socketInventory.getStack(i).getItem() == ModItems.INSERTION_SOCKET){
                 state = state.with(AbstractItemPipeBlock.DIRECTION_ENUM_PROPERTY_MAP.get(pluginDirs[i]), ItemPipeNodeType.INSERT);
-            }else if(this.pluginInventory.getStack(i).isEmpty() && AbstractItemPipeBlock.getNodeTypeForDirection(blockState, pluginDirs[i]) != ItemPipeNodeType.TRANSFER){
+            }else if(this.socketInventory.getStack(i).isEmpty() && AbstractItemPipeBlock.getNodeTypeForDirection(blockState, pluginDirs[i]) != ItemPipeNodeType.TRANSFER){
                 state = state.with(AbstractItemPipeBlock.DIRECTION_ENUM_PROPERTY_MAP.get(pluginDirs[i]), AbstractItemPipeBlock.getConnectionType(world.getBlockState(blockPos.offset(pluginDirs[i]))));
             }
         }
@@ -222,6 +232,7 @@ public abstract class AbstractItemPipeBlockEntity extends BlockEntity implements
                 }
             }
         }
+        this.markDirty();
     }
 
 

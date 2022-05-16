@@ -26,6 +26,7 @@ public class ModBlockEntities {
     public static BlockEntityType<LaserworkTableBlockEntity> LASERWORK_TABLE;
     public static BlockEntityType<AirVuxGeneratorBlockEntity> AIR_VUX_GENERATOR;
     public static BlockEntityType<BasicItemPipeBlockEntity> BASIC_ITEM_PIPE;
+    public static BlockEntityType<AnomalyCaptorBlockEntity> ANOMALY_CAPTOR;
 
     public static void registerAll(){
         BASIC_VUXDUCT = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(Voidophobia.MODID, "basic_vuxduct")
@@ -56,6 +57,8 @@ public class ModBlockEntities {
                 , FabricBlockEntityTypeBuilder.create(AirVuxGeneratorBlockEntity::new, ModBlocks.AIR_VUX_GENERATOR).build(null));
         BASIC_ITEM_PIPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(Voidophobia.MODID, "basic_item_pipe")
                 , FabricBlockEntityTypeBuilder.create(BasicItemPipeBlockEntity::new, ModBlocks.BASIC_ITEM_PIPE).build(null));
+        ANOMALY_CAPTOR = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(Voidophobia.MODID, "anomaly_captor")
+                , FabricBlockEntityTypeBuilder.create(AnomalyCaptorBlockEntity::new, ModBlocks.ANOMALY_CAPTOR).build(null));
 
         ItemStorage.SIDED.registerForBlockEntity(((blockEntity, direction) -> blockEntity.inventoryStorage), BASIC_ITEM_PIPE);
     }

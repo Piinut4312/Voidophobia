@@ -79,6 +79,10 @@ public class VuxFilterMachineScreenHandler extends ScreenHandler {
         return this.inventory.canPlayerUse(player);
     }
 
+    public int getVuxStored(){
+        return this.propertyDelegate.get(2);
+    }
+
     public int getVuxStorage() {
         int i = this.propertyDelegate.get(2);
         if (i == 0) {

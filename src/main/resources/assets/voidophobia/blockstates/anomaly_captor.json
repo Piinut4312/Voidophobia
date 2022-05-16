@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "voidophobia:block/anomaly_captor",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "voidophobia:block/anomaly_captor"
+    },
+    "facing=south": {
+      "model": "voidophobia:block/anomaly_captor",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "voidophobia:block/anomaly_captor",
+      "y": 270
+    }
+  }
+}

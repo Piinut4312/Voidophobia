@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " # ",
+    "#%#",
+    " $ "
+  ],
+  "key": {
+    "#": {
+      "item": "voidophobia:godel_crystal_shard"
+    },
+    "$": {
+      "item": "voidophobia:lightweight_vux_machine_core"
+    },
+    "%":{
+      "item": "minecraft:ender_pearl"
+    }
+  },
+  "result": {
+    "item": "voidophobia:anomaly_captor",
+    "count": 1
+  }
+}

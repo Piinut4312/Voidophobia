@@ -5,6 +5,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.piinut.voidophobia.gui.handler.BasicItemPipeScreenHandler;
@@ -26,12 +27,12 @@ public class BasicItemPipeBlockEntity extends AbstractItemPipeBlockEntity{
 
     @Override
     public Text getDisplayName() {
-        return Text.of("Basic Item Pipe");
+        return new TranslatableText("container.voidophobia.basic_item_pipe");
     }
 
     @Nullable
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
-        return new BasicItemPipeScreenHandler(syncId, this.pluginInventory, inv);
+        return new BasicItemPipeScreenHandler(syncId, this.socketInventory, inv);
     }
 }

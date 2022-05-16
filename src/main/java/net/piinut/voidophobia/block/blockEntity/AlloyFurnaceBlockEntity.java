@@ -25,6 +25,7 @@ import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
@@ -49,7 +50,7 @@ public class AlloyFurnaceBlockEntity extends BlockEntity implements SidedInvento
 
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(4, ItemStack.EMPTY);
     private static final int[] TOP_SLOTS = new int[]{0, 1};
-    private static final int[] BOTTOM_SLOTS = new int[]{3, 2};
+    private static final int[] BOTTOM_SLOTS = new int[]{2, 3};
     private static final int[] SIDE_SLOTS = new int[]{2};
     int burnTime;
     int fuelTime;
@@ -166,7 +167,7 @@ public class AlloyFurnaceBlockEntity extends BlockEntity implements SidedInvento
         if (dir == Direction.DOWN && slot == 2) {
             return stack.isOf(Items.WATER_BUCKET) || stack.isOf(Items.BUCKET);
         }
-        return false;
+        return slot == 3;
     }
 
     @Override
@@ -309,7 +310,7 @@ public class AlloyFurnaceBlockEntity extends BlockEntity implements SidedInvento
 
     @Override
     public Text getDisplayName() {
-        return Text.of("Alloy Furnace");
+        return new TranslatableText("container.voidophobia.alloy_furnace");
     }
 
     @Override

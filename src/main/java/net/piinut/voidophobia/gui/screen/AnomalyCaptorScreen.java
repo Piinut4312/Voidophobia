@@ -7,15 +7,16 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.MathHelper;
 import net.piinut.voidophobia.Voidophobia;
-import net.piinut.voidophobia.gui.handler.VuxFilterMachineScreenHandler;
+import net.piinut.voidophobia.gui.handler.AnomalyCaptorScreenHandler;
 
-public class VuxFilterMachineScreen extends HandledScreen<VuxFilterMachineScreenHandler> {
+public class AnomalyCaptorScreen extends HandledScreen<AnomalyCaptorScreenHandler> {
 
-    private static final Identifier TEXTURE = new Identifier(Voidophobia.MODID, "textures/gui/container/vux_filter_machine.png");
+    private static final Identifier TEXTURE = new Identifier(Voidophobia.MODID, "textures/gui/container/anomaly_captor.png");
 
-    public VuxFilterMachineScreen(VuxFilterMachineScreenHandler handler, PlayerInventory playerInventory, Text title){
-        super(handler, playerInventory, title);
+    public AnomalyCaptorScreen(AnomalyCaptorScreenHandler handler, PlayerInventory inventory, Text title) {
+        super(handler, inventory, title);
     }
 
     @Override
@@ -27,11 +28,9 @@ public class VuxFilterMachineScreen extends HandledScreen<VuxFilterMachineScreen
         int j = this.y;
         int x = (width - backgroundWidth) / 2;
         int y = (height - backgroundHeight) / 2;
-        drawTexture(matrices, x, y, 0, 0, backgroundWidth+21, backgroundHeight);
-        int k = this.handler.getProcessProgress();
-        this.drawTexture(matrices, i + 45, j + 32, 0, 222, k+1, 28);
-        int p = this.handler.getVuxStorage();
-        this.drawTexture(matrices, i + 138, j + 73 - p, 0, 166, 10, p);
+        drawTexture(matrices, x, y, 0, 0, backgroundWidth, backgroundHeight);
+        int p = this.handler.getCooldownProgress();
+        this.drawTexture(matrices, i + 35, j + 71 - p, 176, 0, 10, p);
     }
 
     @Override
@@ -41,12 +40,13 @@ public class VuxFilterMachineScreen extends HandledScreen<VuxFilterMachineScreen
         drawMouseoverTooltip(matrices, mouseX, mouseY);
     }
 
+
     @Override
     protected void drawMouseoverTooltip(MatrixStack matrices, int x, int y) {
         super.drawMouseoverTooltip(matrices, x, y);
-        if(this.isPointWithinBounds(138, 18, 10, 56, x, y)){
-            int vuxStored = this.handler.getVuxStored();
-            renderTooltip(matrices, Text.of("Vux Level: " + vuxStored), x, y);
+        if(this.isPointWithinBounds(35, 16, 10, 56, x, y)){
+            float cooldown = this.handler.getCooldownTime();
+            renderTooltip(matrices, Text.of(String.format("%.1f", cooldown) + "s"), x, y);
         }
     }
 
@@ -55,5 +55,4 @@ public class VuxFilterMachineScreen extends HandledScreen<VuxFilterMachineScreen
         super.init();
         titleX = (backgroundWidth - textRenderer.getWidth(title)) / 2;
     }
-
 }

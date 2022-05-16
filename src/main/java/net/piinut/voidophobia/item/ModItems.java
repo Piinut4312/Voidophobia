@@ -74,6 +74,7 @@ public class ModItems {
     public static final BlockItem ALUMINIUM_BLOCK_ITEM = new BlockItem(ModBlocks.ALUMINIUM_BLOCK, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final BlockItem ETHER_ALLOY_BLOCK_ITEM = new BlockItem(ModBlocks.ETHER_ALLOY_BLOCK, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final BlockItem BASIC_ITEM_PIPE_ITEM = new BlockItem(ModBlocks.BASIC_ITEM_PIPE, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final BlockItem ANOMALY_CAPTOR = new BlockItem(ModBlocks.ANOMALY_CAPTOR, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item VUX_METER = new VuxMeterItem(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item GODEL_CRYSTAL_SHARD = new GodelCrystalShardItem(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item ARTIFICIAL_BEDROCK_SCRAP = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
@@ -150,6 +151,7 @@ public class ModItems {
     public static final Item PIEZOELECTRIC_ELEMENT = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item EXTRACTION_SOCKET = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item INSERTION_SOCKET = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final Item GODEL_CRYSTAL_FRAGMENT = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
 
     private static void register(Item item, String id){
         Registry.register(Registry.ITEM, new Identifier(Voidophobia.MODID, id), item);
@@ -285,6 +287,8 @@ public class ModItems {
         register(BASIC_ITEM_PIPE_ITEM, "basic_item_pipe");
         register(EXTRACTION_SOCKET, "extraction_socket");
         register(INSERTION_SOCKET, "insertion_socket");
+        register(ANOMALY_CAPTOR, "anomaly_captor");
+        register(GODEL_CRYSTAL_FRAGMENT, "godel_crystal_fragment");
     }
 
 }

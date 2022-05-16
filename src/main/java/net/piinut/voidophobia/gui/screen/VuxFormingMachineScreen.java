@@ -103,6 +103,15 @@ public class VuxFormingMachineScreen extends HandledScreen<VuxFormingMachineScre
     }
 
     @Override
+    protected void drawMouseoverTooltip(MatrixStack matrices, int x, int y) {
+        super.drawMouseoverTooltip(matrices, x, y);
+        if(this.isPointWithinBounds(146, 14, 10, 56, x, y)){
+            int vuxStored = this.handler.getVuxStored();
+            renderTooltip(matrices, Text.of("Vux Level: " + vuxStored), x, y);
+        }
+    }
+
+    @Override
     protected void init() {
         super.init();
         titleX = (backgroundWidth - textRenderer.getWidth(title)) / 2;

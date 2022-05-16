@@ -72,6 +72,7 @@ public class VuxFilterMachineBlock extends BlockWithEntity implements VuxConsume
             Block neighborBlock = neighborState.getBlock();
             if(neighborBlock instanceof VuxProvider){
                 vuxIn += ((VuxProvider)neighborBlock).getVux(world, neighborState, neighborPos, direction.getOpposite(), random);
+                ((VuxProvider)neighborBlock).handleVuxConsumption(world, neighborState, neighborPos, vuxIn);
             }else if(neighborBlock instanceof AbstractVuxductBlock){
                 AbstractVuxductBlockEntity be = (AbstractVuxductBlockEntity) world.getBlockEntity(neighborPos);
                 int tryConsumeVux = Math.min(blockEntity.requestVuxConsume(), be.getVuxOutput());

@@ -116,4 +116,8 @@ public class LaserEngravingMachineScreenHandler extends ScreenHandler {
         super.onContentChanged(inventory);
         inventory.markDirty();
     }
+
+    public int getVuxStored() {
+        return this.propertyDelegate.get(2);
+    }
 }
