@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "@@@",
+    "$ $",
+    "%#%"
+  ],
+  "key": {
+    "#": {
+      "item": "voidophobia:vux_machine_core"
+    },
+    "$": {
+      "item": "voidophobia:basic_heating_coil"
+    },
+    "@": {
+      "item": "minecraft:iron_ingot"
+    },
+    "%": {
+      "item": "voidophobia:vuxin"
+    }
+  },
+  "result": {
+    "item": "voidophobia:vux_furnace",
+    "count": 1
+  }
+}

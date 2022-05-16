@@ -38,6 +38,8 @@
     "voidophobia:aluminium_block",
     "voidophobia:lightweight_vux_machine_core",
     "voidophobia:air_vux_generator",
-    "voidophobia:basic_item_pipe"
+    "voidophobia:basic_item_pipe",
+    "voidophobia:anomaly_captor",
+    "voidophobia:vux_furnace"
   ]
 }

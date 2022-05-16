@@ -13,6 +13,7 @@ public class ModScreens {
         ScreenRegistry.register(ModScreenHandlers.VACUUM_COATER, VacuumCoaterScreen::new);
         ScreenRegistry.register(ModScreenHandlers.BASIC_ITEM_PIPE, BasicItemPipeScreen::new);
         ScreenRegistry.register(ModScreenHandlers.ANOMALY_CAPTOR, AnomalyCaptorScreen::new);
+        ScreenRegistry.register(ModScreenHandlers.VUX_FURNACE, VuxFurnaceScreen::new);
     }
 
 }

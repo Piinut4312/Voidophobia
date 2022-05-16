@@ -76,7 +76,8 @@ public class ModBlocks {
     public static final Block ALUMINIUM_BLOCK = new Block(FabricBlockSettings.of(Material.METAL).strength(5.0f, 5.0f).sounds(BlockSoundGroup.METAL).requiresTool());
     public static final Block ETHER_ALLOY_BLOCK = new Block(FabricBlockSettings.of(Material.METAL).strength(60.0f, 1200.0f));
     public static final Block BASIC_ITEM_PIPE = new BasicItemPipeBlock(FabricBlockSettings.of(Material.METAL).strength(5.0f, 5.0f).sounds(BlockSoundGroup.METAL).requiresTool());
-    public static final Block ANOMALY_CAPTOR =new AnomalyCaptorBlock(FabricBlockSettings.of(Material.METAL).strength(12.0f, 12.0f).sounds(BlockSoundGroup.METAL).requiresTool());
+    public static final Block ANOMALY_CAPTOR = new AnomalyCaptorBlock(FabricBlockSettings.of(Material.METAL).strength(12.0f, 12.0f).sounds(BlockSoundGroup.METAL).requiresTool());
+    public static final Block VUX_FURNACE = new VuxFurnaceBlock(FabricBlockSettings.of(Material.METAL).strength(12.0f, 12.0f).requiresTool().sounds(BlockSoundGroup.METAL).luminance((state)-> state.get(VuxFurnaceBlock.ON)? 15 : 0));
 
     private static Block createReinforcedPistonBlock(boolean sticky) {
         AbstractBlock.ContextPredicate contextPredicate = (state, world, pos) -> !state.get(ReinforcedPistonBlock.EXTENDED);
@@ -152,6 +153,7 @@ public class ModBlocks {
         register(ETHER_ALLOY_BLOCK, "ether_alloy_block");
         register(BASIC_ITEM_PIPE, "basic_item_pipe");
         register(ANOMALY_CAPTOR, "anomaly_captor");
+        register(VUX_FURNACE, "vux_furnace");
     }
 
 }

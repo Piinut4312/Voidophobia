@@ -28,6 +28,7 @@ public class VuxFormingMachineScreen extends HandledScreen<VuxFormingMachineScre
     public VuxFormingMachineScreen(VuxFormingMachineScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
         handler.setContentsChangedListener(this::onInventoryChange);
+        this.backgroundWidth += 21;
     }
 
     @Override
@@ -41,11 +42,11 @@ public class VuxFormingMachineScreen extends HandledScreen<VuxFormingMachineScre
         int y = (height - backgroundHeight) / 2;
         drawTexture(matrices, x, y, 0, 0, backgroundWidth, backgroundHeight);
         int k = this.handler.getProcessProgress();
-        this.drawTexture(matrices, i + 21, j + 33, 176, 15, 12, k+1);
+        this.drawTexture(matrices, i + 20, j + 32, 0, 235, 12, k+1);
         int p = this.handler.getVuxStorage();
-        this.drawTexture(matrices, i + 146, j + 69 - p, 176, 33, 10, p);
+        this.drawTexture(matrices, i + 145, j + 70 - p, 24, 166, 10, p);
         int h = (int)(41.0f * this.scrollAmount);
-        this.drawTexture(matrices, i + 119, j + 15 + h, 176 + (this.shouldScroll() ? 0 : 12), 0, 12, 15);
+        this.drawTexture(matrices, i + 119, j + 15 + h, (this.shouldScroll() ? 0 : 12), 220, 12, 15);
         int l = this.x + 52;
         int m = this.y + 14;
         int n = this.scrollOffset + 12;

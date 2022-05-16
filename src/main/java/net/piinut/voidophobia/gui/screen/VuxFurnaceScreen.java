@@ -8,19 +8,19 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.piinut.voidophobia.Voidophobia;
-import net.piinut.voidophobia.gui.handler.VuxFilterMachineScreenHandler;
+import net.piinut.voidophobia.gui.handler.VuxFurnaceScreenHandler;
 
-public class VuxFilterMachineScreen extends HandledScreen<VuxFilterMachineScreenHandler> {
+public class VuxFurnaceScreen extends HandledScreen<VuxFurnaceScreenHandler> {
 
-    private static final Identifier TEXTURE = new Identifier(Voidophobia.MODID, "textures/gui/container/vux_filter_machine.png");
+    private static final Identifier TEXTURE = new Identifier(Voidophobia.MODID, "textures/gui/container/vux_furnace.png");
 
-    public VuxFilterMachineScreen(VuxFilterMachineScreenHandler handler, PlayerInventory playerInventory, Text title){
-        super(handler, playerInventory, title);
-        this.backgroundWidth += 21;
+    public VuxFurnaceScreen(VuxFurnaceScreenHandler handler, PlayerInventory inventory, Text title) {
+        super(handler, inventory, title);
     }
 
     @Override
     protected void drawBackground(MatrixStack matrices, float delta, int mouseX, int mouseY) {
+        int k;
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, TEXTURE);
@@ -28,11 +28,15 @@ public class VuxFilterMachineScreen extends HandledScreen<VuxFilterMachineScreen
         int j = this.y;
         int x = (width - backgroundWidth) / 2;
         int y = (height - backgroundHeight) / 2;
-        drawTexture(matrices, x, y, 0, 0, backgroundWidth+21, backgroundHeight);
-        int k = this.handler.getProcessProgress();
-        this.drawTexture(matrices, i + 45, j + 32, 0, 222, k+1, 28);
+        drawTexture(matrices, x, y, 0, 0, backgroundWidth, backgroundHeight);
+        if (this.handler.shouldRenderFlame()) {
+            this.drawTexture(matrices, i + 44, j + 57, 176, 56, 14, 13);
+        }
+        k = this.handler.getCookProgress();
+        this.drawTexture(matrices, i + 67, j + 37, 176, 70, k + 1, 16);
+
         int p = this.handler.getVuxStorage();
-        this.drawTexture(matrices, i + 138, j + 73 - p, 0, 166, 10, p);
+        this.drawTexture(matrices, i + 138, j + 73 - p, 176, 0, 10, p);
     }
 
     @Override
@@ -56,5 +60,4 @@ public class VuxFilterMachineScreen extends HandledScreen<VuxFilterMachineScreen
         super.init();
         titleX = (backgroundWidth - textRenderer.getWidth(title)) / 2;
     }
-
 }

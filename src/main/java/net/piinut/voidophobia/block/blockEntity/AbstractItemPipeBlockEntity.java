@@ -37,7 +37,7 @@ public abstract class AbstractItemPipeBlockEntity extends BlockEntity implements
     public final InventoryStorage inventoryStorage;
     public ItemPipeNetwork network;
     public final List<ItemPackage> itemPackages;
-    private Direction[] pluginDirs = {Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST, Direction.UP, Direction.DOWN};
+    private final Direction[] pluginDirs = {Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST, Direction.UP, Direction.DOWN};
 
     public AbstractItemPipeBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, int maxCooldown, int bufferSize, int batchSize) {
         super(type, pos, state);
@@ -199,6 +199,18 @@ public abstract class AbstractItemPipeBlockEntity extends BlockEntity implements
                         try(Transaction transaction = Transaction.openOuter()){
                             readyPackage.setDestinationPos(this.network.getDestinationPos(world, ItemVariant.of(readyPackage.getItemStack()),readyPackage.getItemStack().getCount(),  transaction));
                         }
+                    }
+                }
+            }
+        }else if(!this.inventory.isEmpty() && this.itemPackages.isEmpty()){
+            for(int i = 0; i < this.inventory.size(); i++){
+                ItemStack itemStack = this.inventory.getStack(i);
+                if(!itemStack.isEmpty()){
+                    try(Transaction transaction = Transaction.openOuter()){
+                        ItemVariant resource = ItemVariant.of(itemStack);
+                        BlockPos destPos = this.network.getDestinationPos(world, resource, itemStack.getCount(), transaction);
+                        ItemPackage itemPackage = this.createItemPackage(resource, itemStack.getCount(), destPos);
+                        this.itemPackages.add(itemPackage);
                     }
                 }
             }

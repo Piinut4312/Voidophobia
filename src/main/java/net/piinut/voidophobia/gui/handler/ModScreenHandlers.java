@@ -15,6 +15,7 @@ public class ModScreenHandlers {
     public static ScreenHandlerType<VacuumCoaterScreenHandler> VACUUM_COATER;
     public static ScreenHandlerType<BasicItemPipeScreenHandler> BASIC_ITEM_PIPE;
     public static ScreenHandlerType<AnomalyCaptorScreenHandler> ANOMALY_CAPTOR;
+    public static ScreenHandlerType<VuxFurnaceScreenHandler> VUX_FURNACE;
 
     private static Identifier getId(String id){
         return new Identifier(Voidophobia.MODID, id);
@@ -28,6 +29,7 @@ public class ModScreenHandlers {
         VACUUM_COATER = ScreenHandlerRegistry.registerSimple(getId("vacuum_coater"), VacuumCoaterScreenHandler::new);
         BASIC_ITEM_PIPE = ScreenHandlerRegistry.registerSimple(getId("basic_item_pipe"), BasicItemPipeScreenHandler::new);
         ANOMALY_CAPTOR = ScreenHandlerRegistry.registerSimple(getId("anomaly_captor"), AnomalyCaptorScreenHandler::new);
+        VUX_FURNACE = ScreenHandlerRegistry.registerSimple(getId("vux_furnace"), VuxFurnaceScreenHandler::new);
     }
 
 }

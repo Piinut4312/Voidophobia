@@ -13,6 +13,7 @@ import net.minecraft.world.World;
 import net.piinut.voidophobia.block.blockEntity.VuxFormingMachineBlockEntity;
 import net.piinut.voidophobia.item.recipe.ModRecipeTypes;
 import net.piinut.voidophobia.item.recipe.VuxFormingRecipe;
+import net.piinut.voidophobia.util.tags.ModItemTags;
 
 import java.util.List;
 
@@ -26,7 +27,7 @@ public class VuxFormingMachineScreenHandler extends ScreenHandler {
     Runnable contentsChangedListener = () -> {};
 
     public VuxFormingMachineScreenHandler(int syncId, PlayerInventory playerInventory){
-        this(syncId, playerInventory, new SimpleInventory(2), new ArrayPropertyDelegate(5));
+        this(syncId, playerInventory, new SimpleInventory(5), new ArrayPropertyDelegate(7));
     }
 
     public VuxFormingMachineScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inventory, PropertyDelegate propertyDelegate) {
@@ -46,6 +47,15 @@ public class VuxFormingMachineScreenHandler extends ScreenHandler {
             }
         });
         this.addSlot(new Slot(inventory, 1, 20, 53));
+
+        for(int i = 0; i < 3; i++){
+            this.addSlot(new Slot(inventory, i + 2, 175, 6 + i * 24){
+                @Override
+                public boolean canInsert(ItemStack stack) {
+                    return ModItemTags.VUX_FORMING_MACHINE_MODIFIERS.contains(stack.getItem());
+                }
+            });
+        }
 
         for (int m = 0; m < 3; ++m) {
             for (int l = 0; l < 9; ++l) {
@@ -134,18 +144,20 @@ public class VuxFormingMachineScreenHandler extends ScreenHandler {
 
     public int getProcessProgress() {
         int i = this.propertyDelegate.get(1);
-        if (i == 0) {
+        int j = this.propertyDelegate.get(5);
+        if (i == 0 || j == 0) {
             return 0;
         }
-        return i * 18 / VuxFormingMachineBlockEntity.TOTAL_PROCESS_TIME;
+        return i * 18 / j;
     }
 
     public int getVuxStorage(){
         float i = this.propertyDelegate.get(2);
-        if(i == 0){
+        float j = this.propertyDelegate.get(3);
+        if(i == 0 || j == 0){
             return 0;
         }
-        return (int) (i * 56 / VuxFormingMachineBlockEntity.DEFAULT_VUX_CAPACITY);
+        return (int) (i * 56 / j);
     }
 
     public List<VuxFormingRecipe> getAvailableRecipes() {

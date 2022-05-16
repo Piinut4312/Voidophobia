@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "voidophobia:processing_speed_boost_modifier_module",
+    "voidophobia:vux_capacity_upgrade_modifier_module",
+    "voidophobia:sticky_buffering_modifier_module"
+  ]
+}

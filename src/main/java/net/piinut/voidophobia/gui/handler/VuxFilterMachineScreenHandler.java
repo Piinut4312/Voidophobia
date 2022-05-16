@@ -19,7 +19,6 @@ public class VuxFilterMachineScreenHandler extends ScreenHandler {
 
     private final Inventory inventory;
     private final PropertyDelegate propertyDelegate;
-    private final World world;
 
     public VuxFilterMachineScreenHandler(int syncId, PlayerInventory playerInventory){
         this(syncId, playerInventory, new SimpleInventory(6), new ArrayPropertyDelegate(6));
@@ -29,7 +28,7 @@ public class VuxFilterMachineScreenHandler extends ScreenHandler {
         super(ModScreenHandlers.VUX_FILTER_MACHINE, syncId);
         this.inventory = inventory;
         this.propertyDelegate = propertyDelegate;
-        this.world = playerInventory.player.getWorld();
+        World world = playerInventory.player.getWorld();
         inventory.onOpen(playerInventory.player);
 
         this.addSlot(new Slot(inventory, 0, 27, 38));

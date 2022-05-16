@@ -1,0 +1,34 @@
+{
+  "variants": {
+    "facing=east,on=false": {
+      "model": "voidophobia:block/vux_furnace",
+      "y": 90
+    },
+    "facing=east,on=true": {
+      "model": "voidophobia:block/vux_furnace_on",
+      "y": 90
+    },
+    "facing=north,on=false": {
+      "model": "voidophobia:block/vux_furnace"
+    },
+    "facing=north,on=true": {
+      "model": "voidophobia:block/vux_furnace_on"
+    },
+    "facing=south,on=false": {
+      "model": "voidophobia:block/vux_furnace",
+      "y": 180
+    },
+    "facing=south,on=true": {
+      "model": "voidophobia:block/vux_furnace_on",
+      "y": 180
+    },
+    "facing=west,on=false": {
+      "model": "voidophobia:block/vux_furnace",
+      "y": 270
+    },
+    "facing=west,on=true": {
+      "model": "voidophobia:block/vux_furnace_on",
+      "y": 270
+    }
+  }
+}

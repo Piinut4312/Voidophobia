@@ -75,6 +75,7 @@ public class ModItems {
     public static final BlockItem ETHER_ALLOY_BLOCK_ITEM = new BlockItem(ModBlocks.ETHER_ALLOY_BLOCK, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final BlockItem BASIC_ITEM_PIPE_ITEM = new BlockItem(ModBlocks.BASIC_ITEM_PIPE, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final BlockItem ANOMALY_CAPTOR = new BlockItem(ModBlocks.ANOMALY_CAPTOR, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final BlockItem VUX_FURNACE = new BlockItem(ModBlocks.VUX_FURNACE, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item VUX_METER = new VuxMeterItem(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item GODEL_CRYSTAL_SHARD = new GodelCrystalShardItem(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item ARTIFICIAL_BEDROCK_SCRAP = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
@@ -114,6 +115,7 @@ public class ModItems {
     public static final Item DELICATE_FILTERING_MODIFIER_MODULE = new ModifierModuleItem(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP).maxCount(1), "delicate_filtering", 2, 1);
     public static final Item PROCESSING_SPEED_BOOST_MODIFIER_MODULE = new ModifierModuleItem(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP).maxCount(1), "processing_speed_boost", 1, 1);
     public static final Item VUX_CAPACITY_UPGRADE_MODIFIER_MODULE = new ModifierModuleItem(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP).maxCount(1), "vux_capacity_upgrade", 1, 0);
+    public static final Item STICKY_BUFFERING_MODIFIER_MODULE = new ModifierModuleItem(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP).maxCount(1), "sticky_buffering", 1, 0);
     public static final Item CHROME_NICKEL_BLEND = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item COOLING_PAD = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item ABYSS_SPIDER_SPAWN_EGG = new SpawnEggItem(ModEntities.ABYSS_SPIDER, 2103108,11183552, new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
@@ -242,6 +244,7 @@ public class ModItems {
         register(DELICATE_FILTERING_MODIFIER_MODULE, "delicate_filtering_modifier_module");
         register(PROCESSING_SPEED_BOOST_MODIFIER_MODULE, "processing_speed_boost_modifier_module");
         register(VUX_CAPACITY_UPGRADE_MODIFIER_MODULE, "vux_capacity_upgrade_modifier_module");
+        register(STICKY_BUFFERING_MODIFIER_MODULE, "sticky_buffering_modifier_module");
         register(COOLING_PAD, "cooling_pad");
         register(ENSORCELLED_SPAWN_EGG, "ensorcelled_spawn_egg");
         register(ENSORCELLED_ROTTEN_FLESH, "ensorcelled_rotten_flesh");
@@ -289,6 +292,7 @@ public class ModItems {
         register(INSERTION_SOCKET, "insertion_socket");
         register(ANOMALY_CAPTOR, "anomaly_captor");
         register(GODEL_CRYSTAL_FRAGMENT, "godel_crystal_fragment");
+        register(VUX_FURNACE, "vux_furnace");
     }
 
 }
