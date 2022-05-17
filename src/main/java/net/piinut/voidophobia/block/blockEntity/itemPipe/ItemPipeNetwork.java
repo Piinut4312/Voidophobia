@@ -3,8 +3,11 @@ package net.piinut.voidophobia.block.blockEntity.itemPipe;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemStorage;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
+import net.fabricmc.fabric.api.transfer.v1.storage.StorageView;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
+import net.fabricmc.fabric.impl.transfer.item.ItemVariantCache;
 import net.minecraft.block.BlockState;
+import net.minecraft.util.Pair;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
@@ -12,10 +15,7 @@ import net.piinut.voidophobia.Voidophobia;
 import net.piinut.voidophobia.block.AbstractItemPipeBlock;
 import net.piinut.voidophobia.block.ItemPipeNodeType;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 
 public class ItemPipeNetwork {
@@ -24,7 +24,7 @@ public class ItemPipeNetwork {
     public List<ItemPipeNode> nodes;
 
     public ItemPipeNetwork(BlockPos root){
-        this.localNode = new ItemPipeNode(root, Direction.NORTH, true);
+        this.localNode = new ItemPipeNode(root, null, true);
         this.nodes = new ArrayList<>();
     }
 
@@ -51,7 +51,7 @@ public class ItemPipeNetwork {
                 BlockPos blockPos = node.pos;
                 BlockPos neighborPos = blockPos.offset(direction);
                 if(canConnectTo(world, blockPos, direction, neighborPos)){
-                    ItemPipeNode childNode = new ItemPipeNode(neighborPos, direction.getOpposite(), false);
+                    ItemPipeNode childNode = new ItemPipeNode(neighborPos, node, false);
                     node.childrenNodes.add(childNode);
                     unvisitedNodes.offer(childNode);
                 }
@@ -74,92 +74,78 @@ public class ItemPipeNetwork {
         return blockState.getBlock() instanceof AbstractItemPipeBlock;
     }
 
-    public boolean isValidExtractionNode(World world, BlockPos pos){
+    public Pair<Storage<ItemVariant>, ItemVariant> getValidExtractionNode(World world, BlockPos pos, Storage<ItemVariant> itemStorage){
         BlockState blockState = world.getBlockState(pos);
         if(isValidNode(world, pos)){
             for(Direction direction : Direction.values()){
-                if(blockState.get(AbstractItemPipeBlock.DIRECTION_ENUM_PROPERTY_MAP.get(direction)) == ItemPipeNodeType.EXTRACT){
-                    return ItemStorage.SIDED.find(world, pos, direction.getOpposite()) != null;
-                }
-            }
-        }
-        return false;
-    }
-
-    public boolean isValidInsertionNode(World world, BlockPos pos){
-        BlockState blockState = world.getBlockState(pos);
-        if(isValidNode(world, pos)){
-            for(Direction direction : Direction.values()){
-                if(blockState.get(AbstractItemPipeBlock.DIRECTION_ENUM_PROPERTY_MAP.get(direction)) == ItemPipeNodeType.INSERT){
-                    return ItemStorage.SIDED.find(world, pos, direction.getOpposite()) != null;
-                }
-            }
-        }
-        return false;
-    }
-
-    public boolean isValidInsertionNodeAsDestination(World world, BlockPos pos, ItemVariant resource, long amount, Transaction transaction){
-        if(!isValidInsertionNode(world, pos)){
-            return false;
-        }
-        BlockState blockState = world.getBlockState(pos);
-        if(isValidNode(world, pos)){
-            for(Direction direction : Direction.values()){
-                if(blockState.get(AbstractItemPipeBlock.DIRECTION_ENUM_PROPERTY_MAP.get(direction)) == ItemPipeNodeType.INSERT){
-                    Storage<ItemVariant> itemStorage = ItemStorage.SIDED.find(world, pos, direction.getOpposite());
-                    try(Transaction nestedTransaction = Transaction.openNested(transaction)){
-                        long insertionAmount = itemStorage.simulateInsert(resource, amount, nestedTransaction);
-                        if(insertionAmount > 0){
-                            return true;
+                if(AbstractItemPipeBlock.getNodeTypeForDirection(blockState, direction) == ItemPipeNodeType.EXTRACT){
+                    Storage<ItemVariant> storage = ItemStorage.SIDED.find(world, pos.offset(direction), direction.getOpposite());
+                    if(storage != null){
+                        try(Transaction transaction = Transaction.openOuter()){
+                            for(StorageView<ItemVariant> storageView : storage.iterable(transaction)){
+                                if(!storageView.isResourceBlank()){
+                                    ItemVariant resource = storageView.getResource();
+                                    long tryInsertAmount = itemStorage.simulateInsert(resource, 1, transaction);
+                                    if(tryInsertAmount > 0){
+                                        return new Pair<>(storage, resource);
+                                    }
+                                }
+                            }
                         }
                     }
                 }
             }
         }
-        return false;
+        return null;
     }
 
-
-    public Direction getDirectionForPackage(BlockPos targetPos) {
-        ItemPipeNode targetNode = this.findNodeFromPos(targetPos);
-        if(targetNode == null){
-            return null;
-        }
-        Direction lastDirection = null;
-        int count = this.nodes.size();
-        while(!ItemPipeNode.matches(targetNode, localNode.pos) && !targetNode.isRoot && count > 0){
-            lastDirection = targetNode.predecessor;
-            BlockPos predecessorPos = targetNode.pos.offset(lastDirection);
-            targetNode = findNodeFromPos(predecessorPos);
-            if(targetNode == null){
-                break;
-            }
-            count--;
-        }
-        if(!ItemPipeNode.matches(targetNode, localNode.pos) || lastDirection == null){
-            return null;
-        }
-        return lastDirection.getOpposite();
-    }
-
-
-    private ItemPipeNode findNodeFromPos(BlockPos targetPos) {
-        for(ItemPipeNode node : nodes){
-            if(ItemPipeNode.matches(node, targetPos)){
-                return node;
+    public Storage<ItemVariant> getValidInsertionNode(World world, BlockPos pos, ItemVariant resource){
+        BlockState blockState = world.getBlockState(pos);
+        if(isValidNode(world, pos)){
+            for(Direction direction : Direction.values()){
+                if(AbstractItemPipeBlock.getNodeTypeForDirection(blockState, direction) == ItemPipeNodeType.INSERT){
+                    Storage<ItemVariant> storage = ItemStorage.SIDED.find(world, pos.offset(direction), direction.getOpposite());
+                    if(storage != null){
+                        long tryInsertAmount = storage.simulateInsert(resource, 1, null);
+                        if(tryInsertAmount > 0){
+                            return storage;
+                        }
+                    }
+                }
             }
         }
         return null;
     }
 
-
-
-    public BlockPos getDestinationPos(World world, ItemVariant resource, long amount, Transaction transaction) {
-        for(ItemPipeNode node : nodes){
-            if(isValidInsertionNodeAsDestination(world, node.pos, resource, amount, transaction)){
-                return node.pos;
+    public Storage<ItemVariant> findValidTransferPath(World world, ItemVariant resource){
+        if(!resource.isBlank()){
+            Queue<ItemPipeNode> unvisitedNodes = new LinkedList<>();
+            Queue<ItemPipeNode> visitedNodes = new LinkedList<>();
+            ItemPipeNode rootNode = localNode;
+            unvisitedNodes.offer(rootNode);
+            while(!unvisitedNodes.isEmpty()){
+                ItemPipeNode node = unvisitedNodes.poll();
+                if(visitedNodes.contains(node)){
+                    continue;
+                }
+                visitedNodes.offer(node);
+                for(ItemPipeNode childNode : node.childrenNodes){
+                    BlockPos blockPos = childNode.pos;
+                    Storage<ItemVariant> storage = getValidInsertionNode(world, blockPos, resource);
+                    if(storage != null){
+                        ItemPipeNode targetNode = childNode.copy();
+                        ItemPipeNode lastNode = targetNode.copy();
+                        while(!targetNode.isRoot){
+                            lastNode = targetNode.copy();
+                            targetNode = targetNode.parentNode;
+                        }
+                        return ItemStorage.SIDED.find(world, lastNode.pos, Direction.fromVector(rootNode.pos.subtract(lastNode.pos)));
+                    }
+                    unvisitedNodes.offer(childNode);
+                }
             }
         }
         return null;
     }
+
 }

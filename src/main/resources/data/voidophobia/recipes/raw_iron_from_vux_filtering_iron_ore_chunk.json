@@ -1,11 +1,11 @@
 {
   "type": "voidophobia:vux_filtering",
   "ingredient":{
-    "tag":"c:chrome_ores"
+    "item":"voidophobia:iron_ore_chunk"
   },
   "filter": "rock",
   "result": {
-    "item":"voidophobia:raw_chrome"
+    "item":"minecraft:raw_iron"
   },
-  "count": 2
+  "count": 1
 }

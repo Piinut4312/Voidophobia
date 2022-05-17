@@ -13,7 +13,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class BasicItemPipeBlockEntity extends AbstractItemPipeBlockEntity{
 
-    public static final int MAX_COOLDOWN = 50;
+    public static final int MAX_COOLDOWN = 16;
     public static final int BUFFER_SIZE = 5;
     public static final int BATCH_SIZE = 1;
 

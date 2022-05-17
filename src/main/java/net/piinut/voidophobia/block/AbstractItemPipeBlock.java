@@ -97,7 +97,7 @@ public abstract class AbstractItemPipeBlock extends BlockWithEntity {
 
     @Override
     public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
-        return state.with(DIRECTION_ENUM_PROPERTY_MAP.get(direction), getConnectionType(neighborState));
+        return state.with(DIRECTION_ENUM_PROPERTY_MAP.get(direction), getConnectionType(state, neighborState, direction));
     }
 
     protected void updateNeighbors(World world, BlockPos pos) {
@@ -137,12 +137,14 @@ public abstract class AbstractItemPipeBlock extends BlockWithEntity {
         }
     }
 
-    public static ItemPipeNodeType getConnectionType(BlockState neighbor) {
+    public static ItemPipeNodeType getConnectionType(BlockState state, BlockState neighbor, Direction direction) {
+        ItemPipeNodeType nodeType = getNodeTypeForDirection(state, direction);
         if(neighbor.getBlock() instanceof AbstractItemPipeBlock){
             return ItemPipeNodeType.TRANSFER;
-        }else{
-            return ItemPipeNodeType.NONE;
+        }else if(nodeType == ItemPipeNodeType.EXTRACT || nodeType == ItemPipeNodeType.INSERT){
+            return nodeType;
         }
+        return ItemPipeNodeType.NONE;
     }
 
     public static ItemPipeNodeType getNodeTypeForDirection(BlockState state, Direction direction){

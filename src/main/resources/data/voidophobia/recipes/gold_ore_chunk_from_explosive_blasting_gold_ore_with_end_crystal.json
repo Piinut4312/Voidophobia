@@ -1,0 +1,13 @@
+{
+  "type": "voidophobia:explosive_blasting",
+  "ingredient":{
+    "tag":"minecraft:gold_ores"
+  },
+  "inputCount": 1,
+  "explosive":{
+    "item":"minecraft:end_crystal"
+  },
+  "result": "voidophobia:gold_ore_chunk",
+  "outputCount": 6,
+  "chance":0.85
+}

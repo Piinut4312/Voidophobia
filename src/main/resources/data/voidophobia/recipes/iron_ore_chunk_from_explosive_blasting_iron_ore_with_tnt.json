@@ -1,0 +1,13 @@
+{
+  "type": "voidophobia:explosive_blasting",
+  "ingredient":{
+    "tag":"minecraft:iron_ores"
+  },
+  "inputCount": 1,
+  "explosive":{
+    "item":"minecraft:tnt"
+  },
+  "result": "voidophobia:iron_ore_chunk",
+  "outputCount": 5,
+  "chance":0.7
+}

@@ -14,6 +14,7 @@ import net.piinut.voidophobia.block.ModBlocks;
 import net.piinut.voidophobia.entity.ModEntities;
 import net.piinut.voidophobia.item.armor.EtherAlloyArmorMaterial;
 import net.piinut.voidophobia.item.tool.*;
+import org.lwjgl.system.CallbackI;
 
 public class ModItems {
 
@@ -154,6 +155,12 @@ public class ModItems {
     public static final Item EXTRACTION_SOCKET = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item INSERTION_SOCKET = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
     public static final Item GODEL_CRYSTAL_FRAGMENT = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final Item IRON_ORE_CHUNK = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final Item GOLD_ORE_CHUNK = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final Item ALUMINIUM_ORE_CHUNK = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final Item CHROME_ORE_CHUNK = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final Item NICKEL_ORE_CHUNK = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
+    public static final Item SILVER_ORE_CHUNK = new Item(new FabricItemSettings().group(VOIDOPHOBIA_DEFAULT_GROUP));
 
     private static void register(Item item, String id){
         Registry.register(Registry.ITEM, new Identifier(Voidophobia.MODID, id), item);
@@ -293,6 +300,12 @@ public class ModItems {
         register(ANOMALY_CAPTOR, "anomaly_captor");
         register(GODEL_CRYSTAL_FRAGMENT, "godel_crystal_fragment");
         register(VUX_FURNACE, "vux_furnace");
+        register(IRON_ORE_CHUNK, "iron_ore_chunk");
+        register(GOLD_ORE_CHUNK, "gold_ore_chunk");
+        register(ALUMINIUM_ORE_CHUNK, "aluminium_ore_chunk");
+        register(CHROME_ORE_CHUNK, "chrome_ore_chunk");
+        register(NICKEL_ORE_CHUNK, "nickel_ore_chunk");
+        register(SILVER_ORE_CHUNK, "silver_ore_chunk");
     }
 
 }

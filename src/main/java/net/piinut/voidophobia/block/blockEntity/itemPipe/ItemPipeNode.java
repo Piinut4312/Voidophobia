@@ -9,13 +9,13 @@ import java.util.List;
 public class ItemPipeNode {
 
     public BlockPos pos;
-    public Direction predecessor;
     public boolean isRoot;
     public List<ItemPipeNode> childrenNodes;
+    public ItemPipeNode parentNode;
 
-    public ItemPipeNode(BlockPos pos, Direction predecessor, boolean isRoot){
+    public ItemPipeNode(BlockPos pos, ItemPipeNode parentNode, boolean isRoot){
         this.pos = pos;
-        this.predecessor = predecessor;
+        this.parentNode = parentNode;
         this.isRoot = isRoot;
         this.childrenNodes = new ArrayList<>();
     }
@@ -33,5 +33,9 @@ public class ItemPipeNode {
             return false;
         }
         return matches(itemPipeNode, this.pos);
+    }
+
+    public ItemPipeNode copy() {
+        return new ItemPipeNode(this.pos, this.parentNode, this.isRoot);
     }
 }

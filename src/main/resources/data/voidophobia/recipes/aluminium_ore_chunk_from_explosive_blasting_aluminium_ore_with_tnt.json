@@ -1,0 +1,13 @@
+{
+  "type": "voidophobia:explosive_blasting",
+  "ingredient":{
+    "tag":"voidophobia:aluminium_ores"
+  },
+  "inputCount": 1,
+  "explosive":{
+    "item":"minecraft:tnt"
+  },
+  "result": "voidophobia:aluminium_ore_chunk",
+  "outputCount": 6,
+  "chance":0.7
+}
